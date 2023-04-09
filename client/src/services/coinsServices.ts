@@ -1,17 +1,6 @@
 import {coinGeckoClient} from '../clients';
 import {Coin} from '../entities/Coin';
-
-export interface CoinJSON {
-  id: string;
-  symbol: string;
-  name: string;
-  image: string;
-  current_price: number;
-  price_change_percentage_7d_in_currency: number;
-  sparkline_in_7d: {
-    price: number[];
-  };
-}
+import {CoinJSON} from '../interfaces/CoinJSON';
 
 const getCoins = async () => {
   const {data} = await coinGeckoClient.get<CoinJSON[]>(

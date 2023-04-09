@@ -1,4 +1,4 @@
-import {CoinJSON} from '../services/coinsServices';
+import {CoinJSON} from '../interfaces/CoinJSON';
 
 export class Coin {
   id: string;
