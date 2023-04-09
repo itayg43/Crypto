@@ -1,6 +1,10 @@
 import {configureStore} from '@reduxjs/toolkit';
 
-const reducer = {};
+import coinsReducer from './coins/coinsSlice';
+
+const reducer = {
+  coins: coinsReducer,
+};
 
 export const store = configureStore({
   reducer,
