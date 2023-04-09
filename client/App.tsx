@@ -1,7 +1,9 @@
 import React from 'react';
 
+import HomeScreen from './src/screens/HomeScreen';
+
 const App = () => {
-  return <></>;
+  return <HomeScreen />;
 };
 
 export default App;
