@@ -1,9 +1,11 @@
 import {configureStore} from '@reduxjs/toolkit';
 import reduxLogger from 'redux-logger';
 
+import initializeReducer from './initialize/initializeSlice';
 import coinsReducer from './coins/coinsSlice';
 
 const reducer = {
+  initialize: initializeReducer,
   coins: coinsReducer,
 };
 
