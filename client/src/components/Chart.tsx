@@ -1,9 +1,8 @@
 import React, {useMemo} from 'react';
-import {Dimensions} from 'react-native';
+import {Dimensions, View, Text, StyleSheet} from 'react-native';
 import {
   Chart as LineChart,
   Line,
-  VerticalAxis,
   Area,
   Tooltip,
 } from 'react-native-responsive-linechart';
@@ -18,45 +17,50 @@ interface Props {
 const width = Dimensions.get('window').width;
 
 const Chart = ({coin}: Props) => {
+  const maxPrice = useMemo(() => Math.max(...coin.sparkline7Days), [coin]);
+  const minPrice = useMemo(() => Math.min(...coin.sparkline7Days), [coin]);
   const prices = useMemo(() => preparePrices(coin), [coin]);
   const lineColor = coin.priceChangePercentage7Days >= 0 ? '#44bd32' : 'red';
 
   return (
-    <LineChart
-      style={{height: 350, width}}
-      data={prices}
-      padding={{left: 50, bottom: 10, right: 0, top: 10}}>
-      <VerticalAxis
-        tickCount={2}
-        theme={{labels: {formatter: v => formatPrice(v)}}}
-      />
-      <Area
-        theme={{
-          gradient: {
-            from: {color: lineColor},
-            to: {color: lineColor, opacity: 0.2},
-          },
-        }}
-      />
-      <Line
-        theme={{stroke: {color: lineColor, width: 3}}}
-        tooltipComponent={
-          <Tooltip
-            theme={{
-              shape: {
-                width: 100,
-                height: 30,
-                dx: 0,
-                dy: 20,
-                rx: 4,
-                color: 'black',
-              },
-              formatter: ({y}) => formatPriceToLocalString(y),
-            }}
-          />
-        }
-      />
-    </LineChart>
+    <View>
+      <View style={styles.maxAndMinPricesContainer}>
+        <Text style={styles.price}>{formatPrice(maxPrice)}</Text>
+        <Text style={styles.price}>{formatPrice(minPrice)}</Text>
+      </View>
+
+      <LineChart
+        style={{height: 350, width}}
+        data={prices}
+        padding={{left: 0, bottom: 10, right: 0, top: 10}}>
+        <Area
+          theme={{
+            gradient: {
+              from: {color: lineColor},
+              to: {color: lineColor, opacity: 0.2},
+            },
+          }}
+        />
+        <Line
+          theme={{stroke: {color: lineColor, width: 3}}}
+          tooltipComponent={
+            <Tooltip
+              theme={{
+                shape: {
+                  width: 100,
+                  height: 30,
+                  dx: 0,
+                  dy: 20,
+                  rx: 4,
+                  color: 'black',
+                },
+                formatter: ({y}) => formatPriceToLocalString(y),
+              }}
+            />
+          }
+        />
+      </LineChart>
+    </View>
   );
 };
 
@@ -96,3 +100,17 @@ function formatPriceToLocalString(price: number) {
 // }
 
 export default Chart;
+
+const styles = StyleSheet.create({
+  maxAndMinPricesContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 10,
+    bottom: 0,
+    justifyContent: 'space-between',
+    zIndex: 1,
+  },
+  price: {
+    color: 'gray',
+  },
+});
