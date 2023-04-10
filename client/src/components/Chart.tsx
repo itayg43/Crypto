@@ -29,10 +29,7 @@ const Chart = ({coin}: Props) => {
         <Text style={styles.price}>{formatPrice(minPrice)}</Text>
       </View>
 
-      <LineChart
-        style={{height: 350, width}}
-        data={prices}
-        padding={{left: 0, bottom: 10, right: 0, top: 10}}>
+      <LineChart style={{height: 350, width}} data={prices}>
         <Area
           theme={{
             gradient: {
