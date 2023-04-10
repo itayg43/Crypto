@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, TouchableOpacity, View, Text, Image} from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {Coin} from '../entities/Coin';
 
@@ -9,6 +10,9 @@ interface Props {
 }
 
 const CoinListItem = ({item, onPress}: Props) => {
+  const icon = item.priceChangePercentage7Days >= 0 ? 'arrow-up' : 'arrow-down';
+  const iconColor = item.priceChangePercentage7Days >= 0 ? 'green' : 'red';
+
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       {/** image */}
@@ -25,7 +29,13 @@ const CoinListItem = ({item, onPress}: Props) => {
       {/** price & change percentage */}
       <View style={styles.priceAndChangePercentageContainer}>
         <Text>{formatPriceToLocalString(item.currentPrice)}</Text>
-        <Text>{Math.abs(item.priceChangePercentage7Days).toFixed(2)}</Text>
+
+        <View style={styles.changePercentageContainer}>
+          <MaterialCommunityIcons name={icon} color={iconColor} />
+          <Text style={{color: iconColor}}>
+            {Math.abs(item.priceChangePercentage7Days).toFixed(2)}
+          </Text>
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -67,6 +77,8 @@ const styles = StyleSheet.create({
   priceAndChangePercentageContainer: {
     alignItems: 'flex-end',
   },
-  price: {},
-  changePercentage: {},
+  changePercentageContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
 });

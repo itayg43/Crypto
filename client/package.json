@@ -18,6 +18,7 @@
     "react-native-gesture-handler": "^2.9.0",
     "react-native-responsive-linechart": "^5.7.1",
     "react-native-svg": "^13.9.0",
+    "react-native-vector-icons": "^9.2.0",
     "react-redux": "^8.0.5",
     "redux-logger": "^3.0.6"
   },
@@ -30,6 +31,7 @@
     "@types/jest": "^29.2.1",
     "@types/node": "^18.15.11",
     "@types/react": "^18.0.24",
+    "@types/react-native-vector-icons": "^6.4.13",
     "@types/react-test-renderer": "^18.0.0",
     "@types/redux-logger": "^3.0.9",
     "babel-jest": "^29.2.1",
