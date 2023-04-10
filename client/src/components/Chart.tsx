@@ -21,10 +21,7 @@ const Chart = ({coin}: Props) => {
   const lineColor = coin.priceChangePercentage7Days >= 0 ? '#44bd32' : 'red';
 
   return (
-    <LineChart
-      style={{height: 350, width}}
-      data={prices}
-      padding={{left: 0, bottom: 40, right: 0, top: 40}}>
+    <LineChart style={{height: 350, width}} data={prices}>
       <Area
         theme={{
           gradient: {
