@@ -11,12 +11,12 @@ import CoinList from '../components/CoinList';
 const HomeScreen = () => {
   const coins = useAppSelector(selectCoins);
 
-  const [selectedCoin, setSelectedCoin] = useState<Coin>(coins[0]);
+  const [selectedCoin, setSelectedCoin] = useState<Coin | null>(null);
 
   const handleSelectCoin = useCallback(
     (coin: Coin) => {
       setSelectedCoin(currentCoin =>
-        currentCoin.id !== coin.id ? coin : currentCoin,
+        currentCoin?.id !== coin.id ? coin : currentCoin,
       );
     },
     [setSelectedCoin],
@@ -24,9 +24,17 @@ const HomeScreen = () => {
 
   return (
     <SafeView contentContainerStyle={styles.container}>
-      <Chart coin={selectedCoin} />
+      {coins.length > 0 && (
+        <>
+          <Chart coin={selectedCoin ? selectedCoin : coins[0]} />
 
-      <CoinList data={coins} onSelectItem={handleSelectCoin} />
+          <CoinList
+            contentContainerStyle={styles.coinList}
+            data={coins}
+            onSelectItem={handleSelectCoin}
+          />
+        </>
+      )}
     </SafeView>
   );
 };
@@ -36,5 +44,9 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+
+  coinList: {
+    paddingHorizontal: 10,
   },
 });
