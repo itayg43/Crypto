@@ -37,7 +37,7 @@ const Chart = ({contentContainerStyle, coin}: Props) => {
         <Text style={styles.price}>{formatPrice(minPrice)}</Text>
       </View>
 
-      <LineChart style={{height: 350, width}} data={prices}>
+      <LineChart style={{height: 300, width}} data={prices}>
         <Area
           theme={{
             gradient: {
