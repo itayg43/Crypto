@@ -1,5 +1,12 @@
 import React, {useMemo} from 'react';
-import {Dimensions, View, Text, StyleSheet} from 'react-native';
+import {
+  Dimensions,
+  View,
+  Text,
+  StyleSheet,
+  StyleProp,
+  ViewStyle,
+} from 'react-native';
 import {
   Chart as LineChart,
   Line,
@@ -11,19 +18,20 @@ import moment from 'moment';
 import {Coin} from '../entities/Coin';
 
 interface Props {
+  contentContainerStyle?: StyleProp<ViewStyle>;
   coin: Coin;
 }
 
 const width = Dimensions.get('window').width;
 
-const Chart = ({coin}: Props) => {
+const Chart = ({contentContainerStyle, coin}: Props) => {
   const maxPrice = useMemo(() => Math.max(...coin.sparkline7Days), [coin]);
   const minPrice = useMemo(() => Math.min(...coin.sparkline7Days), [coin]);
   const prices = useMemo(() => preparePrices(coin), [coin]);
   const lineColor = coin.priceChangePercentage7Days >= 0 ? '#44bd32' : 'red';
 
   return (
-    <View>
+    <View style={contentContainerStyle}>
       <View style={styles.maxAndMinPricesContainer}>
         <Text style={styles.price}>{formatPrice(maxPrice)}</Text>
         <Text style={styles.price}>{formatPrice(minPrice)}</Text>

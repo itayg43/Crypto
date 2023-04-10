@@ -36,7 +36,7 @@ const CoinListItem = ({item, onPress}: Props) => {
           <MaterialCommunityIcons name={icon} color={iconColor} />
 
           <Text style={{color: iconColor}}>
-            {Math.abs(item.priceChangePercentage7Days).toFixed(2)}
+            {Math.abs(item.priceChangePercentage7Days).toFixed(2)}%
           </Text>
         </View>
       </View>
