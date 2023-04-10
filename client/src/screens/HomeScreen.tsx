@@ -48,6 +48,6 @@ const styles = StyleSheet.create({
 
   coinList: {
     paddingHorizontal: 10,
-    marginTop: 20,
+    marginTop: 10,
   },
 });

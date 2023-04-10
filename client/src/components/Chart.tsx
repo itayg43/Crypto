@@ -3,6 +3,7 @@ import {Dimensions} from 'react-native';
 import {
   Chart as LineChart,
   Line,
+  VerticalAxis,
   Area,
   Tooltip,
 } from 'react-native-responsive-linechart';
@@ -21,7 +22,14 @@ const Chart = ({coin}: Props) => {
   const lineColor = coin.priceChangePercentage7Days >= 0 ? '#44bd32' : 'red';
 
   return (
-    <LineChart style={{height: 350, width}} data={prices}>
+    <LineChart
+      style={{height: 350, width}}
+      data={prices}
+      padding={{left: 50, bottom: 10, right: 0, top: 10}}>
+      <VerticalAxis
+        tickCount={2}
+        theme={{labels: {formatter: v => formatPrice(v)}}}
+      />
       <Area
         theme={{
           gradient: {
@@ -60,18 +68,18 @@ function preparePrices(coin: Coin) {
   }));
 }
 
-// function formatPrice(price: number) {
-//   if (price > 1e9) {
-//     return `$${(price / 1e9).toFixed(2)}B`;
-//   }
-//   if (price > 1e6) {
-//     return `$${(price / 1e6).toFixed(2)}M`;
-//   }
-//   if (price > 1e3) {
-//     return `$${(price / 1e3).toFixed(2)}K`;
-//   }
-//   return `$${price.toFixed(2)}`;
-// }
+function formatPrice(price: number) {
+  if (price > 1e9) {
+    return `$${(price / 1e9).toFixed(2)}B`;
+  }
+  if (price > 1e6) {
+    return `$${(price / 1e6).toFixed(2)}M`;
+  }
+  if (price > 1e3) {
+    return `$${(price / 1e3).toFixed(2)}K`;
+  }
+  return `$${price.toFixed(2)}`;
+}
 
 function formatPriceToLocalString(price: number) {
   return `${price.toLocaleString('en-US', {
