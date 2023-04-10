@@ -1,12 +1,17 @@
 import React from 'react';
-import {StyleSheet, Text} from 'react-native';
+import {StyleSheet} from 'react-native';
 
+import {useAppSelector} from '../hooks/useAppSelector';
+import {selectCoins} from '../redux/coins/coinsSelectors';
 import SafeView from '../components/SafeView';
+import Chart from '../components/Chart';
 
 const HomeScreen = () => {
+  const coins = useAppSelector(selectCoins);
+
   return (
     <SafeView contentContainerStyle={styles.container}>
-      <Text>Home</Text>
+      <Chart coin={coins[0]} />
     </SafeView>
   );
 };
@@ -16,7 +21,5 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });
