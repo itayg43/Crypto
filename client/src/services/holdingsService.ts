@@ -9,8 +9,11 @@ const storedHoldings: HoldingJSON[] = [
 
 const getHoldings = async () => {
   const ids = storedHoldings.map(i => i.id).join(',');
-  const coins = await coinsService.getCoinsByIds(ids);
-  return coins.map((c, i) => new Holding(c, storedHoldings[i].quantity));
+  const coinsJSON = await coinsService.getCoinsJSONByIds(ids);
+  return coinsJSON.map(c => {
+    const quantity = storedHoldings.find(i => i.id === c.id)?.quantity ?? 0;
+    return new Holding(c, quantity);
+  });
 };
 
 export default {

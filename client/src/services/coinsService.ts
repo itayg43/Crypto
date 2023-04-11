@@ -9,14 +9,14 @@ const getCoins = async () => {
   return data.map(dataJSON => new Coin(dataJSON));
 };
 
-const getCoinsByIds = async (ids: string) => {
+const getCoinsJSONByIds = async (ids: string) => {
   const {data} = await coinGeckoClient.get<CoinJSON[]>(
     `/coins/markets?vs_currency=usd&ids=${ids}&order=market_cap_desc&per_page=25&page=1&sparkline=true&price_change_percentage=7d&locale=en`,
   );
-  return data.map(dataJSON => new Coin(dataJSON));
+  return data;
 };
 
 export default {
   getCoins,
-  getCoinsByIds,
+  getCoinsJSONByIds,
 };
