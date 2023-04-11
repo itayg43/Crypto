@@ -1,14 +1,10 @@
 import {Holding} from '../entities/Holding';
-import {HoldingJSON} from '../interfaces/HoldingJSON';
 import coinsService from './coinsService';
-
-const storedHoldings: HoldingJSON[] = [
-  {id: 'ethereum', quantity: 1},
-  {id: 'bitcoin', quantity: 1},
-];
+import holdingsStorage from '../storage/holdingsStorage';
 
 const getHoldings = async () => {
-  if (storedHoldings.length === 0) {
+  const storedHoldings = await holdingsStorage.getHoldings();
+  if (!storedHoldings) {
     return [];
   }
   const ids = storedHoldings.map(i => i.id).join(',');
