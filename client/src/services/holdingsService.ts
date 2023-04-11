@@ -4,10 +4,13 @@ import coinsService from './coinsService';
 
 const storedHoldings: HoldingJSON[] = [
   {id: 'ethereum', quantity: 1},
-  {id: 'bitcoin', quantity: 2},
+  {id: 'bitcoin', quantity: 1},
 ];
 
 const getHoldings = async () => {
+  if (storedHoldings.length === 0) {
+    return [];
+  }
   const ids = storedHoldings.map(i => i.id).join(',');
   const coinsJSON = await coinsService.getCoinsJSONByIds(ids);
   return coinsJSON.map(c => {
