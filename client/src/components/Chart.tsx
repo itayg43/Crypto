@@ -25,8 +25,8 @@ interface Props {
 const width = Dimensions.get('window').width;
 
 const Chart = ({containerStyle, coin}: Props) => {
-  const maxPrice = useMemo(() => Math.max(...coin.sparkline7Days), [coin]);
-  const minPrice = useMemo(() => Math.min(...coin.sparkline7Days), [coin]);
+  const maxPrice = useMemo(() => Math.max(...coin.sparklineIn7Days), [coin]);
+  const minPrice = useMemo(() => Math.min(...coin.sparklineIn7Days), [coin]);
   const prices = useMemo(() => preparePrices(coin), [coin]);
   const lineColor = coin.priceChangePercentage7Days >= 0 ? '#44bd32' : 'red';
 
@@ -71,7 +71,7 @@ const Chart = ({containerStyle, coin}: Props) => {
 
 function preparePrices(coin: Coin) {
   const startTimestamp = moment().subtract(7, 'day').unix();
-  return coin.sparkline7Days.map((p, i) => ({
+  return coin.sparklineIn7Days.map((p, i) => ({
     x: startTimestamp + (i + 1) * 3600,
     y: p,
   }));

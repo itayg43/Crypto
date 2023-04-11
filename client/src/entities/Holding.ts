@@ -24,7 +24,7 @@ export class Holding extends Coin {
   }
 
   private _calculateValueSparklineIn7Days() {
-    return this.sparkline7Days.map(v => v * this.quantity);
+    return this.sparklineIn7Days.map(v => v * this.quantity);
   }
 
   getValue() {

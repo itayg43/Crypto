@@ -7,7 +7,7 @@ export class Coin {
   imageURL: string;
   currentPrice: number;
   priceChangePercentage7Days: number;
-  sparkline7Days: number[];
+  sparklineIn7Days: number[];
 
   constructor(coinJSON: CoinJSON) {
     this.id = coinJSON.id;
@@ -17,6 +17,6 @@ export class Coin {
     this.currentPrice = coinJSON.current_price;
     this.priceChangePercentage7Days =
       coinJSON.price_change_percentage_7d_in_currency;
-    this.sparkline7Days = coinJSON.sparkline_in_7d.price;
+    this.sparklineIn7Days = coinJSON.sparkline_in_7d.price;
   }
 }
