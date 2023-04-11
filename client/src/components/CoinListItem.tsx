@@ -10,9 +10,9 @@ interface Props {
 }
 
 const CoinListItem = ({item, onSelect}: Props) => {
-  const isChangePercentagePositive = item.priceChangePercentage7Days >= 0;
-  const icon = isChangePercentagePositive ? 'arrow-up' : 'arrow-down';
-  const iconColor = isChangePercentagePositive ? 'green' : 'red';
+  const isChangePositive = item.priceChangePercentage7Days >= 0;
+  const changeIcon = isChangePositive ? 'arrow-up' : 'arrow-down';
+  const changeColor = isChangePositive ? 'green' : 'red';
 
   return (
     <TouchableOpacity style={styles.container} onPress={onSelect}>
@@ -33,9 +33,9 @@ const CoinListItem = ({item, onSelect}: Props) => {
         <Text>{formatPriceToLocalString(item.currentPrice)}</Text>
 
         <View style={styles.changePercentageContainer}>
-          <MaterialCommunityIcons name={icon} color={iconColor} />
+          <MaterialCommunityIcons name={changeIcon} color={changeColor} />
 
-          <Text style={{color: iconColor}}>
+          <Text style={{color: changeColor}}>
             {Math.abs(item.priceChangePercentage7Days).toFixed(2)}%
           </Text>
         </View>

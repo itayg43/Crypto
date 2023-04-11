@@ -15,9 +15,9 @@ const HoldingsInfo = ({
   value,
   valueChangePercentage,
 }: Props) => {
-  const isChangePercentagePositive = valueChangePercentage >= 0;
-  const icon = isChangePercentagePositive ? 'arrow-up' : 'arrow-down';
-  const iconColor = isChangePercentagePositive ? 'green' : 'red';
+  const isChangePositive = valueChangePercentage >= 0;
+  const changeIcon = isChangePositive ? 'arrow-up' : 'arrow-down';
+  const changeColor = isChangePositive ? 'green' : 'red';
 
   return (
     <View style={containerStyle}>
@@ -27,11 +27,11 @@ const HoldingsInfo = ({
       {/** value */}
       <Text style={styles.value}>{formatAmountToLocalString(value)}</Text>
 
-      {/** change percentage */}
-      <View style={styles.changePercentageContaienr}>
-        <MaterialCommunityIcons name={icon} color={iconColor} />
+      {/** value change percentage */}
+      <View style={styles.valueChangePercentageContaienr}>
+        <MaterialCommunityIcons name={changeIcon} color={changeColor} />
 
-        <Text style={{color: iconColor}}>
+        <Text style={{color: changeColor}}>
           {Math.abs(valueChangePercentage).toFixed(2)}%
         </Text>
 
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     marginVertical: 3,
   },
 
-  changePercentageContaienr: {
+  valueChangePercentageContaienr: {
     flexDirection: 'row',
     alignItems: 'center',
   },
