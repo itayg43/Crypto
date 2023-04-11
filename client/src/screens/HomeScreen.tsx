@@ -5,6 +5,7 @@ import {useAppSelector} from '../hooks/useAppSelector';
 import {
   selectHoldings,
   selectHoldingsValue,
+  selectHoldingsValueChangePercentageIn7Days,
 } from '../redux/holdings/holdingsSelectors';
 import {selectCoins} from '../redux/coins/coinsSelectors';
 import {Coin} from '../entities/Coin';
@@ -16,6 +17,9 @@ import CoinList from '../components/CoinList';
 const HomeScreen = () => {
   const holdings = useAppSelector(selectHoldings);
   const holdingsValue = useAppSelector(selectHoldingsValue);
+  const holdingsValueChangePercentage = useAppSelector(
+    selectHoldingsValueChangePercentageIn7Days,
+  );
   const coins = useAppSelector(selectCoins);
 
   const [selectedCoin, setSelectedCoin] = useState<Coin | null>(null);
@@ -36,7 +40,7 @@ const HomeScreen = () => {
           containerStyle={styles.holdingsInfo}
           title="Your Holdings"
           value={holdingsValue}
-          changePercentage={2.3}
+          valueChangePercentage={holdingsValueChangePercentage}
         />
       )}
 

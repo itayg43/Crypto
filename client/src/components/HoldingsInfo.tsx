@@ -6,16 +6,16 @@ interface Props {
   containerStyle?: StyleProp<ViewStyle>;
   title: string;
   value: number;
-  changePercentage: number;
+  valueChangePercentage: number;
 }
 
 const HoldingsInfo = ({
   containerStyle,
   title,
   value,
-  changePercentage,
+  valueChangePercentage,
 }: Props) => {
-  const isChangePercentagePositive = changePercentage >= 0;
+  const isChangePercentagePositive = valueChangePercentage >= 0;
   const icon = isChangePercentagePositive ? 'arrow-up' : 'arrow-down';
   const iconColor = isChangePercentagePositive ? 'green' : 'red';
 
@@ -32,7 +32,7 @@ const HoldingsInfo = ({
         <MaterialCommunityIcons name={icon} color={iconColor} />
 
         <Text style={{color: iconColor}}>
-          {Math.abs(changePercentage).toFixed(2)}%
+          {Math.abs(valueChangePercentage).toFixed(2)}%
         </Text>
 
         <Text style={styles.changePeriod}>(7 Days)</Text>
