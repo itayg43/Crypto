@@ -27,22 +27,24 @@ const HomeScreen = () => {
 
   return (
     <SafeView contentContainerStyle={styles.container}>
-      <HoldingsInfo
-        contentContainerStyle={styles.holdingsInfo}
-        title="Holdings"
-        amount={15000}
-        changePercentage={2.3}
-      />
+      {holdings.length > 0 && (
+        <HoldingsInfo
+          containerStyle={styles.holdingsInfo}
+          title="Your Holdings"
+          amount={15000}
+          changePercentage={2.3}
+        />
+      )}
 
       {coins.length > 0 && (
         <>
           <Chart
-            contentContainerStyle={styles.chart}
-            coin={selectedCoin ? selectedCoin : coins[0]}
+            containerStyle={styles.chart}
+            coin={selectedCoin ?? coins[0]}
           />
 
           <CoinList
-            contentContainerStyle={styles.coinList}
+            containerStyle={styles.coinList}
             data={coins}
             onSelectItem={handleSelectCoin}
           />

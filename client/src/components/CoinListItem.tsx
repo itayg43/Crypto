@@ -6,16 +6,16 @@ import {Coin} from '../entities/Coin';
 
 interface Props {
   item: Coin;
-  onPress: () => void;
+  onSelect: () => void;
 }
 
-const CoinListItem = ({item, onPress}: Props) => {
+const CoinListItem = ({item, onSelect}: Props) => {
   const isChangePercentagePositive = item.priceChangePercentage7Days >= 0;
   const icon = isChangePercentagePositive ? 'arrow-up' : 'arrow-down';
   const iconColor = isChangePercentagePositive ? 'green' : 'red';
 
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
+    <TouchableOpacity style={styles.container} onPress={onSelect}>
       {/** image */}
       <View style={styles.imageContainer}>
         <Image style={styles.image} source={{uri: item.imageURL}} />

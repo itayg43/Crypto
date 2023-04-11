@@ -6,19 +6,19 @@ import CoinListItem from './CoinListItem';
 import {StyleProp} from 'react-native';
 
 interface Props {
-  contentContainerStyle?: StyleProp<ViewStyle>;
+  containerStyle?: StyleProp<ViewStyle>;
   data: Coin[];
   onSelectItem: (item: Coin) => void;
 }
 
-const CoinList = ({contentContainerStyle, data, onSelectItem}: Props) => {
+const CoinList = ({containerStyle, data, onSelectItem}: Props) => {
   return (
     <FlatList
-      contentContainerStyle={contentContainerStyle}
+      contentContainerStyle={containerStyle}
       data={data}
       keyExtractor={item => item.id}
       renderItem={({item}) => (
-        <CoinListItem item={item} onPress={() => onSelectItem(item)} />
+        <CoinListItem item={item} onSelect={() => onSelectItem(item)} />
       )}
       ListHeaderComponent={Header}
       ItemSeparatorComponent={Divider}
