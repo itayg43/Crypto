@@ -25,19 +25,21 @@ interface Props {
 const width = Dimensions.get('window').width;
 
 const Chart = ({containerStyle, coin}: Props) => {
-  const maxPrice = useMemo(() => Math.max(...coin.sparklineIn7Days), [coin]);
-  const minPrice = useMemo(() => Math.min(...coin.sparklineIn7Days), [coin]);
-  const prices = useMemo(() => preparePrices(coin), [coin]);
+  const [min, max] = useMemo(
+    () => findMinAndMaxPrices(coin.priceSparklineIn7Days),
+    [coin],
+  );
+  const chartData = useMemo(() => prepareChartData(coin), [coin]);
   const lineColor = coin.priceChangePercentage7Days >= 0 ? '#44bd32' : 'red';
 
   return (
     <View style={containerStyle}>
       <View style={styles.maxAndMinPricesContainer}>
-        <Text style={styles.price}>{formatPrice(maxPrice)}</Text>
-        <Text style={styles.price}>{formatPrice(minPrice)}</Text>
+        <Text style={styles.price}>{formatPrice(max)}</Text>
+        <Text style={styles.price}>{formatPrice(min)}</Text>
       </View>
 
-      <LineChart style={{height: 300, width}} data={prices}>
+      <LineChart style={{height: 300, width}} data={chartData}>
         <Area
           theme={{
             gradient: {
@@ -69,9 +71,18 @@ const Chart = ({containerStyle, coin}: Props) => {
   );
 };
 
-function preparePrices(coin: Coin) {
+function findMinAndMaxPrices(prices: number[]) {
+  return prices.reduce(
+    (result, value) => {
+      return [Math.min(result[0], value), Math.max(result[1], value)];
+    },
+    [prices[0], prices[0]],
+  );
+}
+
+function prepareChartData(coin: Coin) {
   const startTimestamp = moment().subtract(7, 'day').unix();
-  return coin.sparklineIn7Days.map((p, i) => ({
+  return coin.priceSparklineIn7Days.map((p, i) => ({
     x: startTimestamp + (i + 1) * 3600,
     y: p,
   }));

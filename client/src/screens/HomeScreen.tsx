@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
   holdingsInfo: {
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 10,
   },
 
   chart: {

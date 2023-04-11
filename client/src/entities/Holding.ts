@@ -16,16 +16,16 @@ export class Holding extends Coin {
   }
 
   private _calculateValue() {
-    return this.currentPrice * this.quantity;
+    return this.price * this.quantity;
   }
 
   private _calculateValueChangeIn7Days() {
     const price7DaysAgo =
-      this.currentPrice / (1 + this.priceChangePercentage7Days * 0.01);
-    return (this.currentPrice - price7DaysAgo) * this.quantity;
+      this.price / (1 + this.priceChangePercentage7Days * 0.01);
+    return (this.price - price7DaysAgo) * this.quantity;
   }
 
   private _calculateValueSparklineIn7Days() {
-    return this.sparklineIn7Days.map(v => v * this.quantity);
+    return this.priceSparklineIn7Days.map(v => v * this.quantity);
   }
 }
