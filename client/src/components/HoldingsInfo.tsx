@@ -5,14 +5,14 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 interface Props {
   containerStyle?: StyleProp<ViewStyle>;
   title: string;
-  amount: number;
+  value: number;
   changePercentage: number;
 }
 
 const HoldingsInfo = ({
   containerStyle,
   title,
-  amount,
+  value,
   changePercentage,
 }: Props) => {
   const isChangePercentagePositive = changePercentage >= 0;
@@ -24,8 +24,8 @@ const HoldingsInfo = ({
       {/** title */}
       <Text>{title}</Text>
 
-      {/** amount */}
-      <Text style={styles.amount}>{formatAmountToLocalString(amount)}</Text>
+      {/** value */}
+      <Text style={styles.value}>{formatAmountToLocalString(value)}</Text>
 
       {/** change percentage */}
       <View style={styles.changePercentageContaienr}>
@@ -51,7 +51,7 @@ function formatAmountToLocalString(amount: number) {
 }
 
 const styles = StyleSheet.create({
-  amount: {
+  value: {
     fontSize: 18,
     fontWeight: 'bold',
     marginVertical: 3,

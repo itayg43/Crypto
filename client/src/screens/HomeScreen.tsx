@@ -2,7 +2,10 @@ import React, {useCallback, useState} from 'react';
 import {StyleSheet} from 'react-native';
 
 import {useAppSelector} from '../hooks/useAppSelector';
-import {selectHoldings} from '../redux/holdings/holdingsSelectors';
+import {
+  selectHoldings,
+  selectHoldingsValue,
+} from '../redux/holdings/holdingsSelectors';
 import {selectCoins} from '../redux/coins/coinsSelectors';
 import {Coin} from '../entities/Coin';
 import SafeView from '../components/SafeView';
@@ -12,6 +15,7 @@ import CoinList from '../components/CoinList';
 
 const HomeScreen = () => {
   const holdings = useAppSelector(selectHoldings);
+  const holdingsValue = useAppSelector(selectHoldingsValue);
   const coins = useAppSelector(selectCoins);
 
   const [selectedCoin, setSelectedCoin] = useState<Coin | null>(null);
@@ -31,7 +35,7 @@ const HomeScreen = () => {
         <HoldingsInfo
           containerStyle={styles.holdingsInfo}
           title="Your Holdings"
-          amount={15000}
+          value={holdingsValue}
           changePercentage={2.3}
         />
       )}
