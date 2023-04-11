@@ -8,7 +8,5 @@ export const selectHoldingsMessage = (state: RootState) =>
 export const selectHoldings = (state: RootState) => state.holdings.entities;
 
 export const selectHoldingsValue = createSelector(selectHoldings, holdings => {
-  return holdings.reduce((sum, holding) => {
-    return sum + holding.getValue();
-  }, 0);
+  return holdings.reduce((sum, holding) => sum + holding.value, 0);
 });
