@@ -46,11 +46,13 @@ export default HoldingsInfo;
 const styles = StyleSheet.create({
   title: {
     fontSize: 16,
+    color: 'gray',
   },
 
   value: {
     fontSize: 20,
     fontWeight: 'bold',
+    color: 'white',
     marginVertical: 3,
   },
 

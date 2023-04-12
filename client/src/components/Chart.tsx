@@ -65,7 +65,7 @@ const Chart = ({containerStyle, coin}: Props) => {
         <ChartDot>
           <View style={styles.tooltip}>
             {/** dot */}
-            <MaterialCommunityIcons name="circle" size={10} color="white" />
+            <MaterialCommunityIcons name="circle" size={10} color="black" />
 
             {/** date */}
             <ChartXLabel style={styles.tooltipText} format={formatDate} />
@@ -141,11 +141,11 @@ const styles = StyleSheet.create({
     width: 100,
     alignItems: 'center',
     borderRadius: 4,
-    backgroundColor: 'black',
+    backgroundColor: 'gray',
     padding: 5,
   },
   tooltipText: {
     marginTop: 3,
-    color: 'white',
+    color: 'black',
   },
 });

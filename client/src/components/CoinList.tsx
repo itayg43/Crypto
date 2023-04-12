@@ -50,12 +50,13 @@ const styles = StyleSheet.create({
 
   header: {
     fontSize: 16,
+    color: 'white',
     marginBottom: 15,
   },
 
   divider: {
     height: StyleSheet.hairlineWidth,
-    backgroundColor: '#ccc',
+    backgroundColor: 'gray',
   },
 
   footer: {

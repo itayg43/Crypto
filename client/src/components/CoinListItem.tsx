@@ -23,14 +23,14 @@ const CoinListItem = ({item, onSelect}: Props) => {
 
       {/** name & symbol */}
       <View style={styles.nameAndSymbolContainer}>
-        <Text>{item.name}</Text>
+        <Text style={styles.name}>{item.name}</Text>
 
         <Text style={styles.symbol}>{item.symbol.toUpperCase()}</Text>
       </View>
 
       {/** price & change percentage */}
       <View style={styles.priceAndChangePercentageContainer}>
-        <Text>{item.price.toUSDString(item.price)}</Text>
+        <Text style={styles.price}>{item.price.toUSDString(item.price)}</Text>
 
         <View style={styles.changePercentageContainer}>
           <MaterialCommunityIcons name={changeIcon} color={changeColor} />
@@ -69,12 +69,18 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 10,
   },
+  name: {
+    color: 'white',
+  },
   symbol: {
     color: 'gray',
   },
 
   priceAndChangePercentageContainer: {
     alignItems: 'flex-end',
+  },
+  price: {
+    color: 'white',
   },
   changePercentageContainer: {
     flexDirection: 'row',
