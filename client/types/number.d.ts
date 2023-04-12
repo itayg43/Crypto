@@ -3,5 +3,3 @@ interface Number {
   toAbsFixedString: (value: number) => string;
   toBMKString: (value: number) => string;
 }
-
-declare module '@rainbow-me/animated-charts';
