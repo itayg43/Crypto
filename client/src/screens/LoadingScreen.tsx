@@ -21,7 +21,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
   text: {
     marginTop: 10,
+    color: 'white',
   },
 });
