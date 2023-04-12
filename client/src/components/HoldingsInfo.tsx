@@ -22,7 +22,7 @@ const HoldingsInfo = ({
   return (
     <View style={containerStyle}>
       {/** title */}
-      <Text>{title}</Text>
+      <Text style={styles.title}>{title}</Text>
 
       {/** value */}
       <Text style={styles.value}>{value.toUSDString(value)}</Text>
@@ -44,8 +44,12 @@ const HoldingsInfo = ({
 export default HoldingsInfo;
 
 const styles = StyleSheet.create({
+  title: {
+    fontSize: 16,
+  },
+
   value: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     marginVertical: 3,
   },

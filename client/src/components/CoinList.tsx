@@ -13,28 +13,26 @@ interface Props {
 
 const CoinList = ({containerStyle, data, onSelectItem}: Props) => {
   return (
-    <FlatList
-      contentContainerStyle={containerStyle}
-      data={data}
-      keyExtractor={item => item.id}
-      renderItem={({item}) => (
-        <CoinListItem item={item} onSelect={() => onSelectItem(item)} />
-      )}
-      ListHeaderComponent={Header}
-      ItemSeparatorComponent={Divider}
-      ListFooterComponent={Footer}
-    />
+    <View style={[styles.container, containerStyle]}>
+      <Header />
+      <FlatList
+        data={data}
+        keyExtractor={item => item.id}
+        renderItem={({item}) => (
+          <CoinListItem item={item} onSelect={() => onSelectItem(item)} />
+        )}
+        showsVerticalScrollIndicator={false}
+        ItemSeparatorComponent={Divider}
+        ListFooterComponent={Footer}
+      />
+    </View>
   );
 };
 
 export default CoinList;
 
 const Header = () => {
-  return (
-    <View style={styles.header}>
-      <Text>Top Cryptocurrency</Text>
-    </View>
-  );
+  return <Text style={styles.header}>Top Cryptocurrency</Text>;
 };
 
 const Divider = () => {
@@ -46,8 +44,13 @@ const Footer = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+
   header: {
-    marginBottom: 10,
+    fontSize: 16,
+    marginBottom: 15,
   },
 
   divider: {
