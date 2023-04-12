@@ -25,8 +25,8 @@ interface Props {
 const width = Dimensions.get('window').width;
 
 const Chart = ({containerStyle, coin}: Props) => {
-  const [min, max] = useMemo(
-    () => findMinAndMaxPrices(coin.priceSparklineIn7Days),
+  const maxMinPrices = useMemo(
+    () => findMaxMinPrices(coin.priceSparklineIn7Days),
     [coin],
   );
   const chartData = useMemo(() => prepareChartData(coin), [coin]);
@@ -34,11 +34,16 @@ const Chart = ({containerStyle, coin}: Props) => {
 
   return (
     <View style={containerStyle}>
+      {/** y axis prices */}
       <View style={styles.maxAndMinPricesContainer}>
-        <Text style={styles.price}>{formatPrice(max)}</Text>
-        <Text style={styles.price}>{formatPrice(min)}</Text>
+        {maxMinPrices.map((v, i) => (
+          <Text key={i.toString()} style={styles.price}>
+            {v.toBMKString(v)}
+          </Text>
+        ))}
       </View>
 
+      {/** chart */}
       <LineChart style={{height: 300, width}} data={chartData}>
         <Area
           theme={{
@@ -71,10 +76,10 @@ const Chart = ({containerStyle, coin}: Props) => {
   );
 };
 
-function findMinAndMaxPrices(prices: number[]) {
+function findMaxMinPrices(prices: number[]) {
   return prices.reduce(
     (result, value) => {
-      return [Math.min(result[0], value), Math.max(result[1], value)];
+      return [Math.max(result[0], value), Math.min(result[1], value)];
     },
     [prices[0], prices[0]],
   );
@@ -87,26 +92,6 @@ function prepareChartData(coin: Coin) {
     y: p,
   }));
 }
-
-function formatPrice(price: number) {
-  if (price > 1e9) {
-    return `$${(price / 1e9).toFixed(2)}B`;
-  }
-  if (price > 1e6) {
-    return `$${(price / 1e6).toFixed(2)}M`;
-  }
-  if (price > 1e3) {
-    return `$${(price / 1e3).toFixed(2)}K`;
-  }
-  return `$${price.toFixed(2)}`;
-}
-
-// function formatDate(timestamp: number) {
-//   const date = new Date(timestamp * 1000);
-//   const day = `0${date.getDate()}`.slice(-2);
-//   const month = `0${date.getMonth() + 1}`.slice(-2);
-//   return `${day}/${month}`;
-// }
 
 export default Chart;
 

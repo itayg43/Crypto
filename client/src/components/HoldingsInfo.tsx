@@ -32,7 +32,7 @@ const HoldingsInfo = ({
         <MaterialCommunityIcons name={changeIcon} color={changeColor} />
 
         <Text style={{color: changeColor}}>
-          {Math.abs(valueChangePercentage).toFixed(2)}%
+          {valueChangePercentage.toAbsFixedString(valueChangePercentage)}%
         </Text>
 
         <Text style={styles.changePeriod}>(7 Days)</Text>

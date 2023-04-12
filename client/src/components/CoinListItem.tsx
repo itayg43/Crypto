@@ -36,7 +36,10 @@ const CoinListItem = ({item, onSelect}: Props) => {
           <MaterialCommunityIcons name={changeIcon} color={changeColor} />
 
           <Text style={{color: changeColor}}>
-            {Math.abs(item.priceChangePercentage7Days).toFixed(2)}%
+            {item.priceChangePercentage7Days.toAbsFixedString(
+              item.priceChangePercentage7Days,
+            )}
+            %
           </Text>
         </View>
       </View>
@@ -45,13 +48,6 @@ const CoinListItem = ({item, onSelect}: Props) => {
 };
 
 export default CoinListItem;
-
-function formatPriceToLocalString(price: number) {
-  return `${price.toLocaleString('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  })}`;
-}
 
 const styles = StyleSheet.create({
   container: {
