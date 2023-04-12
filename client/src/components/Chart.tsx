@@ -15,10 +15,11 @@ import {
   ChartYLabel,
   monotoneCubicInterpolation,
 } from '@rainbow-me/animated-charts';
-import moment from 'moment';
+
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {Coin} from '../entities/Coin';
+import chartUtils from '../utils/chartUtils';
 
 interface Props {
   containerStyle?: StyleProp<ViewStyle>;
@@ -28,19 +29,19 @@ interface Props {
 const width = Dimensions.get('window').width;
 
 const Chart = ({containerStyle, coin}: Props) => {
-  const maxMinPrices = useMemo(
-    () => findMaxMinPrices(coin.priceSparklineIn7Days),
+  const pricesRange = useMemo(
+    () => chartUtils.findPricesRange(coin.priceSparklineIn7Days),
     [coin],
   );
-  const chartData = useMemo(() => prepareChartData(coin), [coin]);
-  const chartPoints = monotoneCubicInterpolation({data: chartData, range: 40});
+  const data = useMemo(() => chartUtils.prepareData(coin), [coin]);
+  const points = monotoneCubicInterpolation({data: data, range: 40});
   const strokeColor = coin.priceChangePercentage7Days >= 0 ? 'green' : 'red';
 
   return (
     <View style={[styles.container, containerStyle]}>
       {/** price labels */}
       <View style={styles.priceLabelsContainer}>
-        {maxMinPrices.map((v, i) => (
+        {pricesRange.map((v, i) => (
           <Text key={i.toString()} style={styles.priceLabel}>
             {v.toBMKString(v)}
           </Text>
@@ -48,11 +49,7 @@ const Chart = ({containerStyle, coin}: Props) => {
       </View>
 
       {/** chart */}
-      <ChartPathProvider
-        data={{
-          points: chartPoints,
-          smoothingStrategy: 'bezier',
-        }}>
+      <ChartPathProvider data={{points, smoothingStrategy: 'bezier'}}>
         {/** line */}
         <ChartPath
           width={width}
@@ -65,13 +62,19 @@ const Chart = ({containerStyle, coin}: Props) => {
         <ChartDot>
           <View style={styles.tooltip}>
             {/** dot */}
-            <MaterialCommunityIcons name="circle" size={10} color="black" />
+            <MaterialCommunityIcons name="circle" size={10} color="gray" />
 
             {/** date */}
-            <ChartXLabel style={styles.tooltipText} format={formatDate} />
+            <ChartXLabel
+              style={styles.tooltipText}
+              format={chartUtils.formatDate}
+            />
 
             {/** price */}
-            <ChartYLabel style={styles.tooltipText} format={formatPrice} />
+            <ChartYLabel
+              style={styles.tooltipText}
+              format={chartUtils.formatPrice}
+            />
           </View>
         </ChartDot>
       </ChartPathProvider>
@@ -80,44 +83,6 @@ const Chart = ({containerStyle, coin}: Props) => {
 };
 
 export default Chart;
-
-const findMaxMinPrices = (prices: number[]) => {
-  return prices.reduce(
-    (result, value) => {
-      return [Math.max(result[0], value), Math.min(result[1], value)];
-    },
-    [prices[0], prices[0]],
-  );
-};
-
-const prepareChartData = (coin: Coin) => {
-  const startTimestamp = moment().subtract(7, 'day').unix();
-  return coin.priceSparklineIn7Days.map((p, i) => ({
-    x: startTimestamp + (i + 1) * 3600,
-    y: p,
-  }));
-};
-
-const formatPrice = (value: string) => {
-  'worklet';
-  if (Number.isNaN(value)) {
-    return '0';
-  }
-  const num = Number.parseFloat(value);
-  return `${num.toLocaleString('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  })}`;
-};
-
-const formatDate = (timestamp: number) => {
-  'worklet';
-  const millisecond = 1000;
-  const date = new Date(timestamp * millisecond);
-  const day = `0${date.getDate()}`.slice(-2);
-  const month = `0${date.getMonth() + 1}`.slice(-2);
-  return `${day}/${month}`;
-};
 
 const styles = StyleSheet.create({
   container: {
@@ -141,11 +106,11 @@ const styles = StyleSheet.create({
     width: 100,
     alignItems: 'center',
     borderRadius: 4,
-    backgroundColor: 'gray',
+    backgroundColor: '#111',
     padding: 5,
   },
   tooltipText: {
     marginTop: 3,
-    color: 'black',
+    color: 'white',
   },
 });
