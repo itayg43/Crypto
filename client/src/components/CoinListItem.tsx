@@ -51,7 +51,7 @@ export default CoinListItem;
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 5,
+    marginVertical: 10,
     flexDirection: 'row',
     alignItems: 'center',
   },
