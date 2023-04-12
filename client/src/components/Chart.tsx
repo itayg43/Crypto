@@ -61,7 +61,7 @@ const Chart = ({containerStyle, coin}: Props) => {
                   rx: 4,
                   color: 'black',
                 },
-                formatter: ({y}) => formatPriceToLocalString(y),
+                formatter: ({y}) => y.toUSDString(y),
               }}
             />
           }
@@ -99,13 +99,6 @@ function formatPrice(price: number) {
     return `$${(price / 1e3).toFixed(2)}K`;
   }
   return `$${price.toFixed(2)}`;
-}
-
-function formatPriceToLocalString(price: number) {
-  return `${price.toLocaleString('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  })}`;
 }
 
 // function formatDate(timestamp: number) {

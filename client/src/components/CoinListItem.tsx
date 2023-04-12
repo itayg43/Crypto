@@ -30,7 +30,7 @@ const CoinListItem = ({item, onSelect}: Props) => {
 
       {/** price & change percentage */}
       <View style={styles.priceAndChangePercentageContainer}>
-        <Text>{formatPriceToLocalString(item.price)}</Text>
+        <Text>{item.price.toUSDString(item.price)}</Text>
 
         <View style={styles.changePercentageContainer}>
           <MaterialCommunityIcons name={changeIcon} color={changeColor} />

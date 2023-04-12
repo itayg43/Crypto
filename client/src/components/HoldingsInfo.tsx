@@ -25,7 +25,7 @@ const HoldingsInfo = ({
       <Text>{title}</Text>
 
       {/** value */}
-      <Text style={styles.value}>{formatAmountToLocalString(value)}</Text>
+      <Text style={styles.value}>{value.toUSDString(value)}</Text>
 
       {/** value change percentage */}
       <View style={styles.valueChangePercentageContaienr}>
@@ -42,13 +42,6 @@ const HoldingsInfo = ({
 };
 
 export default HoldingsInfo;
-
-function formatAmountToLocalString(amount: number) {
-  return `${amount.toLocaleString('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  })}`;
-}
 
 const styles = StyleSheet.create({
   value: {

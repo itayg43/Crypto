@@ -6,6 +6,7 @@ import FlipperAsyncStorage from 'rn-flipper-async-storage-advanced';
 import App from './App';
 import {name as appName} from './app.json';
 import {store} from './src/redux/store';
+import './src/extensions';
 
 const RootApp = () => {
   return (
