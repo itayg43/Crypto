@@ -1,7 +1,5 @@
 import moment from 'moment';
 
-import {Coin} from '../entities/Coin';
-
 const findPricesRange = (values: number[]) => {
   const range = values.reduce(
     (result, value) => {
@@ -14,12 +12,21 @@ const findPricesRange = (values: number[]) => {
   return range;
 };
 
-const prepareData = (coin: Coin) => {
+const preparePricesData = (values: number[]) => {
   const startTimestamp = moment().subtract(7, 'day').unix();
-  return coin.priceSparklineIn7Days.map((p, i) => ({
+  return values.map((p, i) => ({
     x: startTimestamp + (i + 1) * 3600,
     y: p,
   }));
+};
+
+const prepareData = (values: number[]) => {
+  const pricesRange = findPricesRange(values);
+  const pricesData = preparePricesData(values);
+  return {
+    pricesRange,
+    pricesData,
+  };
 };
 
 const formatPrice = (value: string) => {
@@ -44,7 +51,6 @@ const formatDate = (timestamp: number) => {
 };
 
 export default {
-  findPricesRange,
   prepareData,
   formatPrice,
   formatDate,

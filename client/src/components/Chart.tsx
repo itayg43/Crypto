@@ -29,12 +29,11 @@ interface Props {
 const width = Dimensions.get('window').width;
 
 const Chart = ({containerStyle, coin}: Props) => {
-  const pricesRange = useMemo(
-    () => chartUtils.findPricesRange(coin.priceSparklineIn7Days),
+  const {pricesRange, pricesData} = useMemo(
+    () => chartUtils.prepareData(coin.priceSparklineIn7Days),
     [coin],
   );
-  const data = useMemo(() => chartUtils.prepareData(coin), [coin]);
-  const points = monotoneCubicInterpolation({data: data, range: 40});
+  const points = monotoneCubicInterpolation({data: pricesData, range: 40});
   const strokeColor = coin.priceChangePercentage7Days >= 0 ? 'green' : 'red';
 
   return (
