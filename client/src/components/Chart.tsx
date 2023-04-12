@@ -37,7 +37,7 @@ const Chart = ({containerStyle, coin}: Props) => {
   const strokeColor = coin.priceChangePercentage7Days >= 0 ? 'green' : 'red';
 
   return (
-    <View style={containerStyle}>
+    <View style={[styles.container, containerStyle]}>
       {/** price labels */}
       <View style={styles.priceLabelsContainer}>
         {maxMinPrices.map((v, i) => (
@@ -120,6 +120,10 @@ const formatDate = (timestamp: number) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    zIndex: 1,
+  },
+
   priceLabelsContainer: {
     position: 'absolute',
     justifyContent: 'space-between',
