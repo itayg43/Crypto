@@ -1,5 +1,12 @@
 import React, {useMemo} from 'react';
-import {StyleSheet, View, Dimensions, StyleProp, ViewStyle} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  StyleProp,
+  ViewStyle,
+  Text,
+} from 'react-native';
 import {
   ChartDot,
   ChartPath,
@@ -9,6 +16,7 @@ import {
   monotoneCubicInterpolation,
 } from '@rainbow-me/animated-charts';
 import moment from 'moment';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {Coin} from '../entities/Coin';
 
@@ -18,6 +26,60 @@ interface Props {
 }
 
 const width = Dimensions.get('window').width;
+
+const Chart = ({containerStyle, coin}: Props) => {
+  const maxMinPrices = useMemo(
+    () => findMaxMinPrices(coin.priceSparklineIn7Days),
+    [coin],
+  );
+  const chartData = useMemo(() => prepareChartData(coin), [coin]);
+  const chartPoints = monotoneCubicInterpolation({data: chartData, range: 40});
+  const strokeColor = coin.priceChangePercentage7Days >= 0 ? 'green' : 'red';
+
+  return (
+    <View style={containerStyle}>
+      {/** price labels */}
+      <View style={styles.priceLabelsContainer}>
+        {maxMinPrices.map((v, i) => (
+          <Text key={i.toString()} style={styles.priceLabel}>
+            {v.toBMKString(v)}
+          </Text>
+        ))}
+      </View>
+
+      {/** chart */}
+      <ChartPathProvider
+        data={{
+          points: chartPoints,
+          smoothingStrategy: 'bezier',
+        }}>
+        {/** line */}
+        <ChartPath
+          width={width}
+          height={250}
+          stroke={strokeColor}
+          strokeWidth={2}
+        />
+
+        {/** dot & date & price */}
+        <ChartDot>
+          <View style={styles.tooltip}>
+            {/** dot */}
+            <MaterialCommunityIcons name="circle" size={10} color="white" />
+
+            {/** date */}
+            <ChartXLabel style={styles.tooltipText} format={formatDate} />
+
+            {/** price */}
+            <ChartYLabel style={styles.tooltipText} format={formatPrice} />
+          </View>
+        </ChartDot>
+      </ChartPathProvider>
+    </View>
+  );
+};
+
+export default Chart;
 
 const findMaxMinPrices = (prices: number[]) => {
   return prices.reduce(
@@ -50,81 +112,36 @@ const formatPrice = (value: string) => {
 
 const formatDate = (timestamp: number) => {
   'worklet';
-  const date = new Date(timestamp * 1000);
+  const millisecond = 1000;
+  const date = new Date(timestamp * millisecond);
   const day = `0${date.getDate()}`.slice(-2);
   const month = `0${date.getMonth() + 1}`.slice(-2);
   return `${day}/${month}`;
 };
 
-const Chart = ({containerStyle, coin}: Props) => {
-  const maxMinPrices = useMemo(
-    () => findMaxMinPrices(coin.priceSparklineIn7Days),
-    [coin],
-  );
-  const chartData = useMemo(() => prepareChartData(coin), [coin]);
-  const chartPoints = monotoneCubicInterpolation({data: chartData, range: 40});
-  const strokeColor = coin.priceChangePercentage7Days >= 0 ? 'green' : 'red';
-
-  return (
-    <View style={containerStyle}>
-      {/** chart */}
-      <ChartPathProvider
-        data={{
-          points: chartPoints,
-          smoothingStrategy: 'bezier',
-        }}>
-        {/** line */}
-        <ChartPath
-          width={width}
-          height={250}
-          stroke={strokeColor}
-          strokeWidth={2}
-        />
-
-        {/** dot & date & price */}
-        <ChartDot>
-          <View style={styles.tooltip}>
-            {/** dot */}
-            <View style={styles.dot} />
-
-            {/** date */}
-            <ChartXLabel style={styles.date} format={formatDate} />
-
-            {/** price */}
-            <ChartYLabel style={styles.price} format={formatPrice} />
-          </View>
-        </ChartDot>
-      </ChartPathProvider>
-    </View>
-  );
-};
-
-export default Chart;
-
 const styles = StyleSheet.create({
+  priceLabelsContainer: {
+    position: 'absolute',
+    justifyContent: 'space-between',
+    top: 0,
+    bottom: 0,
+    left: 10,
+  },
+  priceLabel: {
+    color: 'gray',
+  },
+
   tooltip: {
     position: 'absolute',
     left: -45,
     width: 100,
     alignItems: 'center',
     borderRadius: 4,
-    backgroundColor: '#eee',
-    padding: 5,
-    zIndex: 1,
-  },
-
-  dot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
     backgroundColor: 'black',
+    padding: 5,
   },
-
-  date: {
+  tooltipText: {
     marginTop: 3,
-  },
-
-  price: {
-    marginTop: 3,
+    color: 'white',
   },
 });
