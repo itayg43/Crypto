@@ -7,7 +7,10 @@ export const getCoinsAsync = () => async (dispatch: AppDispatch) => {
   try {
     dispatch(getCoins());
     const coins = await coinsService.getCoins();
-    dispatch(getCoinsSuccess(coins));
+    const normalizedCoins = coins.reduce((obj, curr) => {
+      return {...obj, [curr.id]: curr};
+    }, {});
+    dispatch(getCoinsSuccess(normalizedCoins));
   } catch (error) {
     const message = errorHandler.extractErrorMessage(error);
     dispatch(getCoinsFail(message));

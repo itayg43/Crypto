@@ -1,19 +1,23 @@
 import {createSlice} from '@reduxjs/toolkit';
 import type {PayloadAction} from '@reduxjs/toolkit';
 
-import {Coin} from '../../entities/Coin';
 import {ReducerStatus} from '../../enums/ReducerStatus';
+import {Coin} from '../../entities/Coin';
+
+interface Entities {
+  [s: string]: Coin;
+}
 
 interface CoinsState {
   status: ReducerStatus;
   message: string;
-  entities: Coin[];
+  entities: Entities;
 }
 
 const initialState: CoinsState = {
   status: ReducerStatus.idle,
   message: '',
-  entities: [],
+  entities: {},
 };
 
 export const coinsSlice = createSlice({
@@ -24,7 +28,7 @@ export const coinsSlice = createSlice({
       state.status = ReducerStatus.loading;
       state.message = '';
     },
-    getCoinsSuccess: (state, action: PayloadAction<Coin[]>) => {
+    getCoinsSuccess: (state, action: PayloadAction<Entities>) => {
       state.status = ReducerStatus.success;
       state.entities = action.payload;
     },
