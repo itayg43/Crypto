@@ -10,7 +10,7 @@ interface Props {
 }
 
 const CoinListItem = ({item, onSelect}: Props) => {
-  const isChangePositive = item.priceChangePercentage7Days >= 0;
+  const isChangePositive = item.priceChangePercentageIn7Days >= 0;
   const changeIcon = isChangePositive ? 'arrow-up' : 'arrow-down';
   const changeColor = isChangePositive ? 'green' : 'red';
 
@@ -36,8 +36,8 @@ const CoinListItem = ({item, onSelect}: Props) => {
           <MaterialCommunityIcons name={changeIcon} color={changeColor} />
 
           <Text style={{color: changeColor}}>
-            {item.priceChangePercentage7Days.toAbsFixedString(
-              item.priceChangePercentage7Days,
+            {item.priceChangePercentageIn7Days.toAbsFixedString(
+              item.priceChangePercentageIn7Days,
             )}
             %
           </Text>

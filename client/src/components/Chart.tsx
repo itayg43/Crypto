@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   View,
@@ -19,7 +19,7 @@ import {
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {Coin} from '../entities/Coin';
-import chartUtils from '../utils/chartUtils';
+import chartFormatters from '../utils/chartFormatters';
 
 interface Props {
   containerStyle?: StyleProp<ViewStyle>;
@@ -29,22 +29,30 @@ interface Props {
 const width = Dimensions.get('window').width;
 
 const Chart = ({containerStyle, coin}: Props) => {
-  const {pricesRange, pricesData} = useMemo(
-    () => chartUtils.prepareData(coin.priceSparklineIn7Days),
-    [coin],
-  );
-  const points = monotoneCubicInterpolation({data: pricesData, range: 40});
-  const strokeColor = coin.priceChangePercentage7Days >= 0 ? 'green' : 'red';
+  const points = monotoneCubicInterpolation({
+    data: coin.priceSparklineIn7Days,
+    range: 40,
+  });
+  const strokeColor = coin.priceChangePercentageIn7Days >= 0 ? 'green' : 'red';
 
   return (
     <View style={[styles.container, containerStyle]}>
       {/** price labels */}
       <View style={styles.priceLabelsContainer}>
-        {pricesRange.map((v, i) => (
-          <Text key={i.toString()} style={styles.priceLabel}>
-            {v.toBMKString(v)}
-          </Text>
-        ))}
+        {/** max */}
+        <Text style={styles.priceLabel}>
+          {coin.priceRangeIn7Days.max.toBMKString(coin.priceRangeIn7Days.max)}
+        </Text>
+
+        {/** mid */}
+        <Text style={styles.priceLabel}>
+          {coin.priceRangeIn7Days.mid.toBMKString(coin.priceRangeIn7Days.mid)}
+        </Text>
+
+        {/** min */}
+        <Text style={styles.priceLabel}>
+          {coin.priceRangeIn7Days.min.toBMKString(coin.priceRangeIn7Days.min)}
+        </Text>
       </View>
 
       {/** chart */}
@@ -66,13 +74,13 @@ const Chart = ({containerStyle, coin}: Props) => {
             {/** date */}
             <ChartXLabel
               style={styles.tooltipText}
-              format={chartUtils.formatDate}
+              format={chartFormatters.formatDate}
             />
 
             {/** price */}
             <ChartYLabel
               style={styles.tooltipText}
-              format={chartUtils.formatPrice}
+              format={chartFormatters.formatPrice}
             />
           </View>
         </ChartDot>
