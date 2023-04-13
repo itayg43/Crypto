@@ -1,17 +1,7 @@
 import moment from 'moment';
 
 import {CoinJSON} from '../interfaces/CoinJSON';
-
-interface PriceRange {
-  max: number;
-  mid: number;
-  min: number;
-}
-
-interface PriceSparkline {
-  x: number;
-  y: number;
-}
+import {SparklineDataRange, SparklineData} from '../interfaces/Sparkline';
 
 export class Coin {
   id: string;
@@ -19,10 +9,10 @@ export class Coin {
   name: string;
   imageURL: string;
   price: number;
-  priceRangeIn7Days: PriceRange;
+  priceRangeIn7Days: SparklineDataRange;
   priceChangePercentageIn7Days: number;
   price7DaysAgo: number;
-  priceSparklineIn7Days: PriceSparkline[];
+  priceSparklineIn7Days: SparklineData[];
 
   constructor(j: CoinJSON) {
     this.id = j.id;
@@ -41,7 +31,7 @@ export class Coin {
     );
   }
 
-  private _initPriceRangeIn7Days(sparkline: number[]): PriceRange {
+  private _initPriceRangeIn7Days(sparkline: number[]): SparklineDataRange {
     const range = sparkline.reduce(
       (result, value) => ({
         max: Math.max(result.max, value),
@@ -59,7 +49,7 @@ export class Coin {
     return this.price / (1 + this.priceChangePercentageIn7Days * 0.01);
   }
 
-  private _initPriceSparklineIn7Days(sparkline: number[]): PriceSparkline[] {
+  private _initPriceSparklineIn7Days(sparkline: number[]): SparklineData[] {
     const timestamp7DaysAgo = moment().subtract(7, 'day').unix();
     return sparkline.map((v, i) => ({
       x: timestamp7DaysAgo + (i + 1) * 3600,

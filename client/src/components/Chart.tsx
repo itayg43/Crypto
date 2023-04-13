@@ -15,25 +15,28 @@ import {
   ChartYLabel,
   monotoneCubicInterpolation,
 } from '@rainbow-me/animated-charts';
-
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import {Coin} from '../entities/Coin';
+import {SparklineData, SparklineDataRange} from '../interfaces/Sparkline';
 import chartFormatters from '../utils/chartFormatters';
 
 interface Props {
   containerStyle?: StyleProp<ViewStyle>;
-  coin: Coin;
+  data: SparklineData[];
+  dataRange: SparklineDataRange;
+  dataChangePercentage: number;
 }
 
 const width = Dimensions.get('window').width;
 
-const Chart = ({containerStyle, coin}: Props) => {
-  const points = monotoneCubicInterpolation({
-    data: coin.priceSparklineIn7Days,
-    range: 40,
-  });
-  const strokeColor = coin.priceChangePercentageIn7Days >= 0 ? 'green' : 'red';
+const Chart = ({
+  containerStyle,
+  data,
+  dataRange,
+  dataChangePercentage,
+}: Props) => {
+  const points = monotoneCubicInterpolation({data, range: 40});
+  const strokeColor = dataChangePercentage >= 0 ? 'green' : 'red';
 
   return (
     <View style={[styles.container, containerStyle]}>
@@ -41,17 +44,17 @@ const Chart = ({containerStyle, coin}: Props) => {
       <View style={styles.priceLabelsContainer}>
         {/** max */}
         <Text style={styles.priceLabel}>
-          {coin.priceRangeIn7Days.max.toBMKString(coin.priceRangeIn7Days.max)}
+          {dataRange.max.toBMKString(dataRange.max)}
         </Text>
 
         {/** mid */}
         <Text style={styles.priceLabel}>
-          {coin.priceRangeIn7Days.mid.toBMKString(coin.priceRangeIn7Days.mid)}
+          {dataRange.mid.toBMKString(dataRange.mid)}
         </Text>
 
         {/** min */}
         <Text style={styles.priceLabel}>
-          {coin.priceRangeIn7Days.min.toBMKString(coin.priceRangeIn7Days.min)}
+          {dataRange.min.toBMKString(dataRange.min)}
         </Text>
       </View>
 

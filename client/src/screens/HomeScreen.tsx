@@ -48,7 +48,17 @@ const HomeScreen = () => {
         <>
           <Chart
             containerStyle={styles.chart}
-            coin={selectedCoin ?? coins[0]}
+            data={
+              selectedCoin?.priceSparklineIn7Days ??
+              coins[0].priceSparklineIn7Days
+            }
+            dataRange={
+              selectedCoin?.priceRangeIn7Days ?? coins[0].priceRangeIn7Days
+            }
+            dataChangePercentage={
+              selectedCoin?.priceChangePercentageIn7Days ??
+              coins[0].priceChangePercentageIn7Days
+            }
           />
 
           <CoinList
