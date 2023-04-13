@@ -4,16 +4,22 @@ import type {PayloadAction} from '@reduxjs/toolkit';
 import {Holding} from '../../entities/Holding';
 import {ReducerStatus} from '../../enums/ReducerStatus';
 
+interface Entities {
+  [s: string]: Holding;
+}
+
 interface HoldingsState {
   status: ReducerStatus;
   message: string;
-  entities: Holding[];
+  entities: Entities;
+  selectedEntityId: string;
 }
 
 const initialState: HoldingsState = {
   status: ReducerStatus.idle,
   message: '',
-  entities: [],
+  entities: {},
+  selectedEntityId: '',
 };
 
 export const holdingsSlice = createSlice({
@@ -24,7 +30,7 @@ export const holdingsSlice = createSlice({
       state.status = ReducerStatus.loading;
       state.message = '';
     },
-    getHoldingsSuccess: (state, action: PayloadAction<Holding[]>) => {
+    getHoldingsSuccess: (state, action: PayloadAction<Entities>) => {
       state.status = ReducerStatus.success;
       state.entities = action.payload;
     },

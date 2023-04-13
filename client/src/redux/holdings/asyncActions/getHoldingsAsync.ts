@@ -11,7 +11,10 @@ export const getHoldingsAsync = () => async (dispatch: AppDispatch) => {
   try {
     dispatch(getHoldings());
     const holdings = await holdingsService.getHoldings();
-    dispatch(getHoldingsSuccess(holdings));
+    const normalizedHoldings = holdings.reduce((obj, curr) => {
+      return {...obj, [curr.id]: curr};
+    }, {});
+    dispatch(getHoldingsSuccess(normalizedHoldings));
   } catch (error) {
     const message = errorHandler.extractErrorMessage(error);
     dispatch(getHoldingsFail(message));

@@ -5,7 +5,15 @@ import {RootState} from '../store';
 export const selectHoldingsStatus = (state: RootState) => state.holdings.status;
 export const selectHoldingsMessage = (state: RootState) =>
   state.holdings.message;
-export const selectHoldings = (state: RootState) => state.holdings.entities;
+
+export const selectNormalizedHoldings = (state: RootState) =>
+  state.holdings.entities;
+
+export const selectHoldings = (state: RootState) =>
+  Object.values(state.holdings.entities);
+
+export const selectSelectedEntityId = (state: RootState) =>
+  state.holdings.selectedEntityId;
 
 export const selectHoldingsValue = createSelector(selectHoldings, holdings => {
   return holdings.reduce((sum, h) => sum + h.value, 0);
