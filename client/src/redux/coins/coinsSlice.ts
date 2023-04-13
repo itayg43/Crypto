@@ -40,7 +40,9 @@ export const coinsSlice = createSlice({
     },
 
     changeSelectedCoinId: (state, action: PayloadAction<string>) => {
-      state.selectedEntityId = action.payload;
+      if (state.selectedEntityId !== action.payload) {
+        state.selectedEntityId = action.payload;
+      }
     },
   },
 });

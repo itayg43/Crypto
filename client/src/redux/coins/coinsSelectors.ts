@@ -16,7 +16,7 @@ export const selectSelectedEntityId = (state: RootState) =>
 export const selectSelectedCoin = createSelector(
   selectNormalizedCoins,
   selectSelectedEntityId,
-  (coins, selectCoinId) => {
-    return coins[selectCoinId];
+  (coins, id) => {
+    return coins[id];
   },
 );
