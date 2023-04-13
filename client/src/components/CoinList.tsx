@@ -8,7 +8,7 @@ import {StyleProp} from 'react-native';
 interface Props {
   containerStyle?: StyleProp<ViewStyle>;
   data: Coin[];
-  onSelectItem: (item: Coin) => void;
+  onSelectItem: (id: string) => void;
 }
 
 const CoinList = ({containerStyle, data, onSelectItem}: Props) => {
@@ -19,7 +19,7 @@ const CoinList = ({containerStyle, data, onSelectItem}: Props) => {
         data={data}
         keyExtractor={item => item.id}
         renderItem={({item}) => (
-          <CoinListItem item={item} onSelect={() => onSelectItem(item)} />
+          <CoinListItem item={item} onSelect={() => onSelectItem(item.id)} />
         )}
         showsVerticalScrollIndicator={false}
         ItemSeparatorComponent={Divider}
