@@ -7,7 +7,7 @@ import {
   selectHoldingsValue,
   selectHoldingsValueChangePercentageIn7Days,
 } from '../redux/holdings/holdingsSelectors';
-import {selectCoins} from '../redux/coins/coinsSelectors';
+import {selectTopCoins} from '../redux/coins/coinsSelectors';
 import {Coin} from '../entities/Coin';
 import SafeView from '../components/SafeView';
 import HoldingsInfo from '../components/HoldingsInfo';
@@ -20,7 +20,7 @@ const HomeScreen = () => {
   const holdingsValueChangePercentage = useAppSelector(
     selectHoldingsValueChangePercentageIn7Days,
   );
-  const coins = useAppSelector(selectCoins);
+  const topCoins = useAppSelector(selectTopCoins);
 
   const [selectedCoin, setSelectedCoin] = useState<Coin | null>(null);
 
@@ -44,24 +44,24 @@ const HomeScreen = () => {
         />
       )}
 
-      {coins.length > 0 && (
+      {topCoins.length > 0 && (
         <>
           <LineChart
             containerStyle={styles.lineChart}
             data={
               selectedCoin
                 ? selectedCoin.priceSparklineIn7Days
-                : coins[0].priceSparklineIn7Days
+                : topCoins[0].priceSparklineIn7Days
             }
             dataRange={
               selectedCoin
                 ? selectedCoin.priceRangeIn7Days
-                : coins[0].priceRangeIn7Days
+                : topCoins[0].priceRangeIn7Days
             }
             dataChangePercentage={
               selectedCoin
                 ? selectedCoin.priceChangePercentageIn7Days
-                : coins[0].priceChangePercentageIn7Days
+                : topCoins[0].priceChangePercentageIn7Days
             }
           />
 
@@ -69,7 +69,7 @@ const HomeScreen = () => {
             containerStyle={styles.coinList}
             isShowHeader
             headerLabel="Top Cryptocurrency"
-            data={coins}
+            data={topCoins}
             onSelectItem={handleCoinSelection}
           />
         </>
