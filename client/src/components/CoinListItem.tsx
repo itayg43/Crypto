@@ -10,44 +10,76 @@ interface Props {
 }
 
 const CoinListItem = ({item, onSelect}: Props) => {
-  const isChangePositive = item.priceChangePercentageIn7Days >= 0;
-  const changeIcon = isChangePositive ? 'arrow-up' : 'arrow-down';
-  const changeColor = isChangePositive ? 'green' : 'red';
-
   return (
     <TouchableOpacity style={styles.container} onPress={onSelect}>
-      {/** image */}
-      <View style={styles.imageContainer}>
-        <Image style={styles.image} source={{uri: item.imageURL}} />
-      </View>
+      <ImageSection url={item.imageURL} />
 
-      {/** name & symbol */}
-      <View style={styles.nameAndSymbolContainer}>
-        <Text style={styles.name}>{item.name}</Text>
+      <TitlesSection name={item.name} symbol={item.symbol} />
 
-        <Text style={styles.symbol}>{item.symbol.toUpperCase()}</Text>
-      </View>
-
-      {/** price & change percentage */}
-      <View style={styles.priceAndChangePercentageContainer}>
-        <Text style={styles.price}>{item.price.toUSDString(item.price)}</Text>
-
-        <View style={styles.changePercentageContainer}>
-          <MaterialCommunityIcons name={changeIcon} color={changeColor} />
-
-          <Text style={{color: changeColor}}>
-            {item.priceChangePercentageIn7Days.toAbsFixedString(
-              item.priceChangePercentageIn7Days,
-            )}
-            %
-          </Text>
-        </View>
-      </View>
+      <NumbersSection
+        price={item.price}
+        priceChangePercentage={item.priceChangePercentageIn7Days}
+      />
     </TouchableOpacity>
   );
 };
 
 export default CoinListItem;
+
+interface ImageSectionProps {
+  url: string;
+}
+
+const ImageSection = ({url}: ImageSectionProps) => {
+  return (
+    <View style={styles.imageSectionContainer}>
+      <Image style={styles.image} source={{uri: url}} />
+    </View>
+  );
+};
+
+interface TitlesSectionProps {
+  name: string;
+  symbol: string;
+}
+
+const TitlesSection = ({name, symbol}: TitlesSectionProps) => {
+  return (
+    <View style={styles.titlesSectionContainer}>
+      <Text style={styles.name}>{name}</Text>
+
+      <Text style={styles.symbol}>{symbol.toUpperCase()}</Text>
+    </View>
+  );
+};
+
+interface NumbersSectionProps {
+  price: number;
+  priceChangePercentage: number;
+}
+
+const NumbersSection = ({
+  price,
+  priceChangePercentage,
+}: NumbersSectionProps) => {
+  const isChangePositive = priceChangePercentage >= 0;
+  const changeIcon = isChangePositive ? 'arrow-up' : 'arrow-down';
+  const changeColor = isChangePositive ? 'green' : 'red';
+
+  return (
+    <View style={styles.numbersSectionContainer}>
+      <Text style={styles.price}>{price.toUSDString(price)}</Text>
+
+      <View style={styles.changePercentageContainer}>
+        <MaterialCommunityIcons name={changeIcon} color={changeColor} />
+
+        <Text style={{color: changeColor}}>
+          {priceChangePercentage.toAbsFixedString(priceChangePercentage)}%
+        </Text>
+      </View>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -56,7 +88,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  imageContainer: {
+  imageSectionContainer: {
     width: 30,
     height: 30,
   },
@@ -65,7 +97,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
 
-  nameAndSymbolContainer: {
+  titlesSectionContainer: {
     flex: 1,
     marginLeft: 10,
   },
@@ -76,7 +108,7 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
 
-  priceAndChangePercentageContainer: {
+  numbersSectionContainer: {
     alignItems: 'flex-end',
   },
   price: {
