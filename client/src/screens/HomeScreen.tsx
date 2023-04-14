@@ -22,7 +22,9 @@ const HomeScreen = () => {
   );
   const topCoins = useAppSelector(selectTopCoins);
 
-  const [selectedCoin, setSelectedCoin] = useState<Coin | null>(null);
+  const [selectedCoin, setSelectedCoin] = useState<Coin | null>(
+    topCoins.length > 0 ? topCoins[0] : null,
+  );
 
   const handleCoinSelection = useCallback(
     (coin: Coin) => {
@@ -44,25 +46,13 @@ const HomeScreen = () => {
         />
       )}
 
-      {topCoins.length > 0 && (
+      {topCoins.length > 0 && selectedCoin && (
         <>
           <LineChart
             containerStyle={styles.lineChart}
-            data={
-              selectedCoin
-                ? selectedCoin.priceSparklineIn7Days
-                : topCoins[0].priceSparklineIn7Days
-            }
-            dataRange={
-              selectedCoin
-                ? selectedCoin.priceRangeIn7Days
-                : topCoins[0].priceRangeIn7Days
-            }
-            dataChangePercentage={
-              selectedCoin
-                ? selectedCoin.priceChangePercentageIn7Days
-                : topCoins[0].priceChangePercentageIn7Days
-            }
+            data={selectedCoin.priceSparklineIn7Days}
+            dataRange={selectedCoin.priceRangeIn7Days}
+            dataChangePercentage={selectedCoin.priceChangePercentageIn7Days}
           />
 
           <CoinList
