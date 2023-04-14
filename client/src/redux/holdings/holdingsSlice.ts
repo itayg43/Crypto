@@ -12,14 +12,12 @@ interface HoldingsState {
   status: ReducerStatus;
   message: string;
   entities: Entities;
-  selectedEntityId: string;
 }
 
 const initialState: HoldingsState = {
   status: ReducerStatus.idle,
   message: '',
   entities: {},
-  selectedEntityId: '',
 };
 
 export const holdingsSlice = createSlice({
