@@ -1,5 +1,6 @@
 import {AppRegistry} from 'react-native';
 import {Provider as StoreProvider} from 'react-redux';
+import {NavigationContainer} from '@react-navigation/native';
 import FlipperAsyncStorage from 'rn-flipper-async-storage-advanced';
 
 import App from './App';
@@ -11,7 +12,9 @@ const RootApp = () => {
   return (
     <StoreProvider store={store}>
       <FlipperAsyncStorage />
-      <App />
+      <NavigationContainer>
+        <App />
+      </NavigationContainer>
     </StoreProvider>
   );
 };

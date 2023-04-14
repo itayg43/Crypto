@@ -6,7 +6,7 @@ import {selectInitializeStatus} from './src/redux/initialize/initializeSelectors
 import {initializeDataAsync} from './src/redux/initialize/asyncActions/initializeDataAsync';
 import {ReducerStatus} from './src/enums/ReducerStatus';
 import LoadingScreen from './src/screens/LoadingScreen';
-import HomeScreen from './src/screens/HomeScreen';
+import AppBottomTabNavigator from './src/navigation/AppBottomTabNavigator';
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -20,7 +20,7 @@ const App = () => {
   return (
     <>
       {initializeStatus === ReducerStatus.loading && <LoadingScreen />}
-      {initializeStatus === ReducerStatus.finish && <HomeScreen />}
+      {initializeStatus === ReducerStatus.finish && <AppBottomTabNavigator />}
     </>
   );
 };
