@@ -12,7 +12,7 @@ import {selectCoins, selectCoin} from '../redux/coins/coinsSelectors';
 import {changeCoinId} from '../redux/coins/coinsSlice';
 import SafeView from '../components/SafeView';
 import HoldingsInfo from '../components/HoldingsInfo';
-import Chart from '../components/Chart';
+import LineChart from '../components/LineChart';
 import CoinList from '../components/CoinList';
 
 const HomeScreen = () => {
@@ -46,8 +46,8 @@ const HomeScreen = () => {
 
       {coins.length > 0 && (
         <>
-          <Chart
-            containerStyle={styles.chart}
+          <LineChart
+            containerStyle={styles.lineChart}
             data={coin.priceSparklineIn7Days}
             dataRange={coin.priceRangeIn7Days}
             dataChangePercentage={coin.priceChangePercentageIn7Days}
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 
-  chart: {
+  lineChart: {
     marginTop: 20,
   },
 
