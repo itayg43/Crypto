@@ -22,6 +22,7 @@ const SafeView = ({
   return (
     <SafeAreaView style={[styles.safeContainer, safeContainerStyle]}>
       <StatusBar barStyle="light-content" />
+
       <View style={[styles.contentContainer, contentContainerStyle]}>
         {children}
       </View>
@@ -36,6 +37,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'black',
   },
+
   contentContainer: {
     flex: 1,
   },

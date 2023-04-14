@@ -15,6 +15,7 @@ const CoinList = ({containerStyle, data, onSelectItem}: Props) => {
   return (
     <View style={[styles.container, containerStyle]}>
       <Header />
+
       <FlatList
         data={data}
         keyExtractor={item => item.id}
