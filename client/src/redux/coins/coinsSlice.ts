@@ -12,14 +12,14 @@ interface CoinsState {
   status: ReducerStatus;
   message: string;
   entities: Entities;
-  selectedEntityId: string;
+  entityId: string;
 }
 
 const initialState: CoinsState = {
   status: ReducerStatus.idle,
   message: '',
   entities: {},
-  selectedEntityId: 'bitcoin',
+  entityId: 'bitcoin',
 };
 
 export const coinsSlice = createSlice({
@@ -39,15 +39,15 @@ export const coinsSlice = createSlice({
       state.message = action.payload;
     },
 
-    changeSelectedCoinId: (state, action: PayloadAction<string>) => {
-      if (state.selectedEntityId !== action.payload) {
-        state.selectedEntityId = action.payload;
-      }
+    changeCoinId: (state, action: PayloadAction<string>) => {
+      const id = action.payload;
+      if (state.entityId === id) return;
+      state.entityId = id;
     },
   },
 });
 
-export const {getCoins, getCoinsSuccess, getCoinsFail, changeSelectedCoinId} =
+export const {getCoins, getCoinsSuccess, getCoinsFail, changeCoinId} =
   coinsSlice.actions;
 
 export default coinsSlice.reducer;

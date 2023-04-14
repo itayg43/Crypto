@@ -8,8 +8,8 @@ import {
   selectHoldingsValue,
   selectHoldingsValueChangePercentageIn7Days,
 } from '../redux/holdings/holdingsSelectors';
-import {selectCoins, selectSelectedCoin} from '../redux/coins/coinsSelectors';
-import {changeSelectedCoinId} from '../redux/coins/coinsSlice';
+import {selectCoins, selectCoin} from '../redux/coins/coinsSelectors';
+import {changeCoinId} from '../redux/coins/coinsSlice';
 import SafeView from '../components/SafeView';
 import HoldingsInfo from '../components/HoldingsInfo';
 import Chart from '../components/Chart';
@@ -24,11 +24,11 @@ const HomeScreen = () => {
     selectHoldingsValueChangePercentageIn7Days,
   );
   const coins = useAppSelector(selectCoins);
-  const selectedCoin = useAppSelector(selectSelectedCoin);
+  const coin = useAppSelector(selectCoin);
 
-  const handleSelectCoin = useCallback(
+  const handleCoinSelection = useCallback(
     (id: string) => {
-      dispatch(changeSelectedCoinId(id));
+      dispatch(changeCoinId(id));
     },
     [dispatch],
   );
@@ -48,15 +48,15 @@ const HomeScreen = () => {
         <>
           <Chart
             containerStyle={styles.chart}
-            data={selectedCoin.priceSparklineIn7Days}
-            dataRange={selectedCoin.priceRangeIn7Days}
-            dataChangePercentage={selectedCoin.priceChangePercentageIn7Days}
+            data={coin.priceSparklineIn7Days}
+            dataRange={coin.priceRangeIn7Days}
+            dataChangePercentage={coin.priceChangePercentageIn7Days}
           />
 
           <CoinList
             containerStyle={styles.coinList}
             data={coins}
-            onSelectItem={handleSelectCoin}
+            onSelectItem={handleCoinSelection}
           />
         </>
       )}
