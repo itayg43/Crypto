@@ -7,14 +7,22 @@ import {StyleProp} from 'react-native';
 
 interface Props {
   containerStyle?: StyleProp<ViewStyle>;
+  isShowHeader?: boolean;
+  headerLabel?: string;
   data: Coin[];
   onSelectItem: (id: string) => void;
 }
 
-const CoinList = ({containerStyle, data, onSelectItem}: Props) => {
+const CoinList = ({
+  containerStyle,
+  isShowHeader = false,
+  headerLabel = '',
+  data,
+  onSelectItem,
+}: Props) => {
   return (
     <View style={[styles.container, containerStyle]}>
-      <Header />
+      {isShowHeader && <Header label={headerLabel} />}
 
       <FlatList
         data={data}
@@ -32,8 +40,12 @@ const CoinList = ({containerStyle, data, onSelectItem}: Props) => {
 
 export default CoinList;
 
-const Header = () => {
-  return <Text style={styles.header}>Top Cryptocurrency</Text>;
+interface HeaderProps {
+  label: string;
+}
+
+const Header = ({label}: HeaderProps) => {
+  return <Text style={styles.header}>{label}</Text>;
 };
 
 const Divider = () => {

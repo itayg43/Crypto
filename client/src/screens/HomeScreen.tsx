@@ -24,7 +24,7 @@ const HomeScreen = () => {
     selectHoldingsValueChangePercentageIn7Days,
   );
   const coins = useAppSelector(selectCoins);
-  const coin = useAppSelector(selectCoin);
+  const selectedCoin = useAppSelector(selectCoin);
 
   const handleCoinSelection = useCallback(
     (id: string) => {
@@ -48,13 +48,15 @@ const HomeScreen = () => {
         <>
           <LineChart
             containerStyle={styles.lineChart}
-            data={coin.priceSparklineIn7Days}
-            dataRange={coin.priceRangeIn7Days}
-            dataChangePercentage={coin.priceChangePercentageIn7Days}
+            data={selectedCoin.priceSparklineIn7Days}
+            dataRange={selectedCoin.priceRangeIn7Days}
+            dataChangePercentage={selectedCoin.priceChangePercentageIn7Days}
           />
 
           <CoinList
             containerStyle={styles.coinList}
+            isShowHeader
+            headerLabel="Top Cryptocurrency"
             data={coins}
             onSelectItem={handleCoinSelection}
           />

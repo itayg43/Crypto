@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     width: 100,
     alignItems: 'center',
     borderRadius: 4,
-    backgroundColor: '#111',
+    backgroundColor: '#222',
     padding: 5,
   },
   tooltipText: {
