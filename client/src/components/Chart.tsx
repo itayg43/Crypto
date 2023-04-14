@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {
   StyleSheet,
   View,
@@ -35,7 +35,10 @@ const Chart = ({
   dataRange,
   dataChangePercentage,
 }: Props) => {
-  const points = monotoneCubicInterpolation({data, range: 40});
+  const points = useMemo(
+    () => monotoneCubicInterpolation({data, range: 40}),
+    [data],
+  );
   const strokeColor = dataChangePercentage >= 0 ? 'green' : 'red';
 
   return (
