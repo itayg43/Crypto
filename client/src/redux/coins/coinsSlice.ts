@@ -4,22 +4,16 @@ import type {PayloadAction} from '@reduxjs/toolkit';
 import {ReducerStatus} from '../../enums/ReducerStatus';
 import {Coin} from '../../entities/Coin';
 
-interface Entities {
-  [s: string]: Coin;
-}
-
 interface CoinsState {
   status: ReducerStatus;
   message: string;
-  entities: Entities;
-  entityId: string;
+  entities: Coin[];
 }
 
 const initialState: CoinsState = {
   status: ReducerStatus.idle,
   message: '',
-  entities: {},
-  entityId: 'bitcoin',
+  entities: [],
 };
 
 export const coinsSlice = createSlice({
@@ -30,7 +24,7 @@ export const coinsSlice = createSlice({
       state.status = ReducerStatus.loading;
       state.message = '';
     },
-    getCoinsSuccess: (state, action: PayloadAction<Entities>) => {
+    getCoinsSuccess: (state, action: PayloadAction<Coin[]>) => {
       state.status = ReducerStatus.success;
       state.entities = action.payload;
     },
@@ -38,16 +32,9 @@ export const coinsSlice = createSlice({
       state.status = ReducerStatus.error;
       state.message = action.payload;
     },
-
-    changeCoinId: (state, action: PayloadAction<string>) => {
-      const id = action.payload;
-      if (state.entityId === id) return;
-      state.entityId = id;
-    },
   },
 });
 
-export const {getCoins, getCoinsSuccess, getCoinsFail, changeCoinId} =
-  coinsSlice.actions;
+export const {getCoins, getCoinsSuccess, getCoinsFail} = coinsSlice.actions;
 
 export default coinsSlice.reducer;

@@ -10,7 +10,7 @@ interface Props {
   isShowHeader?: boolean;
   headerLabel?: string;
   data: Coin[];
-  onSelectItem: (id: string) => void;
+  onSelectItem: (coin: Coin) => void;
 }
 
 const CoinList = ({
@@ -28,7 +28,7 @@ const CoinList = ({
         data={data}
         keyExtractor={item => item.id}
         renderItem={({item}) => (
-          <CoinListItem item={item} onSelect={() => onSelectItem(item.id)} />
+          <CoinListItem item={item} onSelect={() => onSelectItem(item)} />
         )}
         showsVerticalScrollIndicator={false}
         ItemSeparatorComponent={Divider}

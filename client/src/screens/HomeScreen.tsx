@@ -1,36 +1,36 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {StyleSheet} from 'react-native';
 
-import {useAppDispatch} from '../hooks/useAppDispatch';
 import {useAppSelector} from '../hooks/useAppSelector';
 import {
   selectHoldings,
   selectHoldingsValue,
   selectHoldingsValueChangePercentageIn7Days,
 } from '../redux/holdings/holdingsSelectors';
-import {selectCoins, selectCoin} from '../redux/coins/coinsSelectors';
-import {changeCoinId} from '../redux/coins/coinsSlice';
+import {selectCoins} from '../redux/coins/coinsSelectors';
+import {Coin} from '../entities/Coin';
 import SafeView from '../components/SafeView';
 import HoldingsInfo from '../components/HoldingsInfo';
 import LineChart from '../components/LineChart';
 import CoinList from '../components/CoinList';
 
 const HomeScreen = () => {
-  const dispatch = useAppDispatch();
-
   const holdings = useAppSelector(selectHoldings);
   const holdingsValue = useAppSelector(selectHoldingsValue);
   const holdingsValueChangePercentage = useAppSelector(
     selectHoldingsValueChangePercentageIn7Days,
   );
   const coins = useAppSelector(selectCoins);
-  const selectedCoin = useAppSelector(selectCoin);
+
+  const [selectedCoin, setSelectedCoin] = useState<Coin | null>(null);
 
   const handleCoinSelection = useCallback(
-    (id: string) => {
-      dispatch(changeCoinId(id));
+    (coin: Coin) => {
+      setSelectedCoin(currentCoin =>
+        currentCoin?.id !== coin.id ? coin : currentCoin,
+      );
     },
-    [dispatch],
+    [setSelectedCoin],
   );
 
   return (
@@ -48,9 +48,21 @@ const HomeScreen = () => {
         <>
           <LineChart
             containerStyle={styles.lineChart}
-            data={selectedCoin.priceSparklineIn7Days}
-            dataRange={selectedCoin.priceRangeIn7Days}
-            dataChangePercentage={selectedCoin.priceChangePercentageIn7Days}
+            data={
+              selectedCoin
+                ? selectedCoin.priceSparklineIn7Days
+                : coins[0].priceSparklineIn7Days
+            }
+            dataRange={
+              selectedCoin
+                ? selectedCoin.priceRangeIn7Days
+                : coins[0].priceRangeIn7Days
+            }
+            dataChangePercentage={
+              selectedCoin
+                ? selectedCoin.priceChangePercentageIn7Days
+                : coins[0].priceChangePercentageIn7Days
+            }
           />
 
           <CoinList
