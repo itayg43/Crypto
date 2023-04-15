@@ -35,14 +35,12 @@ const HomeScreen = () => {
 
   return (
     <SafeView contentContainerStyle={styles.container}>
-      {holdingsValue > 0 && (
-        <HoldingsInfo
-          containerStyle={styles.holdingsInfo}
-          title="Your Holdings"
-          value={holdingsValue}
-          valueChangePercentage={holdingsValueChangePercentage}
-        />
-      )}
+      <HoldingsInfo
+        containerStyle={styles.holdingsInfo}
+        title="Your Holdings"
+        value={holdingsValue}
+        valueChangePercentage={holdingsValueChangePercentage}
+      />
 
       {selectedCoin && (
         <LineChart
@@ -53,16 +51,14 @@ const HomeScreen = () => {
         />
       )}
 
-      {topCoins.length > 0 && (
-        <CoinList
-          containerStyle={styles.coinListContainer}
-          listStyle={styles.coinList}
-          isShowHeader
-          headerLabel="Top Cryptocurrency"
-          data={topCoins}
-          onSelectItem={handleCoinSelection}
-        />
-      )}
+      <CoinList
+        containerStyle={styles.coinListContainer}
+        listStyle={styles.coinList}
+        isShowHeader
+        headerLabel="Top Cryptocurrency"
+        data={topCoins}
+        onSelectItem={handleCoinSelection}
+      />
     </SafeView>
   );
 };

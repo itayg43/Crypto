@@ -15,10 +15,6 @@ const HoldingsInfo = ({
   value,
   valueChangePercentage,
 }: Props) => {
-  const isChangePositive = valueChangePercentage >= 0;
-  const changeIcon = isChangePositive ? 'arrow-up' : 'arrow-down';
-  const changeColor = isChangePositive ? 'green' : 'red';
-
   return (
     <View style={containerStyle}>
       {/** title */}
@@ -28,22 +24,42 @@ const HoldingsInfo = ({
       <Text style={styles.value}>{value.toUSDString(value)}</Text>
 
       {/** value change percentage */}
-      <View style={styles.valueChangePercentageContaienr}>
-        <MaterialCommunityIcons name={changeIcon} color={changeColor} />
-
-        {/** percentage */}
-        <Text style={{color: changeColor}}>
-          {valueChangePercentage.toAbsFixedString(valueChangePercentage)}%
-        </Text>
-
-        {/** period */}
-        <Text style={styles.period}>(7 Days)</Text>
-      </View>
+      {value > 0 && (
+        <ValueChangePercentageSection
+          valueChangePercentage={valueChangePercentage}
+        />
+      )}
     </View>
   );
 };
 
 export default HoldingsInfo;
+
+interface ValueChangePercentageSectionProps {
+  valueChangePercentage: number;
+}
+
+function ValueChangePercentageSection({
+  valueChangePercentage,
+}: ValueChangePercentageSectionProps) {
+  const isChangePositive = valueChangePercentage >= 0;
+  const changeIcon = isChangePositive ? 'arrow-up' : 'arrow-down';
+  const changeColor = isChangePositive ? 'green' : 'red';
+
+  return (
+    <View style={styles.valueChangePercentageSectionContaienr}>
+      <MaterialCommunityIcons name={changeIcon} color={changeColor} />
+
+      {/** percentage */}
+      <Text style={{color: changeColor}}>
+        {valueChangePercentage.toAbsFixedString(valueChangePercentage)}%
+      </Text>
+
+      {/** period */}
+      <Text style={styles.period}>(7 Days)</Text>
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   title: {
@@ -56,7 +72,7 @@ const styles = StyleSheet.create({
     marginVertical: 3,
   },
 
-  valueChangePercentageContaienr: {
+  valueChangePercentageSectionContaienr: {
     flexDirection: 'row',
     alignItems: 'center',
   },

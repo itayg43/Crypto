@@ -27,6 +27,6 @@ export const selectHoldingsValueChangePercentageIn7Days = createSelector(
   selectHoldingsValue,
   selectHoldingsValueChangeIn7Days,
   (value, valueChange) => {
-    return (valueChange / (value - valueChange)) * 100;
+    return value > 0 ? (valueChange / (value - valueChange)) * 100 : 0;
   },
 );
