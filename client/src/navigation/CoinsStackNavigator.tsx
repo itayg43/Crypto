@@ -27,6 +27,7 @@ const CoinsStackNavigator = () => {
           headerTitle: 'Coins',
           headerLargeTitle: true,
           headerTransparent: true,
+          headerBlurEffect: 'systemUltraThinMaterialLight',
         }}
       />
     </Stack.Navigator>
