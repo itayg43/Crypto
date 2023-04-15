@@ -2,24 +2,19 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import {NavigationRoute} from '../enums/NavigationRoute';
 import HomeScreen from '../screens/HomeScreen';
-import CoinsScreen from '../screens/CoinsScreen';
+import CoinsStackNavigator from './CoinsStackNavigator';
 
 const Tab = createBottomTabNavigator();
 
 const AppBottomTabNavigator = () => {
   return (
     <Tab.Navigator
-      initialRouteName="home"
+      initialRouteName={NavigationRoute.homeScreen}
       screenOptions={{
-        headerStyle: {
-          backgroundColor: '#222',
-        },
-        headerTitleStyle: {
-          color: 'white',
-          textTransform: 'capitalize',
-        },
-
+        headerShown: false,
+        tabBarShowLabel: false,
         tabBarStyle: {
           backgroundColor: '#222',
         },
@@ -27,11 +22,9 @@ const AppBottomTabNavigator = () => {
         tabBarInactiveTintColor: '#555',
       }}>
       <Tab.Screen
-        name="home"
+        name={NavigationRoute.homeScreen}
         component={HomeScreen}
         options={{
-          headerShown: false,
-          tabBarLabel: 'Home',
           tabBarIcon: ({color, size}) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
           ),
@@ -39,10 +32,9 @@ const AppBottomTabNavigator = () => {
       />
 
       <Tab.Screen
-        name="coins"
-        component={CoinsScreen}
+        name={NavigationRoute.coinsStack}
+        component={CoinsStackNavigator}
         options={{
-          tabBarLabel: 'Coins',
           tabBarIcon: ({color, size}) => (
             <MaterialCommunityIcons name="bitcoin" color={color} size={size} />
           ),
