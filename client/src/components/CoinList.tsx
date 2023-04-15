@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  FlatList,
-  ViewStyle,
-  View,
-  StyleProp,
-  Text,
-} from 'react-native';
+import {StyleSheet, ViewStyle, View, StyleProp, Text} from 'react-native';
 import {FlashList} from '@shopify/flash-list';
 
 import {Coin} from '../entities/Coin';
@@ -77,7 +70,7 @@ const styles = StyleSheet.create({
   divider: {
     height: StyleSheet.hairlineWidth,
     backgroundColor: 'gray',
-    marginLeft: 40,
+    marginLeft: 25,
   },
 
   footer: {

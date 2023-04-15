@@ -13,18 +13,20 @@ import SafeView from '../components/SafeView';
 import CoinList from '../components/CoinList';
 
 const CoinsScreen = () => {
-  const navigation = useNavigation<CoinsScreenNavigationProp>();
   const dispatch = useAppDispatch();
+  const navigation = useNavigation<CoinsScreenNavigationProp>();
 
   const filteredCoins = useAppSelector(selectFilteredCoins);
-
   const [selectedCoin, setSelectedCoin] = useState<Coin | null>(null);
+
   const [searchQuery, setSearchQuery] = useState<string>('');
   const debouncedSearchQuery = useDebounce(searchQuery);
 
   const handleCoinSelection = useCallback(
     (coin: Coin) => {
-      setSelectedCoin(coin);
+      setSelectedCoin(currentCoin =>
+        currentCoin?.id !== coin.id ? coin : currentCoin,
+      );
     },
     [setSelectedCoin],
   );

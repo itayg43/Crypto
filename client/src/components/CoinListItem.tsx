@@ -13,6 +13,7 @@ const CoinListItem = ({item, onSelect}: Props) => {
   return (
     <TouchableOpacity style={styles.container} onPress={onSelect}>
       <LeftSection
+        rank={item.marketCapRank}
         imageURL={item.imageURL}
         name={item.name}
         symbol={item.symbol}
@@ -29,16 +30,24 @@ const CoinListItem = ({item, onSelect}: Props) => {
 export default CoinListItem;
 
 interface LeftSectionProps {
+  rank: number;
   imageURL: string;
   name: string;
   symbol: string;
 }
 
-function LeftSection({imageURL, name, symbol}: LeftSectionProps) {
+function LeftSection({rank, imageURL, name, symbol}: LeftSectionProps) {
   return (
     <View style={styles.leftSectionContainer}>
+      {/** rank */}
+      <View style={styles.rankContainer}>
+        <Text style={styles.rank}>{rank.toString()}</Text>
+      </View>
+
       {/** logo */}
-      <Image style={styles.logo} source={{uri: imageURL}} />
+      <View style={styles.logoContaienr}>
+        <Image style={styles.logo} source={{uri: imageURL}} />
+      </View>
 
       {/** name & symbol */}
       <View style={styles.titlesContainer}>
@@ -90,9 +99,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  logo: {
+  rankContainer: {
+    width: 20,
+  },
+  rank: {
+    color: 'gray',
+  },
+  logoContaienr: {
     width: 30,
     height: 30,
+    marginLeft: 10,
+  },
+  logo: {
+    width: '100%',
+    height: '100%',
   },
   titlesContainer: {
     marginLeft: 10,

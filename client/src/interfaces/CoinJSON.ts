@@ -3,6 +3,7 @@ export interface CoinJSON {
   symbol: string;
   name: string;
   image: string;
+  market_cap_rank: number;
   current_price: number;
   price_change_percentage_7d_in_currency: number;
   sparkline_in_7d: {

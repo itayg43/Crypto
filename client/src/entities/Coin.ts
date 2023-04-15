@@ -8,6 +8,7 @@ export class Coin {
   symbol: string;
   name: string;
   imageURL: string;
+  marketCapRank: number;
   price: number;
   priceRangeIn7Days: SparklineDataRange;
   priceChangePercentageIn7Days: number;
@@ -19,6 +20,7 @@ export class Coin {
     this.symbol = j.symbol;
     this.name = j.name;
     this.imageURL = j.image;
+    this.marketCapRank = j.market_cap_rank;
     this.price = j.current_price;
     this.priceRangeIn7Days = this._initPriceRangeIn7Days(
       j.sparkline_in_7d.price,
