@@ -3,7 +3,6 @@ import {StyleSheet} from 'react-native';
 
 import {useAppSelector} from '../hooks/useAppSelector';
 import {
-  selectHoldings,
   selectHoldingsValue,
   selectHoldingsValueChangePercentageIn7Days,
 } from '../redux/holdings/holdingsSelectors';
@@ -15,13 +14,12 @@ import LineChart from '../components/LineChart';
 import CoinList from '../components/CoinList';
 
 const HomeScreen = () => {
-  const holdings = useAppSelector(selectHoldings);
   const holdingsValue = useAppSelector(selectHoldingsValue);
   const holdingsValueChangePercentage = useAppSelector(
     selectHoldingsValueChangePercentageIn7Days,
   );
-  const topCoins = useAppSelector(selectTopCoins);
 
+  const topCoins = useAppSelector(selectTopCoins);
   const [selectedCoin, setSelectedCoin] = useState<Coin | null>(
     topCoins.length > 0 ? topCoins[0] : null,
   );
@@ -37,7 +35,7 @@ const HomeScreen = () => {
 
   return (
     <SafeView contentContainerStyle={styles.container}>
-      {holdings.length > 0 && (
+      {holdingsValue > 0 && (
         <HoldingsInfo
           containerStyle={styles.holdingsInfo}
           title="Your Holdings"
@@ -46,24 +44,24 @@ const HomeScreen = () => {
         />
       )}
 
-      {topCoins.length > 0 && selectedCoin && (
-        <>
-          <LineChart
-            containerStyle={styles.lineChart}
-            data={selectedCoin.priceSparklineIn7Days}
-            dataRange={selectedCoin.priceRangeIn7Days}
-            dataChangePercentage={selectedCoin.priceChangePercentageIn7Days}
-          />
+      {selectedCoin && (
+        <LineChart
+          containerStyle={styles.lineChart}
+          data={selectedCoin.priceSparklineIn7Days}
+          dataRange={selectedCoin.priceRangeIn7Days}
+          dataChangePercentage={selectedCoin.priceChangePercentageIn7Days}
+        />
+      )}
 
-          <CoinList
-            containerStyle={styles.coinListContainer}
-            listStyle={styles.coinList}
-            isShowHeader
-            headerLabel="Top Cryptocurrency"
-            data={topCoins}
-            onSelectItem={handleCoinSelection}
-          />
-        </>
+      {topCoins.length > 0 && (
+        <CoinList
+          containerStyle={styles.coinListContainer}
+          listStyle={styles.coinList}
+          isShowHeader
+          headerLabel="Top Cryptocurrency"
+          data={topCoins}
+          onSelectItem={handleCoinSelection}
+        />
       )}
     </SafeView>
   );
