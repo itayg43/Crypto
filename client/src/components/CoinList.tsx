@@ -1,12 +1,13 @@
 import React from 'react';
-import {StyleSheet, ViewStyle, View, StyleProp, Text} from 'react-native';
-import {FlashList} from '@shopify/flash-list';
+import {StyleSheet, View, Text, StyleProp, ViewStyle} from 'react-native';
+import {ContentStyle, FlashList} from '@shopify/flash-list';
 
 import {Coin} from '../entities/Coin';
 import CoinListItem from './CoinListItem';
 
 interface Props {
   containerStyle?: StyleProp<ViewStyle>;
+  listStyle?: ContentStyle;
   isShowHeader?: boolean;
   headerLabel?: string;
   data: Coin[];
@@ -15,6 +16,7 @@ interface Props {
 
 const CoinList = ({
   containerStyle,
+  listStyle,
   isShowHeader = false,
   headerLabel = '',
   data,
@@ -25,6 +27,7 @@ const CoinList = ({
       {isShowHeader && <Header label={headerLabel} />}
 
       <FlashList
+        contentContainerStyle={listStyle}
         data={data}
         keyExtractor={item => item.id}
         renderItem={({item}) => (
@@ -63,7 +66,7 @@ const styles = StyleSheet.create({
 
   header: {
     fontSize: 16,
-    marginBottom: 15,
+    padding: 10,
   },
 
   divider: {

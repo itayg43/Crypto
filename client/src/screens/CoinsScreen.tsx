@@ -73,7 +73,7 @@ const CoinsScreen = () => {
       <SafeView>
         {filteredCoins.length > 0 && (
           <CoinList
-            containerStyle={styles.coinList}
+            listStyle={styles.coinList}
             data={filteredCoins}
             onSelectItem={handleCoinSelection}
           />
@@ -194,7 +194,7 @@ export default CoinsScreen;
 
 const styles = StyleSheet.create({
   coinList: {
-    marginHorizontal: 10,
+    paddingHorizontal: 10,
   },
 
   bottomSheetModal: {

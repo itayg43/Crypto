@@ -56,7 +56,8 @@ const HomeScreen = () => {
           />
 
           <CoinList
-            containerStyle={styles.coinList}
+            containerStyle={styles.coinListContainer}
+            listStyle={styles.coinList}
             isShowHeader
             headerLabel="Top Cryptocurrency"
             data={topCoins}
@@ -82,11 +83,13 @@ const styles = StyleSheet.create({
   },
 
   lineChart: {
-    marginTop: 20,
+    marginTop: 10,
   },
 
+  coinListContainer: {
+    marginTop: 10,
+  },
   coinList: {
     paddingHorizontal: 10,
-    marginTop: 20,
   },
 });
