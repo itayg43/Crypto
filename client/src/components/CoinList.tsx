@@ -7,6 +7,7 @@ import {
   StyleProp,
   Text,
 } from 'react-native';
+import {FlashList} from '@shopify/flash-list';
 
 import {Coin} from '../entities/Coin';
 import CoinListItem from './CoinListItem';
@@ -30,12 +31,13 @@ const CoinList = ({
     <View style={[styles.container, containerStyle]}>
       {isShowHeader && <Header label={headerLabel} />}
 
-      <FlatList
+      <FlashList
         data={data}
         keyExtractor={item => item.id}
         renderItem={({item}) => (
           <CoinListItem item={item} onSelect={() => onSelectItem(item)} />
         )}
+        estimatedItemSize={50}
         ItemSeparatorComponent={Divider}
         ListFooterComponent={Footer}
       />
