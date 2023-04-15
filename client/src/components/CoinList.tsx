@@ -1,9 +1,15 @@
 import React from 'react';
-import {StyleSheet, FlatList, ViewStyle, View, Text} from 'react-native';
+import {
+  StyleSheet,
+  FlatList,
+  ViewStyle,
+  View,
+  StyleProp,
+  Text,
+} from 'react-native';
 
 import {Coin} from '../entities/Coin';
 import CoinListItem from './CoinListItem';
-import {StyleProp} from 'react-native';
 
 interface Props {
   containerStyle?: StyleProp<ViewStyle>;
@@ -30,7 +36,6 @@ const CoinList = ({
         renderItem={({item}) => (
           <CoinListItem item={item} onSelect={() => onSelectItem(item)} />
         )}
-        showsVerticalScrollIndicator={false}
         ItemSeparatorComponent={Divider}
         ListFooterComponent={Footer}
       />
@@ -44,17 +49,17 @@ interface HeaderProps {
   label: string;
 }
 
-const Header = ({label}: HeaderProps) => {
+function Header({label}: HeaderProps) {
   return <Text style={styles.header}>{label}</Text>;
-};
+}
 
-const Divider = () => {
+function Divider() {
   return <View style={styles.divider} />;
-};
+}
 
-const Footer = () => {
+function Footer() {
   return <View style={styles.footer} />;
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -70,6 +75,7 @@ const styles = StyleSheet.create({
   divider: {
     height: StyleSheet.hairlineWidth,
     backgroundColor: 'gray',
+    marginLeft: 40,
   },
 
   footer: {

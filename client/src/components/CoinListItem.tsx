@@ -12,11 +12,13 @@ interface Props {
 const CoinListItem = ({item, onSelect}: Props) => {
   return (
     <TouchableOpacity style={styles.container} onPress={onSelect}>
-      <ImageSection url={item.imageURL} />
+      <LeftSection
+        imageURL={item.imageURL}
+        name={item.name}
+        symbol={item.symbol}
+      />
 
-      <TitlesSection name={item.name} symbol={item.symbol} />
-
-      <NumbersSection
+      <RightSection
         price={item.price}
         priceChangePercentage={item.priceChangePercentageIn7Days}
       />
@@ -26,79 +28,73 @@ const CoinListItem = ({item, onSelect}: Props) => {
 
 export default CoinListItem;
 
-interface ImageSectionProps {
-  url: string;
-}
-
-const ImageSection = ({url}: ImageSectionProps) => {
-  return (
-    <View style={styles.imageSectionContainer}>
-      <Image style={styles.image} source={{uri: url}} />
-    </View>
-  );
-};
-
-interface TitlesSectionProps {
+interface LeftSectionProps {
+  imageURL: string;
   name: string;
   symbol: string;
 }
 
-const TitlesSection = ({name, symbol}: TitlesSectionProps) => {
+function LeftSection({imageURL, name, symbol}: LeftSectionProps) {
   return (
-    <View style={styles.titlesSectionContainer}>
-      <Text style={styles.name}>{name}</Text>
+    <View style={styles.leftSectionContainer}>
+      {/** logo */}
+      <Image style={styles.logo} source={{uri: imageURL}} />
 
-      <Text style={styles.symbol}>{symbol.toUpperCase()}</Text>
+      {/** name & symbol */}
+      <View style={styles.titlesContainer}>
+        <Text style={styles.name}>{name}</Text>
+        <Text style={styles.symbol}>{symbol.toUpperCase()}</Text>
+      </View>
     </View>
   );
-};
+}
 
-interface NumbersSectionProps {
+interface RightSectionProps {
   price: number;
   priceChangePercentage: number;
 }
 
-const NumbersSection = ({
-  price,
-  priceChangePercentage,
-}: NumbersSectionProps) => {
+function RightSection({price, priceChangePercentage}: RightSectionProps) {
   const isChangePositive = priceChangePercentage >= 0;
   const changeIcon = isChangePositive ? 'arrow-up' : 'arrow-down';
   const changeColor = isChangePositive ? 'green' : 'red';
 
   return (
-    <View style={styles.numbersSectionContainer}>
+    <View style={styles.rightSectionContainer}>
+      {/** price */}
       <Text style={styles.price}>{price.toUSDString(price)}</Text>
 
-      <View style={styles.changePercentageContainer}>
+      {/** price change percentage */}
+      <View style={styles.priceChangePercentageContainer}>
         <MaterialCommunityIcons name={changeIcon} color={changeColor} />
 
+        {/** percentage */}
         <Text style={{color: changeColor}}>
           {priceChangePercentage.toAbsFixedString(priceChangePercentage)}%
         </Text>
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginVertical: 10,
+  },
+
+  // left section
+  leftSectionContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-
-  imageSectionContainer: {
+  logo: {
     width: 30,
     height: 30,
   },
-  image: {
-    width: '100%',
-    height: '100%',
-  },
-
-  titlesSectionContainer: {
-    flex: 1,
+  titlesContainer: {
     marginLeft: 10,
   },
   name: {
@@ -108,13 +104,14 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
 
-  numbersSectionContainer: {
+  // right section
+  rightSectionContainer: {
     alignItems: 'flex-end',
   },
   price: {
     color: 'white',
   },
-  changePercentageContainer: {
+  priceChangePercentageContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },

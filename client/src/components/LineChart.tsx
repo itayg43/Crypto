@@ -50,7 +50,7 @@ interface PriceLabelsSectionProps {
   pricesRange: SparklineDataRange;
 }
 
-const PriceLabelsSection = ({pricesRange}: PriceLabelsSectionProps) => {
+function PriceLabelsSection({pricesRange}: PriceLabelsSectionProps) {
   return (
     <View style={styles.priceLabelsSectionContainer}>
       {/** max */}
@@ -69,14 +69,14 @@ const PriceLabelsSection = ({pricesRange}: PriceLabelsSectionProps) => {
       </Text>
     </View>
   );
-};
+}
 
 interface ChartSectionProps {
   data: SparklineData[];
   dataChangePercentage: number;
 }
 
-const ChartSection = ({data, dataChangePercentage}: ChartSectionProps) => {
+function ChartSection({data, dataChangePercentage}: ChartSectionProps) {
   const points = useMemo(
     () => monotoneCubicInterpolation({data, range: 40}),
     [data],
@@ -97,9 +97,9 @@ const ChartSection = ({data, dataChangePercentage}: ChartSectionProps) => {
       </ChartDot>
     </ChartPathProvider>
   );
-};
+}
 
-const ChartTooltip = () => {
+function ChartTooltip() {
   return (
     <View style={styles.tooltipContainer}>
       {/** dot */}
@@ -118,7 +118,7 @@ const ChartTooltip = () => {
       />
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

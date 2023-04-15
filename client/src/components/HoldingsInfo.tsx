@@ -31,11 +31,13 @@ const HoldingsInfo = ({
       <View style={styles.valueChangePercentageContaienr}>
         <MaterialCommunityIcons name={changeIcon} color={changeColor} />
 
+        {/** percentage */}
         <Text style={{color: changeColor}}>
           {valueChangePercentage.toAbsFixedString(valueChangePercentage)}%
         </Text>
 
-        <Text style={styles.changePeriod}>(7 Days)</Text>
+        {/** period */}
+        <Text style={styles.period}>(7 Days)</Text>
       </View>
     </View>
   );
@@ -60,7 +62,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  changePeriod: {
+  period: {
     marginLeft: 3,
     color: 'gray',
   },
