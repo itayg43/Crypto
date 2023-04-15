@@ -37,7 +37,6 @@ const HomeScreen = () => {
     <SafeView contentContainerStyle={styles.container}>
       <HoldingsInfo
         containerStyle={styles.holdingsInfo}
-        title="Your Holdings"
         value={holdingsValue}
         valueChangePercentage={holdingsValueChangePercentage}
       />
