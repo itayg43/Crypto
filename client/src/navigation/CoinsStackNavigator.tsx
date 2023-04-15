@@ -1,9 +1,21 @@
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationProp,
+} from '@react-navigation/native-stack';
 
 import {NavigationRoute} from '../enums/NavigationRoute';
 import CoinsScreen from '../screens/CoinsScreen';
 
-const Stack = createNativeStackNavigator();
+type CoinsStackProps = {
+  [NavigationRoute.coinsScreen]: undefined;
+};
+
+export type CoinsScreenNavigationProp = NativeStackNavigationProp<
+  CoinsStackProps,
+  NavigationRoute.coinsScreen
+>;
+
+const Stack = createNativeStackNavigator<CoinsStackProps>();
 
 const CoinsStackNavigator = () => {
   return (

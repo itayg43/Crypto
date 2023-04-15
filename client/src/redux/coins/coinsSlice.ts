@@ -8,12 +8,14 @@ interface CoinsState {
   status: ReducerStatus;
   message: string;
   entities: Coin[];
+  searchQuery: string;
 }
 
 const initialState: CoinsState = {
   status: ReducerStatus.idle,
   message: '',
   entities: [],
+  searchQuery: '',
 };
 
 export const coinsSlice = createSlice({
@@ -32,9 +34,14 @@ export const coinsSlice = createSlice({
       state.status = ReducerStatus.error;
       state.message = action.payload;
     },
+
+    updateSearchQuery: (staet, action: PayloadAction<string>) => {
+      staet.searchQuery = action.payload;
+    },
   },
 });
 
-export const {getCoins, getCoinsSuccess, getCoinsFail} = coinsSlice.actions;
+export const {getCoins, getCoinsSuccess, getCoinsFail, updateSearchQuery} =
+  coinsSlice.actions;
 
 export default coinsSlice.reducer;
