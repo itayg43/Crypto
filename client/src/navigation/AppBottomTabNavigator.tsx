@@ -15,11 +15,6 @@ const AppBottomTabNavigator = () => {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarStyle: {
-          backgroundColor: '#111',
-        },
-        tabBarActiveTintColor: 'white',
-        tabBarInactiveTintColor: '#555',
       }}>
       <Tab.Screen
         name={NavigationRoute.homeScreen}

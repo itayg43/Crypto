@@ -41,7 +41,7 @@ function LeftSection({rank, imageURL, name, symbol}: LeftSectionProps) {
     <View style={styles.leftSectionContainer}>
       {/** rank */}
       <View style={styles.rankContainer}>
-        <Text style={styles.rank}>{rank.toString()}</Text>
+        <Text>{rank.toString()}</Text>
       </View>
 
       {/** logo */}
@@ -51,7 +51,7 @@ function LeftSection({rank, imageURL, name, symbol}: LeftSectionProps) {
 
       {/** name & symbol */}
       <View style={styles.titlesContainer}>
-        <Text style={styles.name}>{name}</Text>
+        <Text>{name}</Text>
         <Text style={styles.symbol}>{symbol.toUpperCase()}</Text>
       </View>
     </View>
@@ -71,7 +71,7 @@ function RightSection({price, priceChangePercentage}: RightSectionProps) {
   return (
     <View style={styles.rightSectionContainer}>
       {/** price */}
-      <Text style={styles.price}>{price.toUSDString(price)}</Text>
+      <Text>{price.toUSDString(price)}</Text>
 
       {/** price change percentage */}
       <View style={styles.priceChangePercentageContainer}>
@@ -102,9 +102,6 @@ const styles = StyleSheet.create({
   rankContainer: {
     width: 20,
   },
-  rank: {
-    color: 'gray',
-  },
   logoContaienr: {
     width: 30,
     height: 30,
@@ -117,9 +114,6 @@ const styles = StyleSheet.create({
   titlesContainer: {
     marginLeft: 10,
   },
-  name: {
-    color: 'white',
-  },
   symbol: {
     color: 'gray',
   },
@@ -127,9 +121,6 @@ const styles = StyleSheet.create({
   // right section
   rightSectionContainer: {
     alignItems: 'flex-end',
-  },
-  price: {
-    color: 'white',
   },
   priceChangePercentageContainer: {
     flexDirection: 'row',

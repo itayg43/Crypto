@@ -25,12 +25,8 @@ const CoinsStackNavigator = () => {
         component={CoinsScreen}
         options={{
           headerTitle: 'Coins',
-          headerTitleStyle: {
-            color: 'white',
-          },
           headerLargeTitle: true,
           headerTransparent: true,
-          headerBlurEffect: 'dark',
         }}
       />
     </Stack.Navigator>

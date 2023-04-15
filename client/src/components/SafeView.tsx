@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  StatusBar,
   StyleSheet,
   SafeAreaView,
   View,
@@ -21,8 +20,6 @@ const SafeView = ({
 }: Props) => {
   return (
     <SafeAreaView style={[styles.safeContainer, safeContainerStyle]}>
-      <StatusBar barStyle="light-content" />
-
       <View style={[styles.contentContainer, contentContainerStyle]}>
         {children}
       </View>
@@ -35,7 +32,6 @@ export default SafeView;
 const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
-    backgroundColor: 'black',
   },
 
   contentContainer: {

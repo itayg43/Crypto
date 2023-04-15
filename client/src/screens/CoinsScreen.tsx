@@ -64,7 +64,6 @@ const CoinsScreen = () => {
     navigation.setOptions({
       headerSearchBarOptions: {
         onChangeText: e => setSearchQuery(e.nativeEvent.text),
-        textColor: 'gray',
       },
     });
   }, [navigation, setSearchQuery]);
@@ -86,9 +85,7 @@ const CoinsScreen = () => {
           ref={bottomSheetModalRef}
           snapPoints={bottomSheetModalSnapPoints}
           index={1}
-          style={styles.bottomSheetModal}
-          backgroundStyle={styles.bottomSheetModalBackground}
-          handleIndicatorStyle={styles.bottomSheetModalHandleIndicator}>
+          style={styles.bottomSheetModal}>
           {selectedCoin && (
             <>
               <HeaderSection
@@ -157,7 +154,7 @@ function HeaderLeftSection({logoURL, name, symbol}: HeaderLeftSectionProps) {
 
       {/** name & symbol */}
       <View style={styles.titlesContainer}>
-        <Text style={styles.name}>{name}</Text>
+        <Text>{name}</Text>
         <Text style={styles.symbol}>{symbol.toUpperCase()}</Text>
       </View>
     </View>
@@ -180,7 +177,7 @@ function HeaderRightSection({
   return (
     <View style={styles.headerRightSectionContainer}>
       {/** price */}
-      <Text style={styles.price}>{price.toUSDString(price)}</Text>
+      <Text>{price.toUSDString(price)}</Text>
 
       {/** price change percentage */}
       <View style={styles.priceChangePercentageContainer}>
@@ -209,13 +206,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
   },
-  bottomSheetModalBackground: {
-    backgroundColor: 'black',
-  },
-  bottomSheetModalHandleIndicator: {
-    backgroundColor: 'gray',
-  },
-
   headerSectionContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -238,17 +228,11 @@ const styles = StyleSheet.create({
   titlesContainer: {
     marginLeft: 10,
   },
-  name: {
-    color: 'white',
-  },
   symbol: {
     color: 'gray',
   },
   headerRightSectionContainer: {
     alignItems: 'flex-end',
-  },
-  price: {
-    color: 'white',
   },
   priceChangePercentageContainer: {
     flexDirection: 'row',

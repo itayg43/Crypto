@@ -53,20 +53,9 @@ interface PriceLabelsSectionProps {
 function PriceLabelsSection({pricesRange}: PriceLabelsSectionProps) {
   return (
     <View style={styles.priceLabelsSectionContainer}>
-      {/** max */}
-      <Text style={styles.priceLabel}>
-        {pricesRange.max.toBMKString(pricesRange.max)}
-      </Text>
-
-      {/** mid */}
-      <Text style={styles.priceLabel}>
-        {pricesRange.mid.toBMKString(pricesRange.mid)}
-      </Text>
-
-      {/** min */}
-      <Text style={styles.priceLabel}>
-        {pricesRange.min.toBMKString(pricesRange.min)}
-      </Text>
+      <Text>{pricesRange.max.toBMKString(pricesRange.max)}</Text>
+      <Text>{pricesRange.mid.toBMKString(pricesRange.mid)}</Text>
+      <Text>{pricesRange.min.toBMKString(pricesRange.min)}</Text>
     </View>
   );
 }
@@ -103,7 +92,7 @@ function ChartTooltip() {
   return (
     <View style={styles.tooltipContainer}>
       {/** dot */}
-      <MaterialCommunityIcons name="circle" size={10} color="gray" />
+      <MaterialCommunityIcons name="circle" size={10} />
 
       {/** date */}
       <ChartXLabel
@@ -132,9 +121,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 10,
   },
-  priceLabel: {
-    color: 'gray',
-  },
 
   tooltipContainer: {
     position: 'absolute',
@@ -142,11 +128,10 @@ const styles = StyleSheet.create({
     width: 100,
     alignItems: 'center',
     borderRadius: 4,
-    backgroundColor: '#222',
     padding: 5,
+    backgroundColor: '#ddd',
   },
   tooltipText: {
     marginTop: 3,
-    color: 'white',
   },
 });

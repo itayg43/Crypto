@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
 
   header: {
     fontSize: 16,
-    color: 'white',
     marginBottom: 15,
   },
 
