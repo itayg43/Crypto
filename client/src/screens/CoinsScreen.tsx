@@ -6,9 +6,10 @@ import React, {
   useRef,
   useMemo,
 } from 'react';
-import {StyleSheet} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {CoinsScreenNavigationProp} from '../navigation/CoinsStackNavigator';
 import {useAppDispatch} from '../hooks/useAppDispatch';
@@ -32,15 +33,11 @@ const CoinsScreen = () => {
   const debouncedSearchQuery = useDebounce(searchQuery);
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const bottomSheetModalSnapPoints = useMemo(() => ['50%'], []);
+  const bottomSheetModalSnapPoints = useMemo(() => ['20%', '50%'], []);
 
   const handlePresetBottomSheetModal = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, [bottomSheetModalRef]);
-
-  const handleDismissBottomSheetModal = useCallback(() => {
-    setSelectedCoin(null);
-  }, []);
 
   const handleCoinSelection = useCallback(
     (coin: Coin) => {
@@ -88,24 +85,113 @@ const CoinsScreen = () => {
         <BottomSheetModal
           ref={bottomSheetModalRef}
           snapPoints={bottomSheetModalSnapPoints}
-          index={0}
-          onDismiss={handleDismissBottomSheetModal}
+          index={1}
           style={styles.bottomSheetModal}
           backgroundStyle={styles.bottomSheetModalBackground}
           handleIndicatorStyle={styles.bottomSheetModalHandleIndicator}>
           {selectedCoin && (
-            <LineChart
-              containerStyle={styles.lineChart}
-              data={selectedCoin.priceSparklineIn7Days}
-              dataRange={selectedCoin.priceRangeIn7Days}
-              dataChangePercentage={selectedCoin.priceChangePercentageIn7Days}
-            />
+            <>
+              <HeaderSection
+                logoURL={selectedCoin.imageURL}
+                name={selectedCoin.name}
+                symbol={selectedCoin.symbol}
+                price={selectedCoin.price}
+                priceChangePercentage={
+                  selectedCoin.priceChangePercentageIn7Days
+                }
+              />
+
+              <LineChart
+                containerStyle={styles.lineChart}
+                data={selectedCoin.priceSparklineIn7Days}
+                dataRange={selectedCoin.priceRangeIn7Days}
+                dataChangePercentage={selectedCoin.priceChangePercentageIn7Days}
+              />
+            </>
           )}
         </BottomSheetModal>
       </BottomSheetModalProvider>
     </>
   );
 };
+
+interface HeaderSectionProps {
+  logoURL: string;
+  name: string;
+  symbol: string;
+  price: number;
+  priceChangePercentage: number;
+}
+
+function HeaderSection({
+  logoURL,
+  name,
+  symbol,
+  price,
+  priceChangePercentage,
+}: HeaderSectionProps) {
+  return (
+    <View style={styles.headerSectionContainer}>
+      <HeaderLeftSection logoURL={logoURL} name={name} symbol={symbol} />
+      <HeaderRightSection
+        price={price}
+        priceChangePercentage={priceChangePercentage}
+      />
+    </View>
+  );
+}
+
+interface HeaderLeftSectionProps {
+  logoURL: string;
+  name: string;
+  symbol: string;
+}
+
+function HeaderLeftSection({logoURL, name, symbol}: HeaderLeftSectionProps) {
+  return (
+    <View style={styles.headerLeftSectionContainer}>
+      {/** logo */}
+      <View style={styles.logoContaienr}>
+        <Image style={styles.logo} source={{uri: logoURL}} />
+      </View>
+
+      {/** name & symbol */}
+      <View style={styles.titlesContainer}>
+        <Text style={styles.name}>{name}</Text>
+        <Text style={styles.symbol}>{symbol.toUpperCase()}</Text>
+      </View>
+    </View>
+  );
+}
+
+interface HeaderRightSectionProps {
+  price: number;
+  priceChangePercentage: number;
+}
+
+function HeaderRightSection({
+  price,
+  priceChangePercentage,
+}: HeaderRightSectionProps) {
+  const isChangePositive = priceChangePercentage >= 0;
+  const changeColor = isChangePositive ? 'green' : 'red';
+  const changeIcon = isChangePositive ? 'arrow-up' : 'arrow-down';
+
+  return (
+    <View style={styles.headerRightSectionContainer}>
+      {/** price */}
+      <Text style={styles.price}>{price.toUSDString(price)}</Text>
+
+      {/** price change percentage */}
+      <View style={styles.priceChangePercentageContainer}>
+        <MaterialCommunityIcons name={changeIcon} color={changeColor} />
+        <Text style={{color: changeColor}}>
+          {priceChangePercentage.toAbsFixedString(priceChangePercentage)}%
+        </Text>
+      </View>
+    </View>
+  );
+}
 
 export default CoinsScreen;
 
@@ -128,6 +214,45 @@ const styles = StyleSheet.create({
   },
   bottomSheetModalHandleIndicator: {
     backgroundColor: 'gray',
+  },
+
+  headerSectionContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginHorizontal: 10,
+    marginTop: 10,
+  },
+  headerLeftSectionContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  logoContaienr: {
+    width: 40,
+    height: 40,
+  },
+  logo: {
+    width: '100%',
+    height: '100%',
+  },
+  titlesContainer: {
+    marginLeft: 10,
+  },
+  name: {
+    color: 'white',
+  },
+  symbol: {
+    color: 'gray',
+  },
+  headerRightSectionContainer: {
+    alignItems: 'flex-end',
+  },
+  price: {
+    color: 'white',
+  },
+  priceChangePercentageContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 
   lineChart: {
