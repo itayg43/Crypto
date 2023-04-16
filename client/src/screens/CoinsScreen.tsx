@@ -4,7 +4,6 @@ import React, {
   useLayoutEffect,
   useState,
   useRef,
-  useMemo,
 } from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
@@ -14,9 +13,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import {CoinsScreenNavigationProp} from '../navigation/CoinsStackNavigator';
 import {useAppDispatch} from '../hooks/useAppDispatch';
 import {useAppSelector} from '../hooks/useAppSelector';
-import {selectFilteredCoins} from '../redux/coins/coinsSelectors';
-import {updateSearchQuery} from '../redux/coins/coinsSlice';
-import {Coin} from '../entities/Coin';
+import {selectFilteredCoins, selectCoin} from '../redux/coins/coinsSelectors';
+import {updateEntityId, updateSearchQuery} from '../redux/coins/coinsSlice';
 import useDebounce from '../hooks/useDebounce';
 import SafeView from '../components/SafeView';
 import CoinList from '../components/CoinList';
@@ -27,26 +25,24 @@ const CoinsScreen = () => {
   const navigation = useNavigation<CoinsScreenNavigationProp>();
 
   const filteredCoins = useAppSelector(selectFilteredCoins);
-  const [selectedCoin, setSelectedCoin] = useState<Coin | null>(null);
+  const selectedCoin = useAppSelector(selectCoin);
 
   const [searchQuery, setSearchQuery] = useState<string>('');
   const debouncedSearchQuery = useDebounce(searchQuery);
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const bottomSheetModalSnapPoints = useMemo(() => ['50%'], []);
+  const bottomSheetModalSnapPoints = ['50%'];
 
   const handlePresetBottomSheetModal = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, [bottomSheetModalRef]);
 
   const handleCoinSelection = useCallback(
-    (coin: Coin) => {
-      setSelectedCoin(currentCoin =>
-        currentCoin?.id !== coin.id ? coin : currentCoin,
-      );
+    (id: string) => {
+      dispatch(updateEntityId(id));
       handlePresetBottomSheetModal();
     },
-    [setSelectedCoin, handlePresetBottomSheetModal],
+    [dispatch, handlePresetBottomSheetModal],
   );
 
   const handleUpdateSearchQuery = useCallback(

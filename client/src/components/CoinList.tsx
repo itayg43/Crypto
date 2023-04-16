@@ -9,7 +9,7 @@ interface Props {
   containerStyle?: StyleProp<ViewStyle>;
   listStyle?: ContentStyle;
   data: Coin[];
-  onSelectItem: (coin: Coin) => void;
+  onSelectItem: (id: string) => void;
 }
 
 const CoinList = ({containerStyle, listStyle, data, onSelectItem}: Props) => {
@@ -20,7 +20,7 @@ const CoinList = ({containerStyle, listStyle, data, onSelectItem}: Props) => {
         data={data}
         keyExtractor={item => item.id}
         renderItem={({item}) => (
-          <CoinListItem item={item} onSelect={() => onSelectItem(item)} />
+          <CoinListItem item={item} onSelect={() => onSelectItem(item.id)} />
         )}
         estimatedItemSize={data.length}
       />
