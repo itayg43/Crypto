@@ -56,7 +56,7 @@ function ValueChangePercentageSection({
       </Text>
 
       {/** period */}
-      <Text style={styles.period}>(7 Days)</Text>
+      <Text style={styles.valueChangePercentagePeriod}>(7 Days)</Text>
     </View>
   );
 }
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  period: {
+  valueChangePercentagePeriod: {
     marginLeft: 3,
   },
 });
