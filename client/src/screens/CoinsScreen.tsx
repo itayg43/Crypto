@@ -33,7 +33,7 @@ const CoinsScreen = () => {
   const debouncedSearchQuery = useDebounce(searchQuery);
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-  const bottomSheetModalSnapPoints = useMemo(() => ['20%', '50%'], []);
+  const bottomSheetModalSnapPoints = useMemo(() => ['50%'], []);
 
   const handlePresetBottomSheetModal = useCallback(() => {
     bottomSheetModalRef.current?.present();
@@ -84,24 +84,20 @@ const CoinsScreen = () => {
         <BottomSheetModal
           ref={bottomSheetModalRef}
           snapPoints={bottomSheetModalSnapPoints}
-          index={1}
+          index={0}
           style={styles.bottomSheetModal}>
           {selectedCoin && (
             <>
               <HeaderSection
-                logoURL={selectedCoin.imageURL}
+                logoURL={selectedCoin.logoURL}
                 name={selectedCoin.name}
                 symbol={selectedCoin.symbol}
-                price={selectedCoin.price}
                 priceChangePercentage={
                   selectedCoin.priceChangePercentageIn7Days
                 }
               />
 
-              <LineChart
-                containerStyle={styles.lineChart}
-                data={selectedCoin.priceSparklineIn7Days}
-              />
+              <LineChart data={selectedCoin.priceSparklineIn7Days} />
             </>
           )}
         </BottomSheetModal>
@@ -114,7 +110,6 @@ interface HeaderSectionProps {
   logoURL: string;
   name: string;
   symbol: string;
-  price: number;
   priceChangePercentage: number;
 }
 
@@ -122,16 +117,12 @@ function HeaderSection({
   logoURL,
   name,
   symbol,
-  price,
   priceChangePercentage,
 }: HeaderSectionProps) {
   return (
     <View style={styles.headerSectionContainer}>
       <HeaderLeftSection logoURL={logoURL} name={name} symbol={symbol} />
-      <HeaderRightSection
-        price={price}
-        priceChangePercentage={priceChangePercentage}
-      />
+      <HeaderRightSection priceChangePercentage={priceChangePercentage} />
     </View>
   );
 }
@@ -160,30 +151,23 @@ function HeaderLeftSection({logoURL, name, symbol}: HeaderLeftSectionProps) {
 }
 
 interface HeaderRightSectionProps {
-  price: number;
   priceChangePercentage: number;
 }
 
-function HeaderRightSection({
-  price,
-  priceChangePercentage,
-}: HeaderRightSectionProps) {
+function HeaderRightSection({priceChangePercentage}: HeaderRightSectionProps) {
   const isChangePositive = priceChangePercentage >= 0;
   const changeColor = isChangePositive ? 'green' : 'red';
   const changeIcon = isChangePositive ? 'arrow-up' : 'arrow-down';
 
   return (
     <View style={styles.headerRightSectionContainer}>
-      {/** price */}
-      <Text>{price.toUSDString(price)}</Text>
+      <MaterialCommunityIcons name={changeIcon} color={changeColor} />
 
-      {/** price change percentage */}
-      <View style={styles.priceChangePercentageContainer}>
-        <MaterialCommunityIcons name={changeIcon} color={changeColor} />
-        <Text style={{color: changeColor}}>
-          {priceChangePercentage.toAbsFixedString(priceChangePercentage)}%
-        </Text>
-      </View>
+      <Text style={{color: changeColor}}>
+        {priceChangePercentage.toAbsFixedString(priceChangePercentage)}%
+      </Text>
+
+      <Text style={styles.priceChangePercentagePeriod}>(7 Days)</Text>
     </View>
   );
 }
@@ -230,14 +214,11 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
   headerRightSectionContainer: {
-    alignItems: 'flex-end',
-  },
-  priceChangePercentageContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-
-  lineChart: {
-    marginTop: 20,
+  priceChangePercentagePeriod: {
+    color: 'gray',
+    marginLeft: 5,
   },
 });
