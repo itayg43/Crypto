@@ -11,6 +11,7 @@ import {Holding} from '../entities/Holding';
 import SafeView from '../components/SafeView';
 import HoldingsInfo from '../components/HoldingsInfo';
 import LineChart from '../components/LineChart';
+import HoldingList from '../components/HoldingList';
 
 const HoldingsScreen = () => {
   const holdings = useAppSelector(selectHoldings);
@@ -44,9 +45,18 @@ const HoldingsScreen = () => {
           containerStyle={styles.lineChart}
           data={selectedHolding.valueSparklineIn7Days}
           dataRange={selectedHolding.valueRangeIn7Days}
-          dataChangePercentage={selectedHolding.valueChangePercentageIn7Days}
+          dataChangePercentage={selectedHolding.priceChangePercentageIn7Days}
         />
       )}
+
+      <HoldingList
+        containerStyle={styles.holdingListContainer}
+        listStyle={styles.holdingList}
+        isShowHeader
+        headerLabel="Your Coins"
+        data={holdings}
+        onSelectItem={handleHoldingSelection}
+      />
     </SafeView>
   );
 };
@@ -62,5 +72,12 @@ const styles = StyleSheet.create({
 
   lineChart: {
     marginTop: 10,
+  },
+
+  holdingListContainer: {
+    marginTop: 10,
+  },
+  holdingList: {
+    paddingHorizontal: 10,
   },
 });

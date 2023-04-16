@@ -1,8 +1,9 @@
 import React from 'react';
-import {StyleSheet, View, Text, StyleProp, ViewStyle} from 'react-native';
+import {StyleSheet, View, StyleProp, ViewStyle} from 'react-native';
 import {ContentStyle, FlashList} from '@shopify/flash-list';
 
 import {Coin} from '../entities/Coin';
+import {ListHeader, ListDivider, ListFooter} from './lists';
 import CoinListItem from './CoinListItem';
 
 interface Props {
@@ -24,7 +25,7 @@ const CoinList = ({
 }: Props) => {
   return (
     <View style={[styles.container, containerStyle]}>
-      {isShowHeader && <Header label={headerLabel} />}
+      {isShowHeader && <ListHeader label={headerLabel} />}
 
       <FlashList
         contentContainerStyle={listStyle}
@@ -34,8 +35,8 @@ const CoinList = ({
           <CoinListItem item={item} onSelect={() => onSelectItem(item)} />
         )}
         estimatedItemSize={50}
-        ItemSeparatorComponent={Divider}
-        ListFooterComponent={Footer}
+        ItemSeparatorComponent={ListDivider}
+        ListFooterComponent={ListFooter}
       />
     </View>
   );
@@ -43,39 +44,8 @@ const CoinList = ({
 
 export default CoinList;
 
-interface HeaderProps {
-  label: string;
-}
-
-function Header({label}: HeaderProps) {
-  return <Text style={styles.header}>{label}</Text>;
-}
-
-function Divider() {
-  return <View style={styles.divider} />;
-}
-
-function Footer() {
-  return <View style={styles.footer} />;
-}
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-
-  header: {
-    fontSize: 16,
-    padding: 10,
-  },
-
-  divider: {
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: 'gray',
-    marginLeft: 25,
-  },
-
-  footer: {
-    marginBottom: 30,
   },
 });

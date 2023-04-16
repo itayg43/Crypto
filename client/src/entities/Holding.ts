@@ -6,7 +6,6 @@ export class Holding extends Coin {
   quantity: number;
   value: number;
   valueChangeIn7Days: number;
-  valueChangePercentageIn7Days: number;
   valueSparklineIn7Days: SparklineData[];
   valueRangeIn7Days: SparklineDataRange;
 
@@ -15,8 +14,6 @@ export class Holding extends Coin {
     this.quantity = quantity;
     this.value = this._initValue();
     this.valueChangeIn7Days = this._initValueChangeIn7Days();
-    this.valueChangePercentageIn7Days =
-      this._initValueChangePercentageIn7Days();
     this.valueSparklineIn7Days = this._initValueSparklineIn7Days();
     this.valueRangeIn7Days = this._initValueRangeIn7Days();
   }
@@ -27,10 +24,6 @@ export class Holding extends Coin {
 
   private _initValueChangeIn7Days() {
     return (this.price - this.price7DaysAgo) * this.quantity;
-  }
-
-  private _initValueChangePercentageIn7Days() {
-    return (this.value / (this.value - this.valueChangeIn7Days)) * 100;
   }
 
   private _initValueSparklineIn7Days(): SparklineData[] {
