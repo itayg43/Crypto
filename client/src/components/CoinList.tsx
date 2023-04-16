@@ -22,7 +22,7 @@ const CoinList = ({containerStyle, listStyle, data, onSelectItem}: Props) => {
         renderItem={({item}) => (
           <CoinListItem item={item} onSelect={() => onSelectItem(item)} />
         )}
-        estimatedItemSize={50}
+        estimatedItemSize={data.length}
       />
     </View>
   );
