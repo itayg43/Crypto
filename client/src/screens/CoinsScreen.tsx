@@ -101,8 +101,6 @@ const CoinsScreen = () => {
               <LineChart
                 containerStyle={styles.lineChart}
                 data={selectedCoin.priceSparklineIn7Days}
-                dataRange={selectedCoin.priceRangeIn7Days}
-                dataChangePercentage={selectedCoin.priceChangePercentageIn7Days}
               />
             </>
           )}
