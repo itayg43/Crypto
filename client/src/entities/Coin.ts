@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 import {CoinJSON} from '../interfaces/CoinJSON';
-import {SparklineData} from '../interfaces/Sparkline';
+import {Sparkline} from '../interfaces/Sparkline';
 
 export class Coin {
   id: string;
@@ -13,7 +13,7 @@ export class Coin {
   priceChangePercentageIn24Hours: number;
   priceChangePercentageIn7Days: number;
   price7DaysAgo: number;
-  priceSparklineIn7Days: SparklineData[];
+  priceSparklineIn7Days: Sparkline[];
 
   constructor(j: CoinJSON) {
     this.id = j.id;
@@ -35,7 +35,7 @@ export class Coin {
     return this.price / (1 + this.priceChangePercentageIn7Days * 0.01);
   }
 
-  private _initPriceSparklineIn7Days(sparkline: number[]): SparklineData[] {
+  private _initPriceSparklineIn7Days(sparkline: number[]): Sparkline[] {
     const timestamp7DaysAgo = moment().subtract(7, 'day').unix();
     return sparkline.map((v, i) => ({
       x: timestamp7DaysAgo + (i + 1) * 3600,

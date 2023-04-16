@@ -1,12 +1,12 @@
 import {Coin} from './Coin';
 import {CoinJSON} from '../interfaces/CoinJSON';
-import {SparklineData} from '../interfaces/Sparkline';
+import {Sparkline} from '../interfaces/Sparkline';
 
 export class Holding extends Coin {
   quantity: number;
   value: number;
   valueChangeIn7Days: number;
-  valueSparklineIn7Days: SparklineData[];
+  valueSparklineIn7Days: Sparkline[];
 
   constructor(j: CoinJSON, quantity: number) {
     super(j);
@@ -24,7 +24,7 @@ export class Holding extends Coin {
     return (this.price - this.price7DaysAgo) * this.quantity;
   }
 
-  private _initValueSparklineIn7Days(): SparklineData[] {
+  private _initValueSparklineIn7Days(): Sparkline[] {
     return this.priceSparklineIn7Days.map(v => ({
       x: v.x,
       y: v.y * this.quantity,

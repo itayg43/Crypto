@@ -10,12 +10,12 @@ import {
 } from '@rainbow-me/animated-charts';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import {SparklineData} from '../interfaces/Sparkline';
+import {Sparkline} from '../interfaces/Sparkline';
 import chartFormatters from '../utils/chartFormatters';
 
 interface Props {
   containerStyle?: StyleProp<ViewStyle>;
-  data: SparklineData[];
+  data: Sparkline[];
 }
 
 const width = Dimensions.get('window').width;
@@ -49,13 +49,13 @@ function ChartTooltip() {
 
       {/** date */}
       <ChartXLabel
-        style={styles.tooltipText}
+        style={styles.tooltipLabel}
         format={chartFormatters.formatDate}
       />
 
       {/** price */}
       <ChartYLabel
-        style={styles.tooltipText}
+        style={styles.tooltipLabel}
         format={chartFormatters.formatPrice}
       />
     </View>
@@ -67,14 +67,6 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
 
-  priceLabelsSectionContainer: {
-    position: 'absolute',
-    justifyContent: 'space-between',
-    top: 0,
-    bottom: 0,
-    left: 10,
-  },
-
   tooltipContainer: {
     position: 'absolute',
     left: -45,
@@ -84,7 +76,7 @@ const styles = StyleSheet.create({
     padding: 5,
     backgroundColor: '#ddd',
   },
-  tooltipText: {
+  tooltipLabel: {
     marginTop: 3,
   },
 });
