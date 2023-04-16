@@ -14,14 +14,14 @@ const CoinListItem = ({item, onSelect}: Props) => {
     <TouchableOpacity style={styles.container} onPress={onSelect}>
       <LeftSection
         rank={item.marketCapRank}
-        imageURL={item.imageURL}
+        logoURL={item.logoURL}
         name={item.name}
         symbol={item.symbol}
       />
 
       <RightSection
         price={item.price}
-        priceChangePercentage={item.priceChangePercentageIn7Days}
+        priceChangePercentage={item.priceChangePercentageIn24Hours}
       />
     </TouchableOpacity>
   );
@@ -31,12 +31,12 @@ export default CoinListItem;
 
 interface LeftSectionProps {
   rank: number;
-  imageURL: string;
+  logoURL: string;
   name: string;
   symbol: string;
 }
 
-function LeftSection({rank, imageURL, name, symbol}: LeftSectionProps) {
+function LeftSection({rank, logoURL, name, symbol}: LeftSectionProps) {
   return (
     <View style={styles.leftSectionContainer}>
       {/** rank */}
@@ -46,7 +46,7 @@ function LeftSection({rank, imageURL, name, symbol}: LeftSectionProps) {
 
       {/** logo */}
       <View style={styles.logoContaienr}>
-        <Image style={styles.logo} source={{uri: imageURL}} />
+        <Image style={styles.logo} source={{uri: logoURL}} />
       </View>
 
       {/** name & symbol */}
@@ -77,7 +77,6 @@ function RightSection({price, priceChangePercentage}: RightSectionProps) {
       <View style={styles.priceChangePercentageContainer}>
         <MaterialCommunityIcons name={changeIcon} color={changeColor} />
 
-        {/** percentage */}
         <Text style={{color: changeColor}}>
           {priceChangePercentage.toAbsFixedString(priceChangePercentage)}%
         </Text>
