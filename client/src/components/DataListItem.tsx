@@ -29,7 +29,9 @@ const DataListItem = ({item, onSelect}: Props) => {
         priceChangePercentage={item.priceChangePercentageIn24Hours}
       />
 
-      {isHoldingInstance && <RightSection value={item.value} />}
+      {isHoldingInstance && (
+        <RightSection value={item.value} quantity={item.quantity} />
+      )}
     </TouchableOpacity>
   );
 };
@@ -94,12 +96,14 @@ const MiddleSection = ({price, priceChangePercentage}: MiddleSectionProps) => {
 
 interface RightSectionProps {
   value: number;
+  quantity: number;
 }
 
-const RightSection = ({value}: RightSectionProps) => {
+const RightSection = ({value, quantity}: RightSectionProps) => {
   return (
     <View style={styles.rightSectionContainer}>
       <Text>{value.toUSDString(value)}</Text>
+      <Text>x{quantity}</Text>
     </View>
   );
 };
