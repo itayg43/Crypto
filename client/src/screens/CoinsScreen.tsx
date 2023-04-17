@@ -10,7 +10,7 @@ import useDebounce from '../hooks/useDebounce';
 import SafeView from '../components/SafeView';
 import GenericList from '../components/GenericList';
 import DataListItem from '../components/DataListItem';
-import CoinBottomSheetModal from '../components/CoinBottomSheetModal';
+import CoinBottomSheetModal from '../components/CoinBottomSheet';
 
 const CoinsScreen = () => {
   const dispatch = useAppDispatch();

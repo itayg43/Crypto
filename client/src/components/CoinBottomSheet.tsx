@@ -1,10 +1,10 @@
-import React, {useCallback, useEffect, useRef} from 'react';
+import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
-import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {Coin} from '../entities/Coin';
-import LineChart from '../components/LineChart';
+import BottomSheet from './BottomSheet';
+import LineChart from './LineChart';
 
 interface Props {
   isVisible: boolean;
@@ -12,35 +12,18 @@ interface Props {
   coin: Coin;
 }
 
-const CoinBottomSheetModal = ({isVisible, onDismiss, coin}: Props) => {
-  const modalRef = useRef<BottomSheetModal>(null);
-  const modalSnapPoints = ['50%'];
-
-  const handlePresetModal = useCallback(() => {
-    modalRef.current?.present();
-  }, [modalRef]);
-
-  useEffect(() => {
-    if (isVisible) {
-      handlePresetModal();
-    }
-
-    return () => onDismiss();
-  }, [isVisible, handlePresetModal]);
-
+const CoinBottomSheet = ({isVisible, onDismiss, coin}: Props) => {
   return (
-    <BottomSheetModalProvider>
-      <BottomSheetModal ref={modalRef} snapPoints={modalSnapPoints} index={0}>
-        <HeaderSection
-          logoURL={coin.logoURL}
-          name={coin.name}
-          symbol={coin.symbol}
-          priceChangePercentage={coin.priceChangePercentageIn7Days}
-        />
+    <BottomSheet isVisible={isVisible} onDismiss={onDismiss}>
+      <HeaderSection
+        logoURL={coin.logoURL}
+        name={coin.name}
+        symbol={coin.symbol}
+        priceChangePercentage={coin.priceChangePercentageIn7Days}
+      />
 
-        <LineChart data={coin.priceSparklineIn7Days} />
-      </BottomSheetModal>
-    </BottomSheetModalProvider>
+      <LineChart data={coin.priceSparklineIn7Days} />
+    </BottomSheet>
   );
 };
 
@@ -114,7 +97,7 @@ const HeaderRightSection = ({
   );
 };
 
-export default CoinBottomSheetModal;
+export default CoinBottomSheet;
 
 const styles = StyleSheet.create({
   headerSectionContainer: {
