@@ -11,8 +11,6 @@ export const selectCoinsEntities = (state: RootState) => state.coins.entities;
 export const selectCoins = (state: RootState) =>
   Object.values(state.coins.entities);
 
-export const selectCoinId = (state: RootState) => state.coins.entityId;
-
 export const selectSearchQuery = (state: RootState) => state.coins.searchQuery;
 
 export const selectFilteredCoins = createSelector(
@@ -24,14 +22,5 @@ export const selectFilteredCoins = createSelector(
         c.name.toLowerCase().includes(searchQuery) ||
         c.symbol.toLowerCase().includes(searchQuery),
     );
-  },
-);
-
-export const selectCoin = createSelector(
-  selectCoinsEntities,
-  selectCoinId,
-  (coinEntities, coinEntityId) => {
-    if (!coinEntityId) return null;
-    return coinEntities[coinEntityId];
   },
 );
