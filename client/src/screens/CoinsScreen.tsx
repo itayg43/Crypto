@@ -7,6 +7,7 @@ import {useAppSelector} from '../hooks/useAppSelector';
 import {selectFilteredCoins} from '../redux/coins/coinsSelectors';
 import {updateSearchQuery} from '../redux/coins/coinsSlice';
 import {Coin} from '../entities/Coin';
+import useIsFirstRender from '../hooks/useIsFirstRender';
 import useDebounce from '../hooks/useDebounce';
 import SafeView from '../components/SafeView';
 import GenericList from '../components/GenericList';
@@ -18,6 +19,8 @@ const CoinsScreen = () => {
   const navigation = useNavigation<CoinsScreenNavigationProp>();
 
   const filteredCoins = useAppSelector(selectFilteredCoins);
+
+  const isFirstRender = useIsFirstRender();
 
   const [selectedCoin, setSelectedCoin] = useState<Coin | null>(null);
   const [showBottomSheet, setShowBottomSheet] = useState<boolean>(false);
@@ -46,8 +49,9 @@ const CoinsScreen = () => {
   );
 
   useEffect(() => {
+    if (isFirstRender) return;
     handleUpdateSearchQuery(debouncedSearchQuery);
-  }, [debouncedSearchQuery, handleUpdateSearchQuery]);
+  }, [isFirstRender, debouncedSearchQuery, handleUpdateSearchQuery]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
