@@ -10,7 +10,7 @@ const Tab = createBottomTabNavigator();
 const AppBottomTabNavigator = () => {
   return (
     <Tab.Navigator
-      initialRouteName={NavigationRoute.homeScreen}
+      initialRouteName={NavigationRoute.coinsStack}
       screenOptions={{
         headerShown: false,
       }}>

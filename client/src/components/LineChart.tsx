@@ -11,7 +11,6 @@ import {
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {Sparkline} from '../interfaces/Sparkline';
-import chartFormatters from '../utils/chartFormatters';
 
 interface Props {
   containerStyle?: StyleProp<ViewStyle>;
@@ -19,6 +18,27 @@ interface Props {
 }
 
 const width = Dimensions.get('window').width;
+
+const formatPrice = (value: string) => {
+  'worklet';
+  if (Number.isNaN(value)) {
+    return '0';
+  }
+  const num = Number.parseFloat(value);
+  return `${num.toLocaleString('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  })}`;
+};
+
+const formatDate = (timestamp: number) => {
+  'worklet';
+  const millisecond = 1000;
+  const date = new Date(timestamp * millisecond);
+  const day = `0${date.getDate()}`.slice(-2);
+  const month = `0${date.getMonth() + 1}`.slice(-2);
+  return `${day}/${month}`;
+};
 
 const LineChart = ({containerStyle, data}: Props) => {
   const points = useMemo(
@@ -48,16 +68,10 @@ const ChartTooltip = () => {
       <MaterialCommunityIcons name="circle" size={10} />
 
       {/** date */}
-      <ChartXLabel
-        style={styles.tooltipLabel}
-        format={chartFormatters.formatDate}
-      />
+      <ChartXLabel style={styles.tooltipLabel} format={formatDate} />
 
       {/** price */}
-      <ChartYLabel
-        style={styles.tooltipLabel}
-        format={chartFormatters.formatPrice}
-      />
+      <ChartYLabel style={styles.tooltipLabel} format={formatPrice} />
     </View>
   );
 };
