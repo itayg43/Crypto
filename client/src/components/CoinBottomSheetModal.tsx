@@ -30,11 +30,7 @@ const CoinBottomSheetModal = ({isVisible, onDismiss, coin}: Props) => {
 
   return (
     <BottomSheetModalProvider>
-      <BottomSheetModal
-        ref={modalRef}
-        snapPoints={modalSnapPoints}
-        index={0}
-        style={styles.container}>
+      <BottomSheetModal ref={modalRef} snapPoints={modalSnapPoints} index={0}>
         <HeaderSection
           logoURL={coin.logoURL}
           name={coin.name}
@@ -119,16 +115,6 @@ function HeaderRightSection({priceChangePercentage}: HeaderRightSectionProps) {
 export default CoinBottomSheetModal;
 
 const styles = StyleSheet.create({
-  container: {
-    shadowColor: 'gray',
-    shadowOffset: {
-      width: 0,
-      height: -5,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-  },
-
   headerSectionContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',

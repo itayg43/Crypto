@@ -23,6 +23,7 @@ const CoinList = ({containerStyle, listStyle, data, onSelectItem}: Props) => {
           <CoinListItem item={item} onSelect={() => onSelectItem(item.id)} />
         )}
         estimatedItemSize={data.length}
+        ItemSeparatorComponent={CoinListDivider}
       />
     </View>
   );
@@ -30,8 +31,18 @@ const CoinList = ({containerStyle, listStyle, data, onSelectItem}: Props) => {
 
 export default CoinList;
 
+const CoinListDivider = () => {
+  return <View style={styles.divider} />;
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+
+  divider: {
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: 'gray',
+    marginLeft: 25,
   },
 });

@@ -3,5 +3,6 @@
   "compilerOptions": {
     "types": ["node"]
   },
-  "include": ["src", "types"]
+  "include": ["src", "types"],
+  "exclude": ["node_modules"]
 }
