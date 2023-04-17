@@ -36,7 +36,7 @@ interface LeftSectionProps {
   symbol: string;
 }
 
-function LeftSection({rank, logoURL, name, symbol}: LeftSectionProps) {
+const LeftSection = ({rank, logoURL, name, symbol}: LeftSectionProps) => {
   return (
     <View style={styles.leftSectionContainer}>
       {/** rank */}
@@ -56,14 +56,14 @@ function LeftSection({rank, logoURL, name, symbol}: LeftSectionProps) {
       </View>
     </View>
   );
-}
+};
 
 interface RightSectionProps {
   price: number;
   priceChangePercentage: number;
 }
 
-function RightSection({price, priceChangePercentage}: RightSectionProps) {
+const RightSection = ({price, priceChangePercentage}: RightSectionProps) => {
   const isChangePositive = priceChangePercentage >= 0;
   const changeIcon = isChangePositive ? 'arrow-up' : 'arrow-down';
   const changeColor = isChangePositive ? 'green' : 'red';
@@ -83,7 +83,7 @@ function RightSection({price, priceChangePercentage}: RightSectionProps) {
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

@@ -51,19 +51,19 @@ interface HeaderSectionProps {
   priceChangePercentage: number;
 }
 
-function HeaderSection({
+const HeaderSection = ({
   logoURL,
   name,
   symbol,
   priceChangePercentage,
-}: HeaderSectionProps) {
+}: HeaderSectionProps) => {
   return (
     <View style={styles.headerSectionContainer}>
       <HeaderLeftSection logoURL={logoURL} name={name} symbol={symbol} />
       <HeaderRightSection priceChangePercentage={priceChangePercentage} />
     </View>
   );
-}
+};
 
 interface HeaderLeftSectionProps {
   logoURL: string;
@@ -71,7 +71,7 @@ interface HeaderLeftSectionProps {
   symbol: string;
 }
 
-function HeaderLeftSection({logoURL, name, symbol}: HeaderLeftSectionProps) {
+const HeaderLeftSection = ({logoURL, name, symbol}: HeaderLeftSectionProps) => {
   return (
     <View style={styles.headerLeftSectionContainer}>
       {/** logo */}
@@ -86,13 +86,15 @@ function HeaderLeftSection({logoURL, name, symbol}: HeaderLeftSectionProps) {
       </View>
     </View>
   );
-}
+};
 
 interface HeaderRightSectionProps {
   priceChangePercentage: number;
 }
 
-function HeaderRightSection({priceChangePercentage}: HeaderRightSectionProps) {
+const HeaderRightSection = ({
+  priceChangePercentage,
+}: HeaderRightSectionProps) => {
   const isChangePositive = priceChangePercentage >= 0;
   const changeColor = isChangePositive ? 'green' : 'red';
   const changeIcon = isChangePositive ? 'arrow-up' : 'arrow-down';
@@ -110,7 +112,7 @@ function HeaderRightSection({priceChangePercentage}: HeaderRightSectionProps) {
       <Text style={styles.priceChangePercentagePeriod}>(7 Days)</Text>
     </View>
   );
-}
+};
 
 export default CoinBottomSheetModal;
 

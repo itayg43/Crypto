@@ -41,7 +41,7 @@ const LineChart = ({containerStyle, data}: Props) => {
 
 export default LineChart;
 
-function ChartTooltip() {
+const ChartTooltip = () => {
   return (
     <View style={styles.tooltipContainer}>
       {/** dot */}
@@ -60,7 +60,7 @@ function ChartTooltip() {
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

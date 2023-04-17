@@ -39,9 +39,9 @@ interface ValueChangePercentageSectionProps {
   valueChangePercentage: number;
 }
 
-function ValueChangePercentageSection({
+const ValueChangePercentageSection = ({
   valueChangePercentage,
-}: ValueChangePercentageSectionProps) {
+}: ValueChangePercentageSectionProps) => {
   const isChangePositive = valueChangePercentage >= 0;
   const changeIcon = isChangePositive ? 'arrow-up' : 'arrow-down';
   const changeColor = isChangePositive ? 'green' : 'red';
@@ -59,7 +59,7 @@ function ValueChangePercentageSection({
       <Text style={styles.valueChangePercentagePeriod}>(7 Days)</Text>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   title: {
