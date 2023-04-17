@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
-import {StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 import {CoinsScreenNavigationProp} from '../navigation/CoinsStackNavigator';
@@ -9,7 +8,8 @@ import {selectFilteredCoins, selectCoin} from '../redux/coins/coinsSelectors';
 import {updateEntityId, updateSearchQuery} from '../redux/coins/coinsSlice';
 import useDebounce from '../hooks/useDebounce';
 import SafeView from '../components/SafeView';
-import DataList from '../components/DataList';
+import GenericList from '../components/GenericList';
+import DataListItem from '../components/DataListItem';
 import CoinBottomSheetModal from '../components/CoinBottomSheetModal';
 
 const CoinsScreen = () => {
@@ -58,10 +58,12 @@ const CoinsScreen = () => {
     <>
       <SafeView>
         {filteredCoins.length > 0 && (
-          <DataList
-            listStyle={styles.coinList}
-            data={filteredCoins}
-            onSelectItem={handleCoinSelection}
+          <GenericList
+            items={filteredCoins}
+            keyExtractor={item => item.id}
+            renderItem={item => (
+              <DataListItem item={item} onSelect={handleCoinSelection} />
+            )}
           />
         )}
       </SafeView>
@@ -78,9 +80,3 @@ const CoinsScreen = () => {
 };
 
 export default CoinsScreen;
-
-const styles = StyleSheet.create({
-  coinList: {
-    paddingHorizontal: 10,
-  },
-});

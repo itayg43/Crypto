@@ -9,7 +9,8 @@ import {
 } from '../redux/holdings/holdingsSelectors';
 import SafeView from '../components/SafeView';
 import HoldingsInfo from '../components/HoldingsInfo';
-import DataList from '../components/DataList';
+import GenericList from '../components/GenericList';
+import DataListItem from '../components/DataListItem';
 
 const HoldingsScreen = () => {
   const holdings = useAppSelector(selectHoldings);
@@ -26,10 +27,11 @@ const HoldingsScreen = () => {
         valueChangePercentage={holdingsValueChangePercentage}
       />
 
-      <DataList
-        containerStyle={styles.dataListContainer}
-        listStyle={styles.dataList}
-        data={holdings}
+      <GenericList
+        containerStyle={styles.holdingList}
+        items={holdings}
+        keyExtractor={item => item.id}
+        renderItem={item => <DataListItem item={item} onSelect={() => null} />}
       />
     </SafeView>
   );
@@ -43,10 +45,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 
-  dataListContainer: {
+  holdingList: {
     marginTop: 10,
-  },
-  dataList: {
-    paddingHorizontal: 10,
   },
 });
