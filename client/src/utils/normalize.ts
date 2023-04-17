@@ -1,4 +1,12 @@
-const arrayByEntityId = (array: Array<any>) => {
+interface ById {
+  id: string;
+}
+
+const arrayByEntityId = <T extends ById>(
+  array: T[],
+): {
+  [s: string]: T;
+} => {
   return array.reduce((obj, entity) => {
     return {
       ...obj,
