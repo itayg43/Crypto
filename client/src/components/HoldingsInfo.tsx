@@ -4,22 +4,17 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 interface Props {
   containerStyle?: StyleProp<ViewStyle>;
-  title?: string;
   value: number;
   valueChangePercentage: number;
 }
 
 const HoldingsInfo = ({
   containerStyle,
-  title = 'Your Holdings',
   value,
   valueChangePercentage,
 }: Props) => {
   return (
     <View style={containerStyle}>
-      {/** title */}
-      <Text style={styles.title}>{title}</Text>
-
       {/** value */}
       <Text style={styles.value}>{value.toUSDString(value)}</Text>
 
