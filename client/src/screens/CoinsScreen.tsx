@@ -10,7 +10,7 @@ import useDebounce from '../hooks/useDebounce';
 import SafeView from '../components/SafeView';
 import GenericList from '../components/GenericList';
 import DataListItem from '../components/DataListItem';
-import CoinBottomSheetModal from '../components/CoinBottomSheet';
+import CoinBottomSheet from '../components/CoinBottomSheet';
 
 const CoinsScreen = () => {
   const dispatch = useAppDispatch();
@@ -69,7 +69,7 @@ const CoinsScreen = () => {
       </SafeView>
 
       {selectedCoin && showCoinModal && (
-        <CoinBottomSheetModal
+        <CoinBottomSheet
           isVisible={showCoinModal}
           onDismiss={handleToggleShowCoinModal}
           coin={selectedCoin}
