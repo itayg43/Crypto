@@ -11,7 +11,7 @@ export const getCoinsAsync = () => async (dispatch: AppDispatch) => {
     const normalizedCoins = normalizeCoins(coins);
     dispatch(getCoinsSuccess(normalizedCoins));
   } catch (error) {
-    const message = errorHandler.extractErrorMessage(error);
+    const message = errorHandler.extractMessage(error);
     dispatch(getCoinsFail(message));
   }
 };

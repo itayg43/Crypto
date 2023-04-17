@@ -15,7 +15,7 @@ export const getHoldingsAsync = () => async (dispatch: AppDispatch) => {
     const normalizedHoldings = normalizeHoldings(holdings);
     dispatch(getHoldingsSuccess(normalizedHoldings));
   } catch (error) {
-    const message = errorHandler.extractErrorMessage(error);
+    const message = errorHandler.extractMessage(error);
     dispatch(getHoldingsFail(message));
   }
 };

@@ -1,17 +1,17 @@
 import axios from 'axios';
 
-const defaultErrorMessage =
+const defaultMessage =
   'Something went wrong, please try again in a few minutes or contact support.';
 
-const extractErrorMessage = (error: any) => {
+const extractMessage = (error: any) => {
   if (process.env.NODE_ENV === 'development') {
     console.error(error);
   }
   const isAxiosError = axios.isAxiosError(error);
   const message = isAxiosError ? error.response?.data.message : error?.message;
-  return message || defaultErrorMessage;
+  return message || defaultMessage;
 };
 
 export default {
-  extractErrorMessage,
+  extractMessage,
 };
