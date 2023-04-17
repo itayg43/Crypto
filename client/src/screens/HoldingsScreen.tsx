@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import {StyleSheet} from 'react-native';
 
 import {useAppSelector} from '../hooks/useAppSelector';
@@ -7,16 +7,35 @@ import {
   selectHoldingsValue,
   selectHoldingsValueChangePercentageIn7Days,
 } from '../redux/holdings/holdingsSelectors';
+import {Holding} from '../entities/Holding';
 import SafeView from '../components/SafeView';
 import HoldingsInfo from '../components/HoldingsInfo';
 import GenericList from '../components/GenericList';
 import DataListItem from '../components/DataListItem';
+import CoinBottomSheet from '../components/CoinBottomSheet';
 
 const HoldingsScreen = () => {
   const holdings = useAppSelector(selectHoldings);
   const holdingsValue = useAppSelector(selectHoldingsValue);
   const holdingsValueChangePercentage = useAppSelector(
     selectHoldingsValueChangePercentageIn7Days,
+  );
+
+  const [selectedHolding, setSelectedHolding] = useState<Holding | null>(null);
+  const [showBottomSheet, setShowBottomSheet] = useState<boolean>(false);
+
+  const handleToggleShowBottomSheet = useCallback(() => {
+    setShowBottomSheet(currentState => !currentState);
+  }, [setShowBottomSheet]);
+
+  const handleHoldingSelection = useCallback(
+    (holding: Holding) => {
+      setSelectedHolding(currentHolding =>
+        currentHolding?.id !== holding.id ? holding : currentHolding,
+      );
+      handleToggleShowBottomSheet();
+    },
+    [setSelectedHolding, handleToggleShowBottomSheet],
   );
 
   return (
@@ -31,8 +50,21 @@ const HoldingsScreen = () => {
         containerStyle={styles.holdingList}
         items={holdings}
         keyExtractor={item => item.id}
-        renderItem={item => <DataListItem item={item} onSelect={() => null} />}
+        renderItem={item => (
+          <DataListItem
+            item={item}
+            onSelect={() => handleHoldingSelection(item)}
+          />
+        )}
       />
+
+      {selectedHolding && showBottomSheet && (
+        <CoinBottomSheet
+          isVisible={showBottomSheet}
+          onDismiss={handleToggleShowBottomSheet}
+          item={selectedHolding}
+        />
+      )}
     </SafeView>
   );
 };

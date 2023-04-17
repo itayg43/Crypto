@@ -7,16 +7,14 @@ import {Holding} from '../entities/Holding';
 
 interface Props {
   item: Coin | Holding;
-  onSelect: (id: string) => void;
+  onSelect: () => void;
 }
 
 const DataListItem = ({item, onSelect}: Props) => {
   const isHoldingInstance = item instanceof Holding;
 
   return (
-    <TouchableOpacity
-      style={styles.container}
-      onPress={() => onSelect(item.id)}>
+    <TouchableOpacity style={styles.container} onPress={onSelect}>
       <LeftSection
         rank={item.marketCapRank}
         logoURL={item.logoURL}

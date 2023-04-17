@@ -3,26 +3,35 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {Coin} from '../entities/Coin';
+import {Holding} from '../entities/Holding';
 import BottomSheet from './BottomSheet';
 import LineChart from './LineChart';
 
 interface Props {
   isVisible: boolean;
   onDismiss: () => void;
-  coin: Coin;
+  item: Coin | Holding;
 }
 
-const CoinBottomSheet = ({isVisible, onDismiss, coin}: Props) => {
+const CoinBottomSheet = ({isVisible, onDismiss, item}: Props) => {
+  const isHoldingInstance = item instanceof Holding;
+
   return (
     <BottomSheet isVisible={isVisible} onDismiss={onDismiss}>
       <HeaderSection
-        logoURL={coin.logoURL}
-        name={coin.name}
-        symbol={coin.symbol}
-        priceChangePercentage={coin.priceChangePercentageIn7Days}
+        logoURL={item.logoURL}
+        name={item.name}
+        symbol={item.symbol}
+        priceChangePercentage={item.priceChangePercentageIn7Days}
       />
 
-      <LineChart data={coin.priceSparklineIn7Days} />
+      <LineChart
+        data={
+          isHoldingInstance
+            ? item.valueSparklineIn7Days
+            : item.priceSparklineIn7Days
+        }
+      />
     </BottomSheet>
   );
 };

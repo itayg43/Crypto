@@ -4,8 +4,9 @@ import {useNavigation} from '@react-navigation/native';
 import {CoinsScreenNavigationProp} from '../navigation/CoinsStackNavigator';
 import {useAppDispatch} from '../hooks/useAppDispatch';
 import {useAppSelector} from '../hooks/useAppSelector';
-import {selectFilteredCoins, selectCoin} from '../redux/coins/coinsSelectors';
-import {updateEntityId, updateSearchQuery} from '../redux/coins/coinsSlice';
+import {selectFilteredCoins} from '../redux/coins/coinsSelectors';
+import {updateSearchQuery} from '../redux/coins/coinsSlice';
+import {Coin} from '../entities/Coin';
 import useDebounce from '../hooks/useDebounce';
 import SafeView from '../components/SafeView';
 import GenericList from '../components/GenericList';
@@ -17,22 +18,24 @@ const CoinsScreen = () => {
   const navigation = useNavigation<CoinsScreenNavigationProp>();
 
   const filteredCoins = useAppSelector(selectFilteredCoins);
-  const selectedCoin = useAppSelector(selectCoin);
-  const [showCoinModal, setShowCoinModal] = useState<boolean>(false);
 
+  const [selectedCoin, setSelectedCoin] = useState<Coin | null>(null);
+  const [showBottomSheet, setShowBottomSheet] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const debouncedSearchQuery = useDebounce(searchQuery);
 
-  const handleToggleShowCoinModal = useCallback(() => {
-    setShowCoinModal(currentState => !currentState);
-  }, [setShowCoinModal]);
+  const handleToggleShowBottomSheet = useCallback(() => {
+    setShowBottomSheet(currentState => !currentState);
+  }, [setShowBottomSheet]);
 
   const handleCoinSelection = useCallback(
-    (id: string) => {
-      dispatch(updateEntityId(id));
-      handleToggleShowCoinModal();
+    (coin: Coin) => {
+      setSelectedCoin(currentCoin =>
+        currentCoin?.id !== coin.id ? coin : currentCoin,
+      );
+      handleToggleShowBottomSheet();
     },
-    [dispatch, handleToggleShowCoinModal],
+    [setSelectedCoin, handleToggleShowBottomSheet],
   );
 
   const handleUpdateSearchQuery = useCallback(
@@ -62,17 +65,20 @@ const CoinsScreen = () => {
             items={filteredCoins}
             keyExtractor={item => item.id}
             renderItem={item => (
-              <DataListItem item={item} onSelect={handleCoinSelection} />
+              <DataListItem
+                item={item}
+                onSelect={() => handleCoinSelection(item)}
+              />
             )}
           />
         )}
       </SafeView>
 
-      {selectedCoin && showCoinModal && (
+      {selectedCoin && showBottomSheet && (
         <CoinBottomSheet
-          isVisible={showCoinModal}
-          onDismiss={handleToggleShowCoinModal}
-          coin={selectedCoin}
+          isVisible={showBottomSheet}
+          onDismiss={handleToggleShowBottomSheet}
+          item={selectedCoin}
         />
       )}
     </>
