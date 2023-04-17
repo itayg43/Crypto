@@ -3,14 +3,16 @@ import {StyleSheet} from 'react-native';
 
 import {useAppSelector} from '../hooks/useAppSelector';
 import {
+  selectHoldings,
   selectHoldingsValue,
   selectHoldingsValueChangePercentageIn7Days,
 } from '../redux/holdings/holdingsSelectors';
 import SafeView from '../components/SafeView';
 import HoldingsInfo from '../components/HoldingsInfo';
-import LineChart from '../components/LineChart';
+import DataList from '../components/DataList';
 
 const HoldingsScreen = () => {
+  const holdings = useAppSelector(selectHoldings);
   const holdingsValue = useAppSelector(selectHoldingsValue);
   const holdingsValueChangePercentage = useAppSelector(
     selectHoldingsValueChangePercentageIn7Days,
@@ -22,6 +24,12 @@ const HoldingsScreen = () => {
         containerStyle={styles.holdingsInfo}
         value={holdingsValue}
         valueChangePercentage={holdingsValueChangePercentage}
+      />
+
+      <DataList
+        containerStyle={styles.dataListContainer}
+        listStyle={styles.dataList}
+        data={holdings}
       />
     </SafeView>
   );
@@ -35,7 +43,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 
-  lineChart: {
+  dataListContainer: {
     marginTop: 10,
+  },
+  dataList: {
+    paddingHorizontal: 10,
   },
 });

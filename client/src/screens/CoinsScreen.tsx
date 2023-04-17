@@ -9,7 +9,7 @@ import {selectFilteredCoins, selectCoin} from '../redux/coins/coinsSelectors';
 import {updateEntityId, updateSearchQuery} from '../redux/coins/coinsSlice';
 import useDebounce from '../hooks/useDebounce';
 import SafeView from '../components/SafeView';
-import CoinList from '../components/CoinList';
+import DataList from '../components/DataList';
 import CoinBottomSheetModal from '../components/CoinBottomSheetModal';
 
 const CoinsScreen = () => {
@@ -58,7 +58,7 @@ const CoinsScreen = () => {
     <>
       <SafeView>
         {filteredCoins.length > 0 && (
-          <CoinList
+          <DataList
             listStyle={styles.coinList}
             data={filteredCoins}
             onSelectItem={handleCoinSelection}

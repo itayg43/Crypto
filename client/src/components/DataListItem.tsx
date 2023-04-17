@@ -3,13 +3,16 @@ import {StyleSheet, TouchableOpacity, View, Text, Image} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {Coin} from '../entities/Coin';
+import {Holding} from '../entities/Holding';
 
 interface Props {
-  item: Coin;
-  onSelect: () => void;
+  item: Coin | Holding;
+  onSelect?: () => void;
 }
 
-const CoinListItem = ({item, onSelect}: Props) => {
+const DataListItem = ({item, onSelect}: Props) => {
+  const isHoldingInstance = item instanceof Holding;
+
   return (
     <TouchableOpacity style={styles.container} onPress={onSelect}>
       <LeftSection
@@ -19,15 +22,17 @@ const CoinListItem = ({item, onSelect}: Props) => {
         symbol={item.symbol}
       />
 
-      <RightSection
+      <MiddleSection
         price={item.price}
         priceChangePercentage={item.priceChangePercentageIn24Hours}
       />
+
+      {isHoldingInstance && <RightSection value={item.value} />}
     </TouchableOpacity>
   );
 };
 
-export default CoinListItem;
+export default DataListItem;
 
 interface LeftSectionProps {
   rank: number;
@@ -58,18 +63,18 @@ const LeftSection = ({rank, logoURL, name, symbol}: LeftSectionProps) => {
   );
 };
 
-interface RightSectionProps {
+interface MiddleSectionProps {
   price: number;
   priceChangePercentage: number;
 }
 
-const RightSection = ({price, priceChangePercentage}: RightSectionProps) => {
+const MiddleSection = ({price, priceChangePercentage}: MiddleSectionProps) => {
   const isChangePositive = priceChangePercentage >= 0;
   const changeIcon = isChangePositive ? 'arrow-up' : 'arrow-down';
   const changeColor = isChangePositive ? 'green' : 'red';
 
   return (
-    <View style={styles.rightSectionContainer}>
+    <View style={styles.middleSectionContainer}>
       {/** price */}
       <Text>{price.toUSDString(price)}</Text>
 
@@ -85,6 +90,18 @@ const RightSection = ({price, priceChangePercentage}: RightSectionProps) => {
   );
 };
 
+interface RightSectionProps {
+  value: number;
+}
+
+const RightSection = ({value}: RightSectionProps) => {
+  return (
+    <View style={styles.rightSectionContainer}>
+      <Text>{value.toUSDString(value)}</Text>
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
@@ -95,6 +112,7 @@ const styles = StyleSheet.create({
 
   // left section
   leftSectionContainer: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -117,12 +135,19 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
 
-  // right section
-  rightSectionContainer: {
+  // middle section
+  middleSectionContainer: {
+    flex: 1,
     alignItems: 'flex-end',
   },
   priceChangePercentageContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+
+  // right section
+  rightSectionContainer: {
+    flex: 1,
+    alignItems: 'flex-end',
   },
 });
