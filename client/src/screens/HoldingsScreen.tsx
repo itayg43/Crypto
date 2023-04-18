@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
 
 import {useAppSelector} from '../hooks/useAppSelector';
@@ -24,12 +24,8 @@ const HoldingsScreen = () => {
   const [selectedHolding, setSelectedHolding] = useState<Holding | null>(null);
   const [showBottomSheet, setShowBottomSheet] = useState<boolean>(false);
 
-  const handleShowBottomSheet = useCallback(() => {
-    setShowBottomSheet(true);
-  }, [setShowBottomSheet]);
-
-  const handleCloseBottomSheet = useCallback(() => {
-    setShowBottomSheet(false);
+  const handleToggleShowBottomSheet = useCallback(() => {
+    setShowBottomSheet(currentState => !currentState);
   }, [setShowBottomSheet]);
 
   const handleHoldingSelection = useCallback(
@@ -37,9 +33,9 @@ const HoldingsScreen = () => {
       setSelectedHolding(currentHolding =>
         currentHolding?.id !== holding.id ? holding : currentHolding,
       );
-      handleShowBottomSheet();
+      handleToggleShowBottomSheet();
     },
-    [setSelectedHolding, handleShowBottomSheet],
+    [setSelectedHolding, handleToggleShowBottomSheet],
   );
 
   return (
@@ -67,7 +63,7 @@ const HoldingsScreen = () => {
       {selectedHolding && showBottomSheet && (
         <CoinBottomSheet
           show={showBottomSheet}
-          onClose={handleCloseBottomSheet}
+          onClose={handleToggleShowBottomSheet}
           item={selectedHolding}
         />
       )}
