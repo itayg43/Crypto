@@ -20,7 +20,7 @@ const initialState: HoldingsState = {
   entities: {},
 };
 
-interface UpdateHoldingSuccessPayload {
+interface UpdateHoldingQuantitySuccessPayload {
   id: string;
   quantity: number;
 }
@@ -58,19 +58,19 @@ export const holdingsSlice = createSlice({
     },
 
     // update
-    updateHolding: state => {
+    updateHoldingQuantity: state => {
       state.status = ReducerStatus.loading;
       state.message = '';
     },
-    updateHoldingSuccess: (
+    updateHoldingQuantitySuccess: (
       state,
-      action: PayloadAction<UpdateHoldingSuccessPayload>,
+      action: PayloadAction<UpdateHoldingQuantitySuccessPayload>,
     ) => {
       const {id, quantity} = action.payload;
       state.status = ReducerStatus.success;
       state.entities[id].updateQuantity(quantity);
     },
-    updateHoldingFail: (state, action: PayloadAction<string>) => {
+    updateHoldingQuantityFail: (state, action: PayloadAction<string>) => {
       state.status = ReducerStatus.error;
       state.message = action.payload;
     },
@@ -98,9 +98,9 @@ export const {
   addHolding,
   addHoldingSuccess,
   addHoldingFail,
-  updateHolding,
-  updateHoldingSuccess,
-  updateHoldingFail,
+  updateHoldingQuantity,
+  updateHoldingQuantitySuccess,
+  updateHoldingQuantityFail,
   deleteHolding,
   deleteHoldingSuccess,
   deleteHoldingFail,

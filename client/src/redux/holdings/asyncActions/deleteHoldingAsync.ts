@@ -5,13 +5,13 @@ import {
   deleteHoldingFail,
 } from '../holdingsSlice';
 import errorHandler from '../../../utils/errorHandler';
-import holdingsStorage from '../../../storage/holdingsStorage';
+import holdingsService from '../../../services/holdingsService';
 
 export const deleteHoldingAsync =
   (id: string) => async (dispatch: AppDispatch) => {
     try {
       dispatch(deleteHolding());
-      await holdingsStorage.deleteHolding(id);
+      await holdingsService.deleteHolding(id);
       dispatch(deleteHoldingSuccess(id));
     } catch (error) {
       const message = errorHandler.extractMessage(error);

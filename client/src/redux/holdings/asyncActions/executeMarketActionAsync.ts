@@ -1,7 +1,7 @@
 import {AppDispatch, RootState} from '../../store';
 import {MarketAction} from '../../../enums/MarketAction';
 import {addHoldingAsync} from './addHoldingAsync';
-import {updateHoldingAsync} from './updateHoldingAsync';
+import {updateHoldingQuantityAsync} from './updateHoldingQuantityAsync';
 import {deleteHoldingAsync} from './deleteHoldingAsync';
 
 export const executeMarketActionAsync =
@@ -14,13 +14,13 @@ export const executeMarketActionAsync =
     }
     switch (action) {
       case MarketAction.buy: {
-        return dispatch(updateHoldingAsync(action, id, quantity));
+        return dispatch(updateHoldingQuantityAsync(action, id, quantity));
       }
 
       case MarketAction.sell: {
         return holding.quantity === quantity
           ? dispatch(deleteHoldingAsync(id))
-          : dispatch(updateHoldingAsync(action, id, quantity));
+          : dispatch(updateHoldingQuantityAsync(action, id, quantity));
       }
     }
   };

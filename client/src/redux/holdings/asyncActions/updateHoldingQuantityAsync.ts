@@ -1,27 +1,27 @@
 import {AppDispatch, RootState} from '../../store';
 import {
-  updateHolding,
-  updateHoldingSuccess,
-  updateHoldingFail,
+  updateHoldingQuantity,
+  updateHoldingQuantitySuccess,
+  updateHoldingQuantityFail,
 } from '../holdingsSlice';
 import errorHandler from '../../../utils/errorHandler';
-import holdingsStorage from '../../../storage/holdingsStorage';
+import holdingsService from '../../../services/holdingsService';
 import {MarketAction} from '../../../enums/MarketAction';
 
-export const updateHoldingAsync =
+export const updateHoldingQuantityAsync =
   (marketAction: MarketAction, id: string, quantity: number) =>
   async (dispatch: AppDispatch, getState: () => RootState) => {
     try {
-      dispatch(updateHolding());
+      dispatch(updateHoldingQuantity());
       const currentQuantity = getState().holdings.entities[id].quantity;
       const updatedQuantity =
         marketAction === MarketAction.buy
           ? currentQuantity + quantity
           : currentQuantity - quantity;
-      await holdingsStorage.updateHolding(id, updatedQuantity);
-      dispatch(updateHoldingSuccess({id, quantity: updatedQuantity}));
+      await holdingsService.updateHoldingQuantity(id, updatedQuantity);
+      dispatch(updateHoldingQuantitySuccess({id, quantity: updatedQuantity}));
     } catch (error) {
       const message = errorHandler.extractMessage(error);
-      dispatch(updateHoldingFail(message));
+      dispatch(updateHoldingQuantityFail(message));
     }
   };
