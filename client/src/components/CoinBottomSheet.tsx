@@ -11,12 +11,12 @@ import BottomSheet from './BottomSheet';
 import LineChart from './LineChart';
 
 interface Props {
-  isVisible: boolean;
+  show: boolean;
   onClose: () => void;
   item: Coin | Holding;
 }
 
-const CoinBottomSheet = ({isVisible, onClose, item}: Props) => {
+const CoinBottomSheet = ({show, onClose, item}: Props) => {
   const dispatch = useAppDispatch();
 
   const isHoldingInstance = item instanceof Holding;
@@ -29,7 +29,7 @@ const CoinBottomSheet = ({isVisible, onClose, item}: Props) => {
   );
 
   return (
-    <BottomSheet isVisible={isVisible} onClose={onClose}>
+    <BottomSheet show={show} onClose={onClose}>
       <HeaderSection
         logoURL={item.logoURL}
         name={item.name}

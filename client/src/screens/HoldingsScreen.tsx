@@ -66,7 +66,7 @@ const HoldingsScreen = () => {
 
       {selectedHolding && showBottomSheet && (
         <CoinBottomSheet
-          isVisible={showBottomSheet}
+          show={showBottomSheet}
           onClose={handleCloseBottomSheet}
           item={selectedHolding}
         />

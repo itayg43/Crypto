@@ -3,11 +3,11 @@ import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
 interface Props {
   children: React.ReactNode;
-  isVisible: boolean;
+  show: boolean;
   onClose: () => void;
 }
 
-const BottomSheet = ({children, isVisible, onClose}: Props) => {
+const BottomSheet = ({children, show, onClose}: Props) => {
   const modalRef = useRef<BottomSheetModal>(null);
   const modalSnapPoints = ['55%'];
 
@@ -16,12 +16,12 @@ const BottomSheet = ({children, isVisible, onClose}: Props) => {
   }, [modalRef]);
 
   useEffect(() => {
-    if (isVisible) {
+    if (show) {
       handlePresetModal();
     }
 
     return () => onClose();
-  }, [isVisible, handlePresetModal]);
+  }, [show, handlePresetModal]);
 
   return (
     <BottomSheetModalProvider>
