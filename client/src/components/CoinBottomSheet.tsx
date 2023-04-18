@@ -12,11 +12,11 @@ import LineChart from './LineChart';
 
 interface Props {
   show: boolean;
-  onClose: () => void;
+  onDismiss: () => void;
   item: Coin | Holding;
 }
 
-const CoinBottomSheet = ({show, onClose, item}: Props) => {
+const CoinBottomSheet = ({show, onDismiss, item}: Props) => {
   const dispatch = useAppDispatch();
 
   const isHoldingInstance = item instanceof Holding;
@@ -24,12 +24,13 @@ const CoinBottomSheet = ({show, onClose, item}: Props) => {
   const handleMarketAction = useCallback(
     (marketAction: MarketAction, quantity: number) => {
       dispatch(executeMarketActionAsync(marketAction, item.id, quantity));
+      onDismiss();
     },
-    [dispatch],
+    [dispatch, onDismiss],
   );
 
   return (
-    <BottomSheet show={show} onClose={onClose}>
+    <BottomSheet show={show} onDismiss={onDismiss}>
       <HeaderSection
         logoURL={item.logoURL}
         name={item.name}

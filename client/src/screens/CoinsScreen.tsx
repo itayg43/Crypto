@@ -27,8 +27,12 @@ const CoinsScreen = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const debouncedSearchQuery = useDebounce(searchQuery);
 
-  const handleToggleShowBottomSheet = useCallback(() => {
-    setShowBottomSheet(currentState => !currentState);
+  const handleShowBottomSheet = useCallback(() => {
+    setShowBottomSheet(true);
+  }, [setShowBottomSheet]);
+
+  const handleDismissBottomSheet = useCallback(() => {
+    setShowBottomSheet(false);
   }, [setShowBottomSheet]);
 
   const handleCoinSelection = useCallback(
@@ -36,9 +40,9 @@ const CoinsScreen = () => {
       setSelectedCoin(currentCoin =>
         currentCoin?.id !== coin.id ? coin : currentCoin,
       );
-      handleToggleShowBottomSheet();
+      handleShowBottomSheet();
     },
-    [setSelectedCoin, handleToggleShowBottomSheet],
+    [setSelectedCoin, handleShowBottomSheet],
   );
 
   const handleUpdateSearchQuery = useCallback(
@@ -81,7 +85,7 @@ const CoinsScreen = () => {
       {selectedCoin && showBottomSheet && (
         <CoinBottomSheet
           show={showBottomSheet}
-          onClose={handleToggleShowBottomSheet}
+          onDismiss={handleDismissBottomSheet}
           item={selectedCoin}
         />
       )}
