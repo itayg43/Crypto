@@ -9,7 +9,7 @@ interface Props {
 
 const BottomSheet = ({children, isVisible, onClose}: Props) => {
   const modalRef = useRef<BottomSheetModal>(null);
-  const modalSnapPoints = ['50%'];
+  const modalSnapPoints = ['55%'];
 
   const handlePresetModal = useCallback(() => {
     modalRef.current?.present();

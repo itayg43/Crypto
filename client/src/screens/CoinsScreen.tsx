@@ -51,7 +51,7 @@ const CoinsScreen = () => {
   useEffect(() => {
     if (isFirstRender) return;
     handleUpdateSearchQuery(debouncedSearchQuery);
-  }, [isFirstRender, debouncedSearchQuery, handleUpdateSearchQuery]);
+  }, [debouncedSearchQuery, handleUpdateSearchQuery]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
