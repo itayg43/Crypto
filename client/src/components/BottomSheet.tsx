@@ -4,10 +4,10 @@ import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 interface Props {
   children: React.ReactNode;
   isVisible: boolean;
-  onDismiss: () => void;
+  onClose: () => void;
 }
 
-const BottomSheet = ({children, isVisible, onDismiss}: Props) => {
+const BottomSheet = ({children, isVisible, onClose}: Props) => {
   const modalRef = useRef<BottomSheetModal>(null);
   const modalSnapPoints = ['50%'];
 
@@ -20,7 +20,7 @@ const BottomSheet = ({children, isVisible, onDismiss}: Props) => {
       handlePresetModal();
     }
 
-    return () => onDismiss();
+    return () => onClose();
   }, [isVisible, handlePresetModal]);
 
   return (

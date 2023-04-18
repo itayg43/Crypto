@@ -39,33 +39,35 @@ const HoldingsScreen = () => {
   );
 
   return (
-    <SafeView>
-      <HoldingsInfo
-        containerStyle={styles.holdingsInfo}
-        value={holdingsValue}
-        valueChangePercentage={holdingsValueChangePercentage}
-      />
+    <>
+      <SafeView>
+        <HoldingsInfo
+          containerStyle={styles.holdingsInfo}
+          value={holdingsValue}
+          valueChangePercentage={holdingsValueChangePercentage}
+        />
 
-      <GenericList
-        containerStyle={styles.holdingList}
-        items={holdings}
-        keyExtractor={item => item.id}
-        renderItem={item => (
-          <CoinListItem
-            item={item}
-            onSelect={() => handleHoldingSelection(item)}
-          />
-        )}
-      />
+        <GenericList
+          containerStyle={styles.holdingList}
+          items={holdings}
+          keyExtractor={item => item.id}
+          renderItem={item => (
+            <CoinListItem
+              item={item}
+              onSelect={() => handleHoldingSelection(item)}
+            />
+          )}
+        />
+      </SafeView>
 
       {selectedHolding && showBottomSheet && (
         <CoinBottomSheet
           isVisible={showBottomSheet}
-          onDismiss={handleToggleShowBottomSheet}
+          onClose={handleToggleShowBottomSheet}
           item={selectedHolding}
         />
       )}
-    </SafeView>
+    </>
   );
 };
 

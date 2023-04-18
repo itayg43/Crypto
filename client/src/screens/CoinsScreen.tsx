@@ -81,7 +81,7 @@ const CoinsScreen = () => {
       {selectedCoin && showBottomSheet && (
         <CoinBottomSheet
           isVisible={showBottomSheet}
-          onDismiss={handleToggleShowBottomSheet}
+          onClose={handleToggleShowBottomSheet}
           item={selectedCoin}
         />
       )}

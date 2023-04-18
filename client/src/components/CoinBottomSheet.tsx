@@ -9,15 +9,15 @@ import LineChart from './LineChart';
 
 interface Props {
   isVisible: boolean;
-  onDismiss: () => void;
+  onClose: () => void;
   item: Coin | Holding;
 }
 
-const CoinBottomSheet = ({isVisible, onDismiss, item}: Props) => {
+const CoinBottomSheet = ({isVisible, onClose, item}: Props) => {
   const isHoldingInstance = item instanceof Holding;
 
   return (
-    <BottomSheet isVisible={isVisible} onDismiss={onDismiss}>
+    <BottomSheet isVisible={isVisible} onClose={onClose}>
       <HeaderSection
         logoURL={item.logoURL}
         name={item.name}
