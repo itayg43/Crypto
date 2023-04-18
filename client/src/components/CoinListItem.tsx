@@ -114,7 +114,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
 
-  // left section
   nameSectionContainer: {
     flex: 1,
     flexDirection: 'row',
@@ -139,7 +138,6 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
 
-  // middle section
   priceSectionContainer: {
     flex: 1,
     alignItems: 'flex-end',
@@ -149,7 +147,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
-  // right section
   valueSectionContainer: {
     flex: 1,
     alignItems: 'flex-end',
