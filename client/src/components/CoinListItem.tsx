@@ -101,7 +101,7 @@ const ValueSection = ({value, quantity}: ValueSectionProps) => {
   return (
     <View style={styles.valueSectionContainer}>
       <Text>{value.toUSDString(value)}</Text>
-      <Text>x{quantity}</Text>
+      <Text style={styles.quantity}>x{quantity}</Text>
     </View>
   );
 };
@@ -150,5 +150,8 @@ const styles = StyleSheet.create({
   valueSectionContainer: {
     flex: 1,
     alignItems: 'flex-end',
+  },
+  quantity: {
+    color: 'gray',
   },
 });
