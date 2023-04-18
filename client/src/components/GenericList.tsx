@@ -24,7 +24,7 @@ const GenericList = <T extends unknown>({
         data={items}
         keyExtractor={keyExtractor}
         renderItem={({item, index}) => renderItem(item, index)}
-        estimatedItemSize={items.length}
+        estimatedItemSize={items.length > 0 ? items.length : 1}
         ItemSeparatorComponent={Divider}
         ListFooterComponent={Footer}
       />
@@ -54,7 +54,6 @@ const styles = StyleSheet.create({
   divider: {
     height: StyleSheet.hairlineWidth,
     backgroundColor: 'gray',
-    marginLeft: 25,
   },
 
   footer: {

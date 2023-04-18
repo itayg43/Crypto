@@ -8,9 +8,7 @@ export class Coin {
   symbol: string;
   name: string;
   logoURL: string;
-  marketCapRank: number;
   price: number;
-  priceChangePercentageIn24Hours: number;
   priceChangePercentageIn7Days: number;
   price7DaysAgo: number;
   priceSparklineIn7Days: Sparkline[];
@@ -20,9 +18,7 @@ export class Coin {
     this.symbol = j.symbol;
     this.name = j.name;
     this.logoURL = j.image;
-    this.marketCapRank = j.market_cap_rank;
     this.price = j.current_price;
-    this.priceChangePercentageIn24Hours = j.price_change_percentage_24h;
     this.priceChangePercentageIn7Days =
       j.price_change_percentage_7d_in_currency;
     this.price7DaysAgo = this._initPrice7DaysAgo();

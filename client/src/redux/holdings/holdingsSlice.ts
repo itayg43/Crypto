@@ -20,6 +20,11 @@ const initialState: HoldingsState = {
   entities: {},
 };
 
+interface UpdateHoldingSuccessPayload {
+  id: string;
+  quantity: number;
+}
+
 export const holdingsSlice = createSlice({
   name: 'holdings',
   initialState,
@@ -36,10 +41,69 @@ export const holdingsSlice = createSlice({
       state.status = ReducerStatus.error;
       state.message = action.payload;
     },
+
+    // add
+    addHolding: state => {
+      state.status = ReducerStatus.loading;
+      state.message = '';
+    },
+    addHoldingSuccess: (state, action: PayloadAction<Holding>) => {
+      const holding = action.payload;
+      state.status = ReducerStatus.success;
+      state.entities[holding.id] = holding;
+    },
+    addHoldingFail: (state, action: PayloadAction<string>) => {
+      state.status = ReducerStatus.error;
+      state.message = action.payload;
+    },
+
+    // update
+    updateHolding: state => {
+      state.status = ReducerStatus.loading;
+      state.message = '';
+    },
+    updateHoldingSuccess: (
+      state,
+      action: PayloadAction<UpdateHoldingSuccessPayload>,
+    ) => {
+      const {id, quantity} = action.payload;
+      state.status = ReducerStatus.success;
+      state.entities[id].updateQuantity(quantity);
+    },
+    updateHoldingFail: (state, action: PayloadAction<string>) => {
+      state.status = ReducerStatus.error;
+      state.message = action.payload;
+    },
+
+    // delete
+    deleteHolding: state => {
+      state.status = ReducerStatus.loading;
+      state.message = '';
+    },
+    deleteHoldingSuccess: (state, action: PayloadAction<string>) => {
+      state.status = ReducerStatus.success;
+      delete state.entities[action.payload];
+    },
+    deleteHoldingFail: (state, action: PayloadAction<string>) => {
+      state.status = ReducerStatus.error;
+      state.message = action.payload;
+    },
   },
 });
 
-export const {getHoldings, getHoldingsSuccess, getHoldingsFail} =
-  holdingsSlice.actions;
+export const {
+  getHoldings,
+  getHoldingsSuccess,
+  getHoldingsFail,
+  addHolding,
+  addHoldingSuccess,
+  addHoldingFail,
+  updateHolding,
+  updateHoldingSuccess,
+  updateHoldingFail,
+  deleteHolding,
+  deleteHoldingSuccess,
+  deleteHoldingFail,
+} = holdingsSlice.actions;
 
 export default holdingsSlice.reducer;

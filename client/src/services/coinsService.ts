@@ -4591,14 +4591,16 @@ const getCoins = async () => {
   return demoData.map(dataJSON => new Coin(dataJSON));
 };
 
-const getCoinsJSONByIds = async (ids: string) => {
+const getCoinsByIds = async (ids: string) => {
   // const {data} = await coinGeckoClient.get<CoinJSON[]>(
   //   `/coins/markets?vs_currency=usd&ids=${ids}&order=market_cap_desc&per_page=25&page=1&sparkline=true&price_change_percentage=7d&locale=en`,
   // );
-  return demoData.filter(dataJSON => ids.includes(dataJSON.id));
+  return demoData
+    .filter(dataJSON => ids.includes(dataJSON.id))
+    .map(dataJSON => new Coin(dataJSON));
 };
 
 export default {
   getCoins,
-  getCoinsJSONByIds,
+  getCoinsByIds,
 };

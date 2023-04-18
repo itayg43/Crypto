@@ -16,7 +16,6 @@ const CoinListItem = ({item, onSelect}: Props) => {
   return (
     <TouchableOpacity style={styles.container} onPress={onSelect}>
       <NameSection
-        rank={item.marketCapRank}
         logoURL={item.logoURL}
         name={item.name}
         symbol={item.symbol}
@@ -24,11 +23,11 @@ const CoinListItem = ({item, onSelect}: Props) => {
 
       <PriceSection
         price={item.price}
-        priceChangePercentage={item.priceChangePercentageIn24Hours}
+        priceChangePercentage={item.priceChangePercentageIn7Days}
       />
 
       {isHoldingInstance && (
-        <ValueSection value={item.value} quantity={item.quantity} />
+        <ValueSection value={item.getValue()} quantity={item.quantity} />
       )}
     </TouchableOpacity>
   );
@@ -37,20 +36,14 @@ const CoinListItem = ({item, onSelect}: Props) => {
 export default CoinListItem;
 
 interface NameSectionProps {
-  rank: number;
   logoURL: string;
   name: string;
   symbol: string;
 }
 
-const NameSection = ({rank, logoURL, name, symbol}: NameSectionProps) => {
+const NameSection = ({logoURL, name, symbol}: NameSectionProps) => {
   return (
     <View style={styles.nameSectionContainer}>
-      {/** rank */}
-      <View style={styles.rankContainer}>
-        <Text>{rank.toString()}</Text>
-      </View>
-
       {/** logo */}
       <View style={styles.logoContaienr}>
         <Image style={styles.logo} source={{uri: logoURL}} />
@@ -125,7 +118,6 @@ const styles = StyleSheet.create({
   logoContaienr: {
     width: 30,
     height: 30,
-    marginLeft: 10,
   },
   logo: {
     width: '100%',

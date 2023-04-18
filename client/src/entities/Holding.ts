@@ -1,33 +1,35 @@
 import {Coin} from './Coin';
-import {CoinJSON} from '../interfaces/CoinJSON';
-import {Sparkline} from '../interfaces/Sparkline';
 
-export class Holding extends Coin {
+export class Holding {
+  id: string;
+  symbol: string;
+  name: string;
+  logoURL: string;
+  price: number;
+  priceChangePercentageIn7Days: number;
+  price7DaysAgo: number;
   quantity: number;
-  value: number;
-  valueChangeIn7Days: number;
-  valueSparklineIn7Days: Sparkline[];
 
-  constructor(j: CoinJSON, quantity: number) {
-    super(j);
+  constructor(coin: Coin, quantity: number) {
+    this.id = coin.id;
+    this.symbol = coin.symbol;
+    this.name = coin.name;
+    this.logoURL = coin.logoURL;
+    this.price = coin.price;
+    this.priceChangePercentageIn7Days = coin.priceChangePercentageIn7Days;
+    this.price7DaysAgo = coin.price7DaysAgo;
     this.quantity = quantity;
-    this.value = this._initValue();
-    this.valueChangeIn7Days = this._initValueChangeIn7Days();
-    this.valueSparklineIn7Days = this._initValueSparklineIn7Days();
   }
 
-  private _initValue() {
+  getValue() {
     return this.price * this.quantity;
   }
 
-  private _initValueChangeIn7Days() {
+  getValueChangeIn7Days() {
     return (this.price - this.price7DaysAgo) * this.quantity;
   }
 
-  private _initValueSparklineIn7Days(): Sparkline[] {
-    return this.priceSparklineIn7Days.map(v => ({
-      x: v.x,
-      y: v.y * this.quantity,
-    }));
+  updateQuantity(quantity: number) {
+    this.quantity = quantity;
   }
 }

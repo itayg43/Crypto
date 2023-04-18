@@ -13,13 +13,13 @@ export const selectHoldings = (state: RootState) =>
   Object.values(state.holdings.entities);
 
 export const selectHoldingsValue = createSelector(selectHoldings, holdings => {
-  return holdings.reduce((sum, h) => sum + h.value, 0);
+  return holdings.reduce((sum, h) => sum + h.getValue(), 0);
 });
 
 export const selectHoldingsValueChangeIn7Days = createSelector(
   selectHoldings,
   holdings => {
-    return holdings.reduce((sum, h) => sum + h.valueChangeIn7Days, 0);
+    return holdings.reduce((sum, h) => sum + h.getValueChangeIn7Days(), 0);
   },
 );
 

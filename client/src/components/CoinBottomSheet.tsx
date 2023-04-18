@@ -3,15 +3,12 @@ import {Button, Image, StyleSheet, Text, View} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {useAppDispatch} from '../hooks/useAppDispatch';
+import {executeMarketActionAsync} from '../redux/holdings/asyncActions/executeMarketActionAsync';
 import {Coin} from '../entities/Coin';
 import {Holding} from '../entities/Holding';
+import {MarketAction} from '../enums/MarketAction';
 import BottomSheet from './BottomSheet';
 import LineChart from './LineChart';
-
-export enum MarketAction {
-  buy,
-  sell,
-}
 
 interface Props {
   isVisible: boolean;
@@ -25,7 +22,9 @@ const CoinBottomSheet = ({isVisible, onClose, item}: Props) => {
   const isHoldingInstance = item instanceof Holding;
 
   const handleMarketAction = useCallback(
-    (action: MarketAction, quantity: number) => {},
+    (marketAction: MarketAction, quantity: number) => {
+      dispatch(executeMarketActionAsync(marketAction, item.id, quantity));
+    },
     [dispatch],
   );
 
@@ -38,13 +37,7 @@ const CoinBottomSheet = ({isVisible, onClose, item}: Props) => {
         priceChangePercentage={item.priceChangePercentageIn7Days}
       />
 
-      <LineChart
-        data={
-          isHoldingInstance
-            ? item.valueSparklineIn7Days
-            : item.priceSparklineIn7Days
-        }
-      />
+      {!isHoldingInstance && <LineChart data={item.priceSparklineIn7Days} />}
 
       <ActionSection
         enableSellAction={isHoldingInstance}
