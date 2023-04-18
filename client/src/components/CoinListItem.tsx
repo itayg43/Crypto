@@ -10,42 +10,42 @@ interface Props {
   onSelect: () => void;
 }
 
-const DataListItem = ({item, onSelect}: Props) => {
+const CoinListItem = ({item, onSelect}: Props) => {
   const isHoldingInstance = item instanceof Holding;
 
   return (
     <TouchableOpacity style={styles.container} onPress={onSelect}>
-      <LeftSection
+      <NameSection
         rank={item.marketCapRank}
         logoURL={item.logoURL}
         name={item.name}
         symbol={item.symbol}
       />
 
-      <MiddleSection
+      <PriceSection
         price={item.price}
         priceChangePercentage={item.priceChangePercentageIn24Hours}
       />
 
       {isHoldingInstance && (
-        <RightSection value={item.value} quantity={item.quantity} />
+        <ValueSection value={item.value} quantity={item.quantity} />
       )}
     </TouchableOpacity>
   );
 };
 
-export default DataListItem;
+export default CoinListItem;
 
-interface LeftSectionProps {
+interface NameSectionProps {
   rank: number;
   logoURL: string;
   name: string;
   symbol: string;
 }
 
-const LeftSection = ({rank, logoURL, name, symbol}: LeftSectionProps) => {
+const NameSection = ({rank, logoURL, name, symbol}: NameSectionProps) => {
   return (
-    <View style={styles.leftSectionContainer}>
+    <View style={styles.nameSectionContainer}>
       {/** rank */}
       <View style={styles.rankContainer}>
         <Text>{rank.toString()}</Text>
@@ -65,18 +65,18 @@ const LeftSection = ({rank, logoURL, name, symbol}: LeftSectionProps) => {
   );
 };
 
-interface MiddleSectionProps {
+interface PriceSectionProps {
   price: number;
   priceChangePercentage: number;
 }
 
-const MiddleSection = ({price, priceChangePercentage}: MiddleSectionProps) => {
+const PriceSection = ({price, priceChangePercentage}: PriceSectionProps) => {
   const isChangePositive = priceChangePercentage >= 0;
   const changeIcon = isChangePositive ? 'arrow-up' : 'arrow-down';
   const changeColor = isChangePositive ? 'green' : 'red';
 
   return (
-    <View style={styles.middleSectionContainer}>
+    <View style={styles.priceSectionContainer}>
       {/** price */}
       <Text>{price.toUSDString(price)}</Text>
 
@@ -92,14 +92,14 @@ const MiddleSection = ({price, priceChangePercentage}: MiddleSectionProps) => {
   );
 };
 
-interface RightSectionProps {
+interface ValueSectionProps {
   value: number;
   quantity: number;
 }
 
-const RightSection = ({value, quantity}: RightSectionProps) => {
+const ValueSection = ({value, quantity}: ValueSectionProps) => {
   return (
-    <View style={styles.rightSectionContainer}>
+    <View style={styles.valueSectionContainer}>
       <Text>{value.toUSDString(value)}</Text>
       <Text>x{quantity}</Text>
     </View>
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   },
 
   // left section
-  leftSectionContainer: {
+  nameSectionContainer: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   },
 
   // middle section
-  middleSectionContainer: {
+  priceSectionContainer: {
     flex: 1,
     alignItems: 'flex-end',
   },
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   },
 
   // right section
-  rightSectionContainer: {
+  valueSectionContainer: {
     flex: 1,
     alignItems: 'flex-end',
   },

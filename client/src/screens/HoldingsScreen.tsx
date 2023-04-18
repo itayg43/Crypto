@@ -11,7 +11,7 @@ import {Holding} from '../entities/Holding';
 import SafeView from '../components/SafeView';
 import HoldingsInfo from '../components/HoldingsInfo';
 import GenericList from '../components/GenericList';
-import DataListItem from '../components/DataListItem';
+import CoinListItem from '../components/CoinListItem';
 import CoinBottomSheet from '../components/CoinBottomSheet';
 
 const HoldingsScreen = () => {
@@ -51,7 +51,7 @@ const HoldingsScreen = () => {
         items={holdings}
         keyExtractor={item => item.id}
         renderItem={item => (
-          <DataListItem
+          <CoinListItem
             item={item}
             onSelect={() => handleHoldingSelection(item)}
           />

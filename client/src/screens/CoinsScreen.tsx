@@ -11,7 +11,7 @@ import useIsFirstRender from '../hooks/useIsFirstRender';
 import useDebounce from '../hooks/useDebounce';
 import SafeView from '../components/SafeView';
 import GenericList from '../components/GenericList';
-import DataListItem from '../components/DataListItem';
+import CoinListItem from '../components/CoinListItem';
 import CoinBottomSheet from '../components/CoinBottomSheet';
 
 const CoinsScreen = () => {
@@ -69,7 +69,7 @@ const CoinsScreen = () => {
             items={filteredCoins}
             keyExtractor={item => item.id}
             renderItem={item => (
-              <DataListItem
+              <CoinListItem
                 item={item}
                 onSelect={() => handleCoinSelection(item)}
               />
