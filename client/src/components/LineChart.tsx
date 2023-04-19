@@ -1,5 +1,13 @@
-import React, {useMemo} from 'react';
-import {StyleSheet, View, Dimensions, StyleProp, ViewStyle} from 'react-native';
+import React, {useEffect, useMemo} from 'react';
+import {
+  StyleSheet,
+  View,
+  Dimensions,
+  StyleProp,
+  ViewStyle,
+  Text,
+  Image,
+} from 'react-native';
 import {
   ChartDot,
   ChartPath,
@@ -8,52 +16,96 @@ import {
   ChartYLabel,
   monotoneCubicInterpolation,
 } from '@rainbow-me/animated-charts';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useSharedValue} from 'react-native-reanimated';
 
-import {Sparkline} from '../interfaces/Sparkline';
+import {Coin} from '../entities/Coin';
+import {Holding} from '../entities/Holding';
 
 interface Props {
   containerStyle?: StyleProp<ViewStyle>;
-  data: Sparkline[];
+  item: Coin | Holding;
 }
 
 const width = Dimensions.get('window').width;
 
-const formatPrice = (value: string) => {
-  'worklet';
-  if (Number.isNaN(value)) {
-    return '0';
-  }
-  const num = Number.parseFloat(value);
-  return `${num.toLocaleString('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  })}`;
-};
-
-const formatDate = (timestamp: number) => {
+const formatDate = (value: number) => {
   'worklet';
   const millisecond = 1000;
-  const date = new Date(timestamp * millisecond);
+  let date = new Date(value * millisecond);
+  if (date.getFullYear() === 1970) {
+    date = new Date();
+  }
   const day = `0${date.getDate()}`.slice(-2);
   const month = `0${date.getMonth() + 1}`.slice(-2);
-  return `${day}/${month}`;
+  const hour = `0${date.getHours()}`.slice(-2);
+  const minutes = `0${date.getMinutes()}`.slice(-2);
+  return `${day}/${month}, ${hour}:${minutes}`;
 };
 
-const LineChart = ({containerStyle, data}: Props) => {
+const LineChart = ({containerStyle, item}: Props) => {
+  const sharedPrice = useSharedValue(item.price);
+
   const points = useMemo(
-    () => monotoneCubicInterpolation({data, range: 40}),
-    [data],
+    () =>
+      monotoneCubicInterpolation({data: item.priceSparklineIn7Days, range: 40}),
+    [item.priceSparklineIn7Days],
   );
 
-  return (
-    <View style={[styles.container, containerStyle]}>
-      <ChartPathProvider data={{points, smoothingStrategy: 'bezier'}}>
-        <ChartPath width={width} height={250} stroke="black" strokeWidth={2} />
+  const formatPrice = (value: string) => {
+    'worklet';
+    if (value === '') {
+      return `${sharedPrice.value.toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      })}`;
+    }
+    const num = Number.parseFloat(value);
+    return `${num.toLocaleString('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    })}`;
+  };
 
-        <ChartDot>
-          <ChartTooltip />
-        </ChartDot>
+  useEffect(() => {
+    sharedPrice.value = item.price;
+  }, [item.price]);
+
+  return (
+    <View style={containerStyle}>
+      <ChartPathProvider data={{points, smoothingStrategy: 'bezier'}}>
+        {/** header */}
+        <View style={styles.headerContainer}>
+          {/** logo & name & symbol */}
+          <View style={styles.headerLeftContainer}>
+            {/** logo */}
+            <View style={styles.logoContainer}>
+              <Image style={styles.logo} source={{uri: item.logoURL}} />
+            </View>
+
+            {/** name & symbol */}
+            <View style={styles.nameContainer}>
+              <Text>{item.name}</Text>
+              <Text style={styles.symbol}>{item.symbol.toUpperCase()}</Text>
+            </View>
+          </View>
+
+          {/** price & date */}
+          <View style={styles.headerRightContainer}>
+            <ChartYLabel format={formatPrice} />
+            <ChartXLabel style={styles.date} format={formatDate} />
+          </View>
+        </View>
+
+        {/** chart */}
+        <View>
+          <ChartPath
+            width={width}
+            height={width / 2}
+            stroke="black"
+            strokeWidth={2}
+          />
+          <ChartDot style={styles.dot} />
+        </View>
       </ChartPathProvider>
     </View>
   );
@@ -61,36 +113,43 @@ const LineChart = ({containerStyle, data}: Props) => {
 
 export default LineChart;
 
-const ChartTooltip = () => {
-  return (
-    <View style={styles.tooltipContainer}>
-      {/** dot */}
-      <MaterialCommunityIcons name="circle" size={10} />
-
-      {/** date */}
-      <ChartXLabel style={styles.tooltipLabel} format={formatDate} />
-
-      {/** price */}
-      <ChartYLabel style={styles.tooltipLabel} format={formatPrice} />
-    </View>
-  );
-};
-
 const styles = StyleSheet.create({
-  container: {
-    zIndex: 1,
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    margin: 10,
   },
 
-  tooltipContainer: {
-    position: 'absolute',
-    left: -45,
-    width: 100,
+  // header left
+  headerLeftContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 4,
-    padding: 5,
-    backgroundColor: '#ddd',
   },
-  tooltipLabel: {
-    marginTop: 3,
+  logoContainer: {
+    width: 40,
+    height: 40,
+  },
+  logo: {
+    width: '100%',
+    height: '100%',
+  },
+  nameContainer: {
+    marginLeft: 10,
+  },
+  symbol: {
+    color: 'gray',
+  },
+
+  // header right
+  headerRightContainer: {
+    alignItems: 'flex-end',
+  },
+  date: {
+    color: 'gray',
+  },
+
+  dot: {
+    backgroundColor: 'black',
   },
 });

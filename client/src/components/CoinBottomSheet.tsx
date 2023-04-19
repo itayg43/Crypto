@@ -1,9 +1,7 @@
 import React, {useCallback, useState} from 'react';
-import {Button, Image, StyleSheet, Text, View} from 'react-native';
+import {Button, StyleSheet, Text, View} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import {useAppDispatch} from '../hooks/useAppDispatch';
-import {executeMarketActionAsync} from '../redux/holdings/asyncActions/executeMarketActionAsync';
 import {Coin} from '../entities/Coin';
 import {Holding} from '../entities/Holding';
 import {MarketAction} from '../enums/MarketAction';
@@ -17,109 +15,22 @@ interface Props {
 }
 
 const CoinBottomSheet = ({show, onDismiss, item}: Props) => {
-  const dispatch = useAppDispatch();
-
   const isHoldingInstance = item instanceof Holding;
-
-  const handleMarketAction = useCallback(
-    (marketAction: MarketAction, quantity: number) => {
-      dispatch(executeMarketActionAsync(marketAction, item.id, quantity));
-      onDismiss();
-    },
-    [dispatch, onDismiss],
-  );
 
   return (
     <BottomSheet show={show} onDismiss={onDismiss}>
-      <HeaderSection
-        logoURL={item.logoURL}
-        name={item.name}
-        symbol={item.symbol}
-        priceChangePercentage={item.priceChangePercentageIn7Days}
-      />
-
-      {!isHoldingInstance && <LineChart data={item.priceSparklineIn7Days} />}
+      <LineChart item={item} />
 
       <ActionSection
         enableSellAction={isHoldingInstance}
         qunatityAllowedToSell={isHoldingInstance ? item.quantity : 0}
-        onAction={handleMarketAction}
+        onAction={() => null}
       />
     </BottomSheet>
   );
 };
 
 export default CoinBottomSheet;
-
-interface HeaderSectionProps {
-  logoURL: string;
-  name: string;
-  symbol: string;
-  priceChangePercentage: number;
-}
-
-const HeaderSection = ({
-  logoURL,
-  name,
-  symbol,
-  priceChangePercentage,
-}: HeaderSectionProps) => {
-  return (
-    <View style={styles.headerSectionContainer}>
-      <HeaderLeftSection logoURL={logoURL} name={name} symbol={symbol} />
-      <HeaderRightSection priceChangePercentage={priceChangePercentage} />
-    </View>
-  );
-};
-
-interface HeaderLeftSectionProps {
-  logoURL: string;
-  name: string;
-  symbol: string;
-}
-
-const HeaderLeftSection = ({logoURL, name, symbol}: HeaderLeftSectionProps) => {
-  return (
-    <View style={styles.headerLeftSectionContainer}>
-      {/** logo */}
-      <View style={styles.logoContaienr}>
-        <Image style={styles.logo} source={{uri: logoURL}} />
-      </View>
-
-      {/** name & symbol */}
-      <View style={styles.titlesContainer}>
-        <Text>{name}</Text>
-        <Text style={styles.symbol}>{symbol.toUpperCase()}</Text>
-      </View>
-    </View>
-  );
-};
-
-interface HeaderRightSectionProps {
-  priceChangePercentage: number;
-}
-
-const HeaderRightSection = ({
-  priceChangePercentage,
-}: HeaderRightSectionProps) => {
-  const isChangePositive = priceChangePercentage >= 0;
-  const changeColor = isChangePositive ? 'green' : 'red';
-  const changeIcon = isChangePositive ? 'arrow-up' : 'arrow-down';
-
-  return (
-    <View style={styles.headerRightSectionContainer}>
-      <MaterialCommunityIcons name={changeIcon} color={changeColor} />
-
-      {/** percentage */}
-      <Text style={{color: changeColor}}>
-        {priceChangePercentage.toAbsFixedString(priceChangePercentage)}%
-      </Text>
-
-      {/** period */}
-      <Text style={styles.priceChangePercentagePeriod}>(7 Days)</Text>
-    </View>
-  );
-};
 
 enum QuantityChangeAction {
   increment,
@@ -140,11 +51,11 @@ const ActionSection = ({
   const [quantity, setQuantity] = useState<number>(0);
 
   const handleQuantityChange = useCallback(
-    (changeAction: QuantityChangeAction) => {
-      setQuantity(currentQuantity =>
-        changeAction === QuantityChangeAction.increment
-          ? currentQuantity + 1
-          : currentQuantity - 1,
+    (action: QuantityChangeAction) => {
+      setQuantity(currentValue =>
+        action === QuantityChangeAction.increment
+          ? currentValue + 1
+          : currentValue - 1,
       );
     },
     [setQuantity],
@@ -189,42 +100,6 @@ const ActionSection = ({
 };
 
 const styles = StyleSheet.create({
-  headerSectionContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginHorizontal: 10,
-    marginTop: 10,
-  },
-
-  headerLeftSectionContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  logoContaienr: {
-    width: 40,
-    height: 40,
-  },
-  logo: {
-    width: '100%',
-    height: '100%',
-  },
-  titlesContainer: {
-    marginLeft: 10,
-  },
-  symbol: {
-    color: 'gray',
-  },
-
-  headerRightSectionContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  priceChangePercentagePeriod: {
-    color: 'gray',
-    marginLeft: 5,
-  },
-
   actionSectionContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',

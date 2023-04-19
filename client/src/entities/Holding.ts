@@ -1,4 +1,5 @@
 import {Coin} from './Coin';
+import {Sparkline} from '../interfaces/Sparkline';
 
 export class Holding {
   id: string;
@@ -9,6 +10,7 @@ export class Holding {
   priceChangePercentageIn7Days: number;
   price7DaysAgo: number;
   quantity: number;
+  priceSparklineIn7Days: Sparkline[];
 
   constructor(coin: Coin, quantity: number) {
     this.id = coin.id;
@@ -18,6 +20,7 @@ export class Holding {
     this.price = coin.price;
     this.priceChangePercentageIn7Days = coin.priceChangePercentageIn7Days;
     this.price7DaysAgo = coin.price7DaysAgo;
+    this.priceSparklineIn7Days = coin.priceSparklineIn7Days;
     this.quantity = quantity;
   }
 
