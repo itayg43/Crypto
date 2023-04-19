@@ -1,13 +1,16 @@
 import React, {useCallback, useState} from 'react';
 import {StyleSheet} from 'react-native';
 
+import {useAppDispatch} from '../hooks/useAppDispatch';
 import {useAppSelector} from '../hooks/useAppSelector';
 import {
   selectHoldings,
   selectHoldingsValue,
   selectHoldingsValueChangePercentageIn7Days,
 } from '../redux/holdings/holdingsSelectors';
+import {executeMarketActionAsync} from '../redux/holdings/asyncActions/executeMarketActionAsync';
 import {Holding} from '../entities/Holding';
+import {MarketAction} from '../enums/MarketAction';
 import SafeView from '../components/SafeView';
 import HoldingsInfo from '../components/HoldingsInfo';
 import GenericList from '../components/GenericList';
@@ -15,6 +18,8 @@ import CoinListItem from '../components/CoinListItem';
 import CoinBottomSheet from '../components/CoinBottomSheet';
 
 const HoldingsScreen = () => {
+  const dispatch = useAppDispatch();
+
   const holdings = useAppSelector(selectHoldings);
   const holdingsValue = useAppSelector(selectHoldingsValue);
   const holdingsValueChangePercentage = useAppSelector(
@@ -40,6 +45,14 @@ const HoldingsScreen = () => {
       handleShowBottomSheet();
     },
     [setSelectedHolding, handleShowBottomSheet],
+  );
+
+  const handleMarketAction = useCallback(
+    (action: MarketAction, id: string, quantity: number) => {
+      dispatch(executeMarketActionAsync(action, id, quantity));
+      handleDismissBottomSheet();
+    },
+    [dispatch, handleDismissBottomSheet],
   );
 
   return (
@@ -69,6 +82,7 @@ const HoldingsScreen = () => {
           show={showBottomSheet}
           onDismiss={handleDismissBottomSheet}
           item={selectedHolding}
+          onAction={handleMarketAction}
         />
       )}
     </>

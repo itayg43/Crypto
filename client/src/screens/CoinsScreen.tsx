@@ -6,7 +6,9 @@ import {useAppDispatch} from '../hooks/useAppDispatch';
 import {useAppSelector} from '../hooks/useAppSelector';
 import {selectFilteredCoins} from '../redux/coins/coinsSelectors';
 import {updateSearchQuery} from '../redux/coins/coinsSlice';
+import {executeMarketActionAsync} from '../redux/holdings/asyncActions/executeMarketActionAsync';
 import {Coin} from '../entities/Coin';
+import {MarketAction} from '../enums/MarketAction';
 import useIsFirstRender from '../hooks/useIsFirstRender';
 import useDebounce from '../hooks/useDebounce';
 import SafeView from '../components/SafeView';
@@ -52,6 +54,14 @@ const CoinsScreen = () => {
     [dispatch],
   );
 
+  const handleMarketAction = useCallback(
+    (action: MarketAction, id: string, quantity: number) => {
+      dispatch(executeMarketActionAsync(action, id, quantity));
+      handleDismissBottomSheet();
+    },
+    [dispatch, handleDismissBottomSheet],
+  );
+
   useEffect(() => {
     if (isFirstRender) return;
     handleUpdateSearchQuery(debouncedSearchQuery);
@@ -87,6 +97,7 @@ const CoinsScreen = () => {
           show={showBottomSheet}
           onDismiss={handleDismissBottomSheet}
           item={selectedCoin}
+          onAction={handleMarketAction}
         />
       )}
     </>

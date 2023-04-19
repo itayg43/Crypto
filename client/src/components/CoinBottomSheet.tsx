@@ -8,46 +8,21 @@ import {MarketAction} from '../enums/MarketAction';
 import BottomSheet from './BottomSheet';
 import LineChart from './LineChart';
 
-interface Props {
-  show: boolean;
-  onDismiss: () => void;
-  item: Coin | Holding;
-}
-
-const CoinBottomSheet = ({show, onDismiss, item}: Props) => {
-  const isHoldingInstance = item instanceof Holding;
-
-  return (
-    <BottomSheet show={show} onDismiss={onDismiss}>
-      <LineChart item={item} />
-
-      <ActionSection
-        enableSellAction={isHoldingInstance}
-        qunatityAllowedToSell={isHoldingInstance ? item.quantity : 0}
-        onAction={() => null}
-      />
-    </BottomSheet>
-  );
-};
-
-export default CoinBottomSheet;
-
 enum QuantityChangeAction {
   increment,
   decrement,
 }
 
-interface ActionSectionProps {
-  enableSellAction: boolean;
-  qunatityAllowedToSell: number;
-  onAction: (action: MarketAction, quantity: number) => void;
+interface Props {
+  show: boolean;
+  onDismiss: () => void;
+  item: Coin | Holding;
+  onAction: (action: MarketAction, id: string, quantity: number) => void;
 }
 
-const ActionSection = ({
-  enableSellAction,
-  qunatityAllowedToSell,
-  onAction,
-}: ActionSectionProps) => {
+const CoinBottomSheet = ({show, onDismiss, item, onAction}: Props) => {
+  const isHoldingInstance = item instanceof Holding;
+
   const [quantity, setQuantity] = useState<number>(0);
 
   const handleQuantityChange = useCallback(
@@ -61,51 +36,73 @@ const ActionSection = ({
     [setQuantity],
   );
 
+  const handleMarketAction = useCallback(
+    (action: MarketAction) => {
+      onAction(action, item.id, quantity);
+    },
+    [onAction, quantity],
+  );
+
   return (
-    <View style={styles.actionSectionContainer}>
-      <View style={styles.actionQuantityContainer}>
-        <MaterialCommunityIcons
-          name="minus"
-          size={18}
-          onPress={() => handleQuantityChange(QuantityChangeAction.decrement)}
-          disabled={quantity === 0}
-        />
+    <BottomSheet show={show} onDismiss={onDismiss}>
+      <LineChart item={item} />
 
-        <Text style={styles.quantityLabel}>{quantity}</Text>
-
-        <MaterialCommunityIcons
-          name="plus"
-          size={18}
-          onPress={() => handleQuantityChange(QuantityChangeAction.increment)}
-        />
-      </View>
-
-      <View style={styles.actionButtonsContainer}>
-        <Button
-          title="Buy"
-          disabled={quantity === 0}
-          onPress={() => onAction(MarketAction.buy, quantity)}
-        />
-
-        {enableSellAction && (
-          <Button
-            title="Sell"
-            disabled={quantity === 0 || quantity > qunatityAllowedToSell}
-            onPress={() => onAction(MarketAction.sell, quantity)}
+      <View style={styles.actionContainer}>
+        {/** quantity */}
+        <View style={styles.actionQuantityContainer}>
+          <MaterialCommunityIcons
+            name="minus"
+            size={18}
+            onPress={() => handleQuantityChange(QuantityChangeAction.decrement)}
+            disabled={quantity === 0}
           />
-        )}
+
+          <Text style={styles.quantityLabel}>{quantity}</Text>
+
+          <MaterialCommunityIcons
+            name="plus"
+            size={18}
+            onPress={() => handleQuantityChange(QuantityChangeAction.increment)}
+          />
+        </View>
+
+        {/** action buttons */}
+        <View style={styles.actionButtonsContainer}>
+          <Button
+            title="Buy"
+            disabled={quantity === 0}
+            onPress={() => handleMarketAction(MarketAction.buy)}
+          />
+
+          {isHoldingInstance && (
+            <Button
+              title="Sell"
+              disabled={quantity === 0 || quantity > item.quantity}
+              onPress={() => handleMarketAction(MarketAction.sell)}
+            />
+          )}
+        </View>
       </View>
-    </View>
+    </BottomSheet>
   );
 };
 
+export default CoinBottomSheet;
+
 const styles = StyleSheet.create({
-  actionSectionContainer: {
+  actionContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 20,
+    padding: 10,
+    marginHorizontal: 10,
+    backgroundColor: '#eee',
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    marginTop: 10,
   },
+
   actionQuantityContainer: {
     flex: 1,
     flexDirection: 'row',
@@ -118,6 +115,7 @@ const styles = StyleSheet.create({
     width: 20,
     textAlign: 'center',
   },
+
   actionButtonsContainer: {
     flex: 1,
     flexDirection: 'row',
