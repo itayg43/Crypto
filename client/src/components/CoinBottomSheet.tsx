@@ -1,12 +1,13 @@
 import React, {useCallback, useState} from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {StyleSheet, Text, View} from 'react-native';
 
 import {Coin} from '../entities/Coin';
 import {Holding} from '../entities/Holding';
 import {MarketAction} from '../enums/MarketAction';
 import BottomSheet from './BottomSheet';
 import LineChart from './LineChart';
+import AppButton from './AppButton';
+import AppIconButton from './AppIconButton';
 
 enum QuantityChangeAction {
   increment,
@@ -50,33 +51,31 @@ const CoinBottomSheet = ({show, onDismiss, item, onAction}: Props) => {
       <View style={styles.actionContainer}>
         {/** quantity */}
         <View style={styles.actionQuantityContainer}>
-          <MaterialCommunityIcons
-            name="minus"
-            size={18}
-            onPress={() => handleQuantityChange(QuantityChangeAction.decrement)}
+          <AppIconButton
+            icon="minus"
             disabled={quantity === 0}
+            onPress={() => handleQuantityChange(QuantityChangeAction.decrement)}
           />
-
           <Text style={styles.quantityLabel}>{quantity}</Text>
-
-          <MaterialCommunityIcons
-            name="plus"
-            size={18}
+          <AppIconButton
+            icon="plus"
             onPress={() => handleQuantityChange(QuantityChangeAction.increment)}
           />
         </View>
 
         {/** action buttons */}
         <View style={styles.actionButtonsContainer}>
-          <Button
-            title="Buy"
+          <AppButton
+            containerStyle={styles.actionButton}
+            label="Buy"
             disabled={quantity === 0}
             onPress={() => handleMarketAction(MarketAction.buy)}
           />
 
           {isHoldingInstance && (
-            <Button
-              title="Sell"
+            <AppButton
+              containerStyle={styles.actionButton}
+              label="Sell"
               disabled={quantity === 0 || quantity > item.quantity}
               onPress={() => handleMarketAction(MarketAction.sell)}
             />
@@ -111,7 +110,7 @@ const styles = StyleSheet.create({
   },
   quantityLabel: {
     fontSize: 16,
-    marginHorizontal: 30,
+    marginHorizontal: 20,
     width: 20,
     textAlign: 'center',
   },
@@ -121,5 +120,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignItems: 'center',
+  },
+  actionButton: {
+    marginHorizontal: 3,
   },
 });
