@@ -19,14 +19,12 @@ const getHoldings = async () => {
 
 const addHolding = async (holding: Holding) => {
   let storedHoldings = await holdingsStorage.getHoldings();
-  if (!storedHoldings) return;
   storedHoldings.push(_.pick(holding, ['id', 'quantity']));
   await holdingsStorage.setHoldings(storedHoldings);
 };
 
 const updateHoldingQuantity = async (id: string, quantity: number) => {
   let storedHoldings = await holdingsStorage.getHoldings();
-  if (!storedHoldings) return;
   const updatedStoredHoldings = storedHoldings.map(h =>
     h.id === id ? {...h, quantity} : h,
   );
@@ -35,7 +33,6 @@ const updateHoldingQuantity = async (id: string, quantity: number) => {
 
 const deleteHolding = async (id: string) => {
   let storedHoldings = await holdingsStorage.getHoldings();
-  if (!storedHoldings) return;
   const updatedStoredHoldings = storedHoldings.filter(h => h.id !== id);
   await holdingsStorage.setHoldings(updatedStoredHoldings);
 };

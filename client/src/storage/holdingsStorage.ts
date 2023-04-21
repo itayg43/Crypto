@@ -11,9 +11,9 @@ const setHoldings = async (storedHoldings: StoredHolding[]) => {
   );
 };
 
-const getHoldings = async (): Promise<StoredHolding[] | null> => {
+const getHoldings = async (): Promise<StoredHolding[]> => {
   const storedHoldings = await AsyncStorage.getItem(holdingsStorageKey);
-  return storedHoldings ? JSON.parse(storedHoldings) : null;
+  return storedHoldings ? JSON.parse(storedHoldings) : [];
 };
 
 export default {
