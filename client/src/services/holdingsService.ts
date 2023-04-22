@@ -6,7 +6,7 @@ import holdingsStorage from '../storage/holdingsStorage';
 
 const getHoldings = async () => {
   const storedHoldings = await holdingsStorage.getHoldings();
-  if (!storedHoldings) {
+  if (storedHoldings.length === 0) {
     return [];
   }
   const ids = storedHoldings.map(i => i.id).join(',');
