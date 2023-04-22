@@ -67,7 +67,6 @@ const HoldingsScreen = () => {
         <GenericList
           containerStyle={styles.holdingList}
           items={holdings}
-          keyExtractor={item => item.id}
           renderItem={item => (
             <CoinListItem
               item={item}

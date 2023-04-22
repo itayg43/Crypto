@@ -81,7 +81,6 @@ const CoinsScreen = () => {
         {filteredCoins.length > 0 && (
           <GenericList
             items={filteredCoins}
-            keyExtractor={item => item.id}
             renderItem={item => (
               <CoinListItem
                 item={item}

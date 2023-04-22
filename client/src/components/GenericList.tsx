@@ -2,19 +2,21 @@ import React, {ReactElement} from 'react';
 import {StyleSheet, View, StyleProp, ViewStyle} from 'react-native';
 import {ContentStyle, FlashList} from '@shopify/flash-list';
 
+interface WithId {
+  id: string;
+}
+
 interface Props<T> {
   containerStyle?: StyleProp<ViewStyle>;
   contentContainerStyle?: ContentStyle;
   items: T[];
-  keyExtractor: (item: T) => string;
-  renderItem: (item: T, index: number) => ReactElement;
+  renderItem: (item: T) => ReactElement;
 }
 
-const GenericList = <T extends unknown>({
+const GenericList = <T extends WithId>({
   containerStyle,
   contentContainerStyle,
   items,
-  keyExtractor,
   renderItem,
 }: Props<T>) => {
   return (
@@ -22,8 +24,8 @@ const GenericList = <T extends unknown>({
       <FlashList
         contentContainerStyle={{...styles.list, ...contentContainerStyle}}
         data={items}
-        keyExtractor={keyExtractor}
-        renderItem={({item, index}) => renderItem(item, index)}
+        keyExtractor={item => item.id}
+        renderItem={({item}) => renderItem(item)}
         estimatedItemSize={items.length > 0 ? items.length : 1}
         ItemSeparatorComponent={Divider}
         ListFooterComponent={Footer}
