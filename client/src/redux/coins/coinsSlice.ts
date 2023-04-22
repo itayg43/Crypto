@@ -3,6 +3,7 @@ import type {PayloadAction} from '@reduxjs/toolkit';
 
 import {ReducerStatus} from '../../enums/ReducerStatus';
 import {Coin} from '../../entities/Coin';
+import {CoinsSort} from '../../enums/CoinsSort';
 
 interface CoinEntities {
   [s: string]: Coin;
@@ -13,6 +14,7 @@ interface CoinsState {
   message: string;
   entities: CoinEntities;
   searchQuery: string;
+  sortBy: CoinsSort;
 }
 
 const initialState: CoinsState = {
@@ -20,6 +22,7 @@ const initialState: CoinsState = {
   message: '',
   entities: {},
   searchQuery: '',
+  sortBy: CoinsSort.priceDesc,
 };
 
 export const coinsSlice = createSlice({
@@ -39,13 +42,22 @@ export const coinsSlice = createSlice({
       state.message = action.payload;
     },
 
-    updateSearchQuery: (staet, action: PayloadAction<string>) => {
-      staet.searchQuery = action.payload;
+    updateCoinsSearchQuery: (state, action: PayloadAction<string>) => {
+      state.searchQuery = action.payload;
+    },
+
+    changeCoinsSortBy: (state, action: PayloadAction<CoinsSort>) => {
+      state.sortBy = action.payload;
     },
   },
 });
 
-export const {getCoins, getCoinsSuccess, getCoinsFail, updateSearchQuery} =
-  coinsSlice.actions;
+export const {
+  getCoins,
+  getCoinsSuccess,
+  getCoinsFail,
+  updateCoinsSearchQuery,
+  changeCoinsSortBy,
+} = coinsSlice.actions;
 
 export default coinsSlice.reducer;

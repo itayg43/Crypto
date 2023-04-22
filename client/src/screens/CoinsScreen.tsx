@@ -4,11 +4,18 @@ import {useNavigation} from '@react-navigation/native';
 import {CoinsScreenNavigationProp} from '../navigation/CoinsStackNavigator';
 import {useAppDispatch} from '../hooks/useAppDispatch';
 import {useAppSelector} from '../hooks/useAppSelector';
-import {selectFilteredCoins} from '../redux/coins/coinsSelectors';
-import {updateSearchQuery} from '../redux/coins/coinsSlice';
+import {
+  selectCoinsSortBy,
+  selectFilteredAndSortedCoins,
+} from '../redux/coins/coinsSelectors';
+import {
+  updateCoinsSearchQuery,
+  changeCoinsSortBy,
+} from '../redux/coins/coinsSlice';
 import {executeMarketActionAsync} from '../redux/holdings/asyncActions/executeMarketActionAsync';
 import {Coin} from '../entities/Coin';
 import {MarketAction} from '../enums/MarketAction';
+import {CoinsSort} from '../enums/CoinsSort';
 import useIsFirstRender from '../hooks/useIsFirstRender';
 import useDebounce from '../hooks/useDebounce';
 import SafeView from '../components/SafeView';
@@ -21,7 +28,8 @@ const CoinsScreen = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation<CoinsScreenNavigationProp>();
 
-  const filteredCoins = useAppSelector(selectFilteredCoins);
+  const filteredAndSortedCoins = useAppSelector(selectFilteredAndSortedCoins);
+  const coinsSortBy = useAppSelector(selectCoinsSortBy);
 
   const isFirstRender = useIsFirstRender();
 
@@ -48,9 +56,16 @@ const CoinsScreen = () => {
     [setSelectedCoin, handleShowBottomSheet],
   );
 
-  const handleUpdateSearchQuery = useCallback(
+  const handleUpdateCoinsSearchQuery = useCallback(
     (query: string) => {
-      dispatch(updateSearchQuery(query));
+      dispatch(updateCoinsSearchQuery(query));
+    },
+    [dispatch],
+  );
+
+  const handleChangeCoinsSortBy = useCallback(
+    (sortBy: CoinsSort) => {
+      dispatch(changeCoinsSortBy(sortBy));
     },
     [dispatch],
   );
@@ -65,8 +80,8 @@ const CoinsScreen = () => {
 
   useEffect(() => {
     if (isFirstRender) return;
-    handleUpdateSearchQuery(debouncedSearchQuery);
-  }, [debouncedSearchQuery, handleUpdateSearchQuery]);
+    handleUpdateCoinsSearchQuery(debouncedSearchQuery);
+  }, [debouncedSearchQuery, handleUpdateCoinsSearchQuery]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -79,10 +94,15 @@ const CoinsScreen = () => {
   return (
     <>
       <SafeView>
-        {filteredCoins.length > 0 && (
+        {filteredAndSortedCoins.length > 0 && (
           <GenericList
-            listHeaderComponent={<CoinListHeader />}
-            items={filteredCoins}
+            listHeaderComponent={
+              <CoinListHeader
+                sortBy={coinsSortBy}
+                onChangeSortBy={handleChangeCoinsSortBy}
+              />
+            }
+            items={filteredAndSortedCoins}
             renderItem={item => (
               <CoinListItem
                 item={item}
