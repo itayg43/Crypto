@@ -4,13 +4,16 @@ import {StyleSheet} from 'react-native';
 import {useAppDispatch} from '../hooks/useAppDispatch';
 import {useAppSelector} from '../hooks/useAppSelector';
 import {
-  selectHoldings,
+  selectSortedHoldings,
+  selectHoldingsSortBy,
   selectHoldingsValue,
   selectHoldingsValueChangePercentageIn7Days,
 } from '../redux/holdings/holdingsSelectors';
 import {executeMarketActionAsync} from '../redux/holdings/asyncActions/executeMarketActionAsync';
+import {changeHoldingsSortBy} from '../redux/holdings/holdingsSlice';
 import {Holding} from '../entities/Holding';
 import {MarketAction} from '../enums/MarketAction';
+import {CoinsSort} from '../enums/CoinsSort';
 import SafeView from '../components/SafeView';
 import HoldingsInfo from '../components/HoldingsInfo';
 import GenericList from '../components/GenericList';
@@ -21,11 +24,12 @@ import CoinListHeader from '../components/CoinListHeader';
 const HoldingsScreen = () => {
   const dispatch = useAppDispatch();
 
-  const holdings = useAppSelector(selectHoldings);
+  const sortedHoldings = useAppSelector(selectSortedHoldings);
   const holdingsValue = useAppSelector(selectHoldingsValue);
   const holdingsValueChangePercentage = useAppSelector(
     selectHoldingsValueChangePercentageIn7Days,
   );
+  const holdingsSortBy = useAppSelector(selectHoldingsSortBy);
 
   const [selectedHolding, setSelectedHolding] = useState<Holding | null>(null);
   const [showBottomSheet, setShowBottomSheet] = useState<boolean>(false);
@@ -56,6 +60,13 @@ const HoldingsScreen = () => {
     [dispatch, handleDismissBottomSheet],
   );
 
+  const handleChangeHoldingsSortBy = useCallback(
+    (sortBy: CoinsSort) => {
+      dispatch(changeHoldingsSortBy(sortBy));
+    },
+    [dispatch],
+  );
+
   return (
     <>
       <SafeView>
@@ -67,8 +78,14 @@ const HoldingsScreen = () => {
 
         <GenericList
           containerStyle={styles.holdingList}
-          listHeaderComponent={<CoinListHeader showValueLabel />}
-          items={holdings}
+          listHeaderComponent={
+            <CoinListHeader
+              showValueLabel
+              sortBy={holdingsSortBy}
+              onChangeSortBy={handleChangeHoldingsSortBy}
+            />
+          }
+          items={sortedHoldings}
           renderItem={item => (
             <CoinListItem
               item={item}

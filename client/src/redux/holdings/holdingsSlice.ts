@@ -3,6 +3,7 @@ import type {PayloadAction} from '@reduxjs/toolkit';
 
 import {Holding} from '../../entities/Holding';
 import {ReducerStatus} from '../../enums/ReducerStatus';
+import {CoinsSort} from '../../enums/CoinsSort';
 
 interface HoldingsEntities {
   [s: string]: Holding;
@@ -11,12 +12,14 @@ interface HoldingsEntities {
 interface HoldingsState {
   status: ReducerStatus;
   message: string;
+  sortBy: CoinsSort;
   entities: HoldingsEntities;
 }
 
 const initialState: HoldingsState = {
   status: ReducerStatus.idle,
   message: '',
+  sortBy: CoinsSort.valueDesc,
   entities: {},
 };
 
@@ -88,6 +91,11 @@ export const holdingsSlice = createSlice({
       state.status = ReducerStatus.error;
       state.message = action.payload;
     },
+
+    // change holdings sort by
+    changeHoldingsSortBy: (state, action: PayloadAction<CoinsSort>) => {
+      state.sortBy = action.payload;
+    },
   },
 });
 
@@ -104,6 +112,7 @@ export const {
   deleteHolding,
   deleteHoldingSuccess,
   deleteHoldingFail,
+  changeHoldingsSortBy,
 } = holdingsSlice.actions;
 
 export default holdingsSlice.reducer;

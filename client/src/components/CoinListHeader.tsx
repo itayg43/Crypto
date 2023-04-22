@@ -1,11 +1,24 @@
-import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import React, {useCallback} from 'react';
+import {StyleSheet, View, Text, Pressable} from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+import {CoinsSort} from '../enums/CoinsSort';
 
 interface Props {
   showValueLabel?: boolean;
+  sortBy: CoinsSort;
+  onChangeSortBy: (sortBy: CoinsSort) => void;
 }
 
-const CoinListHeader = ({showValueLabel}: Props) => {
+const CoinListHeader = ({showValueLabel, sortBy, onChangeSortBy}: Props) => {
+  const handleChangeSortBy = useCallback(
+    (sortOption: CoinsSort) => {
+      if (sortBy === sortOption) return;
+      onChangeSortBy(sortOption);
+    },
+    [sortBy, onChangeSortBy],
+  );
+
   return (
     <View style={styles.container}>
       {/** name */}
@@ -14,15 +27,25 @@ const CoinListHeader = ({showValueLabel}: Props) => {
       </View>
 
       {/** price */}
-      <View style={[styles.labelContaienr, styles.alignEnd]}>
+      <Pressable
+        style={[styles.labelContaienr, styles.alignLabelToEnd]}
+        onPress={() => handleChangeSortBy(CoinsSort.priceDesc)}>
         <Text>Price</Text>
-      </View>
+        {sortBy === CoinsSort.priceDesc && (
+          <MaterialCommunityIcons name="arrow-down" />
+        )}
+      </Pressable>
 
       {/** value */}
       {showValueLabel && (
-        <View style={[styles.labelContaienr, styles.alignEnd]}>
+        <Pressable
+          style={[styles.labelContaienr, styles.alignLabelToEnd]}
+          onPress={() => handleChangeSortBy(CoinsSort.valueDesc)}>
           <Text>Value</Text>
-        </View>
+          {sortBy === CoinsSort.valueDesc && (
+            <MaterialCommunityIcons name="arrow-down" />
+          )}
+        </Pressable>
       )}
     </View>
   );
@@ -38,9 +61,11 @@ const styles = StyleSheet.create({
 
   labelContaienr: {
     flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 
-  alignEnd: {
-    alignItems: 'flex-end',
+  alignLabelToEnd: {
+    justifyContent: 'flex-end',
   },
 });
