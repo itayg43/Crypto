@@ -1,8 +1,6 @@
-interface ById {
-  id: string;
-}
+import {WithId} from '../interfaces/WithId';
 
-const arrayByEntityId = <T extends ById>(
+const arrayByEntityId = <T extends WithId>(
   array: T[],
 ): {
   [s: string]: T;

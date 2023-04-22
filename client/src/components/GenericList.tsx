@@ -2,9 +2,7 @@ import React, {ReactElement} from 'react';
 import {StyleSheet, View, StyleProp, ViewStyle} from 'react-native';
 import {ContentStyle, FlashList} from '@shopify/flash-list';
 
-interface WithId {
-  id: string;
-}
+import {WithId} from '../interfaces/WithId';
 
 interface Props<T> {
   containerStyle?: StyleProp<ViewStyle>;
