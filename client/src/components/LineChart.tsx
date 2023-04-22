@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import {
   StyleSheet,
   View,
@@ -51,20 +51,23 @@ const LineChart = ({containerStyle, item}: Props) => {
     [item.priceSparklineIn7Days],
   );
 
-  const formatPrice = (value: string) => {
-    'worklet';
-    if (value === '') {
-      return `${sharedPrice.value.toLocaleString('en-US', {
+  const formatPrice = useCallback(
+    (value: string) => {
+      'worklet';
+      if (value === '') {
+        return `${sharedPrice.value.toLocaleString('en-US', {
+          style: 'currency',
+          currency: 'USD',
+        })}`;
+      }
+      const num = Number.parseFloat(value);
+      return `${num.toLocaleString('en-US', {
         style: 'currency',
         currency: 'USD',
       })}`;
-    }
-    const num = Number.parseFloat(value);
-    return `${num.toLocaleString('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    })}`;
-  };
+    },
+    [sharedPrice.value],
+  );
 
   useEffect(() => {
     sharedPrice.value = item.price;
