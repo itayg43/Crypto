@@ -13,6 +13,10 @@ const HoldingsInfo = ({
   value,
   valueChangePercentage,
 }: Props) => {
+  const isChangePositive = valueChangePercentage >= 0;
+  const changeIcon = isChangePositive ? 'arrow-up' : 'arrow-down';
+  const changeColor = isChangePositive ? 'green' : 'red';
+
   return (
     <View style={containerStyle}>
       {/** value */}
@@ -20,41 +24,23 @@ const HoldingsInfo = ({
 
       {/** value change percentage */}
       {value > 0 && (
-        <ValueChangePercentageSection
-          valueChangePercentage={valueChangePercentage}
-        />
+        <View style={styles.valueChangePercentageContaienr}>
+          <MaterialCommunityIcons name={changeIcon} color={changeColor} />
+
+          {/** percentage */}
+          <Text style={{color: changeColor}}>
+            {valueChangePercentage.toAbsFixedString(valueChangePercentage)}%
+          </Text>
+
+          {/** period */}
+          <Text style={styles.valueChangePercentagePeriod}>(7 Days)</Text>
+        </View>
       )}
     </View>
   );
 };
 
 export default HoldingsInfo;
-
-interface ValueChangePercentageSectionProps {
-  valueChangePercentage: number;
-}
-
-const ValueChangePercentageSection = ({
-  valueChangePercentage,
-}: ValueChangePercentageSectionProps) => {
-  const isChangePositive = valueChangePercentage >= 0;
-  const changeIcon = isChangePositive ? 'arrow-up' : 'arrow-down';
-  const changeColor = isChangePositive ? 'green' : 'red';
-
-  return (
-    <View style={styles.valueChangePercentageSectionContaienr}>
-      <MaterialCommunityIcons name={changeIcon} color={changeColor} />
-
-      {/** percentage */}
-      <Text style={{color: changeColor}}>
-        {valueChangePercentage.toAbsFixedString(valueChangePercentage)}%
-      </Text>
-
-      {/** period */}
-      <Text style={styles.valueChangePercentagePeriod}>(7 Days)</Text>
-    </View>
-  );
-};
 
 const styles = StyleSheet.create({
   title: {
@@ -67,11 +53,12 @@ const styles = StyleSheet.create({
     marginVertical: 3,
   },
 
-  valueChangePercentageSectionContaienr: {
+  valueChangePercentageContaienr: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   valueChangePercentagePeriod: {
     marginLeft: 3,
+    color: 'gray',
   },
 });
