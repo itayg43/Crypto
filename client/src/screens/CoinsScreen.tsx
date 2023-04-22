@@ -15,6 +15,7 @@ import SafeView from '../components/SafeView';
 import GenericList from '../components/GenericList';
 import CoinListItem from '../components/CoinListItem';
 import CoinBottomSheet from '../components/CoinBottomSheet';
+import CoinListHeader from '../components/CoinListHeader';
 
 const CoinsScreen = () => {
   const dispatch = useAppDispatch();
@@ -80,6 +81,7 @@ const CoinsScreen = () => {
       <SafeView>
         {filteredCoins.length > 0 && (
           <GenericList
+            listHeaderComponent={<CoinListHeader />}
             items={filteredCoins}
             renderItem={item => (
               <CoinListItem

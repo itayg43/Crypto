@@ -7,6 +7,7 @@ import {WithId} from '../interfaces/WithId';
 interface Props<T> {
   containerStyle?: StyleProp<ViewStyle>;
   contentContainerStyle?: ContentStyle;
+  listHeaderComponent?: ReactElement;
   items: T[];
   renderItem: (item: T) => ReactElement;
 }
@@ -14,6 +15,7 @@ interface Props<T> {
 const GenericList = <T extends WithId>({
   containerStyle,
   contentContainerStyle,
+  listHeaderComponent,
   items,
   renderItem,
 }: Props<T>) => {
@@ -25,6 +27,7 @@ const GenericList = <T extends WithId>({
         keyExtractor={item => item.id}
         renderItem={({item}) => renderItem(item)}
         estimatedItemSize={items.length > 0 ? items.length : 1}
+        ListHeaderComponent={listHeaderComponent}
         ItemSeparatorComponent={Divider}
         ListFooterComponent={Footer}
       />

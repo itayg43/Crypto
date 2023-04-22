@@ -16,6 +16,7 @@ import HoldingsInfo from '../components/HoldingsInfo';
 import GenericList from '../components/GenericList';
 import CoinListItem from '../components/CoinListItem';
 import CoinBottomSheet from '../components/CoinBottomSheet';
+import CoinListHeader from '../components/CoinListHeader';
 
 const HoldingsScreen = () => {
   const dispatch = useAppDispatch();
@@ -66,6 +67,7 @@ const HoldingsScreen = () => {
 
         <GenericList
           containerStyle={styles.holdingList}
+          listHeaderComponent={<CoinListHeader showValueLabel />}
           items={holdings}
           renderItem={item => (
             <CoinListItem
