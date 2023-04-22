@@ -21,7 +21,11 @@ const AppIconButton = ({
 }: Props) => {
   return (
     <TouchableOpacity
-      style={[styles.container, containerStyle, disabled ? {opacity: 0.5} : {}]}
+      style={[
+        styles.container,
+        containerStyle,
+        disabled ? {opacity: 0.5} : {opacity: 1.0},
+      ]}
       disabled={disabled}
       onPress={onPress}>
       <MaterialCommunityIcons name={icon} size={iconSize} color={iconColor} />

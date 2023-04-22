@@ -9,25 +9,29 @@ import {
 
 interface Props {
   containerStyle?: StyleProp<ViewStyle>;
+  labelStyle?: StyleProp<ViewStyle>;
   label: string;
   disabled?: boolean;
   onPress: () => void;
-  labelColor?: string;
 }
 
 const AppButton = ({
   containerStyle,
+  labelStyle,
   label,
   disabled,
   onPress,
-  labelColor = 'white',
 }: Props) => {
   return (
     <TouchableOpacity
-      style={[styles.container, containerStyle, disabled ? {opacity: 0.5} : {}]}
+      style={[
+        styles.container,
+        containerStyle,
+        disabled ? {opacity: 0.5} : {opacity: 1.0},
+      ]}
       disabled={disabled}
       onPress={onPress}>
-      <Text style={{color: labelColor}}>{label}</Text>
+      <Text style={[styles.label, labelStyle]}>{label}</Text>
     </TouchableOpacity>
   );
 };
@@ -41,5 +45,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     borderRadius: 4,
     alignItems: 'center',
+  },
+
+  label: {
+    color: 'white',
   },
 });
