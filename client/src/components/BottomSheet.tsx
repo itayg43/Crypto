@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
 interface Props {
@@ -10,9 +10,14 @@ interface Props {
 const BottomSheet = ({children, show, onDismiss}: Props) => {
   const ref = useRef<BottomSheetModal>(null);
 
+  const handlePresetBottomSheet = useCallback(() => {
+    ref.current?.present();
+  }, [ref]);
+
   useEffect(() => {
-    if (show) ref.current?.present();
-  }, [show]);
+    if (!show) return;
+    handlePresetBottomSheet();
+  }, [show, handlePresetBottomSheet]);
 
   return (
     <BottomSheetModalProvider>
