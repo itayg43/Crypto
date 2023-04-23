@@ -23,7 +23,7 @@ const BottomSheet = ({children, show, onDismiss}: Props) => {
     <BottomSheetModalProvider>
       <BottomSheetModal
         ref={ref}
-        snapPoints={['50%']}
+        snapPoints={['40%', '50%']}
         index={0}
         onDismiss={onDismiss}>
         {children}
