@@ -1,19 +1,16 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {StoredHolding} from '../interfaces/StoredHolding';
+import {StoredHoldingsEntities} from '../interfaces/StoredHolding';
 
 const holdingsStorageKey = 'user_holdings';
 
-const setHoldings = async (storedHoldings: StoredHolding[]) => {
-  await AsyncStorage.setItem(
-    holdingsStorageKey,
-    JSON.stringify(storedHoldings),
-  );
+const setHoldings = async (entities: StoredHoldingsEntities) => {
+  await AsyncStorage.setItem(holdingsStorageKey, JSON.stringify(entities));
 };
 
-const getHoldings = async (): Promise<StoredHolding[]> => {
-  const storedHoldings = await AsyncStorage.getItem(holdingsStorageKey);
-  return storedHoldings ? JSON.parse(storedHoldings) : [];
+const getHoldings = async (): Promise<StoredHoldingsEntities> => {
+  const entities = await AsyncStorage.getItem(holdingsStorageKey);
+  return entities ? JSON.parse(entities) : {};
 };
 
 export default {

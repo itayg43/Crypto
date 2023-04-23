@@ -6,35 +6,35 @@ import holdingsStorage from '../storage/holdingsStorage';
 
 const getHoldings = async () => {
   const storedHoldings = await holdingsStorage.getHoldings();
-  if (storedHoldings.length === 0) {
+  if (_.isEmpty(storedHoldings)) {
     return [];
   }
-  const ids = storedHoldings.map(i => i.id).join(',');
+  const ids = Object.values(storedHoldings)
+    .map(i => i.id)
+    .join(',');
   const coins = await coinsService.getCoinsByIds(ids);
   return coins.map(c => {
-    const quantity = storedHoldings.find(i => i.id === c.id)?.quantity ?? 0;
+    const quantity = storedHoldings[c.id].quantity;
     return new Holding(c, quantity);
   });
 };
 
 const addHolding = async (holding: Holding) => {
   let storedHoldings = await holdingsStorage.getHoldings();
-  storedHoldings.push(_.pick(holding, ['id', 'quantity']));
+  storedHoldings[holding.id] = _.pick(holding, ['id', 'quantity']);
   await holdingsStorage.setHoldings(storedHoldings);
 };
 
 const updateHoldingQuantity = async (id: string, quantity: number) => {
   let storedHoldings = await holdingsStorage.getHoldings();
-  const updatedStoredHoldings = storedHoldings.map(h =>
-    h.id === id ? {...h, quantity} : h,
-  );
-  await holdingsStorage.setHoldings(updatedStoredHoldings);
+  storedHoldings[id].quantity = quantity;
+  await holdingsStorage.setHoldings(storedHoldings);
 };
 
 const deleteHolding = async (id: string) => {
   let storedHoldings = await holdingsStorage.getHoldings();
-  const updatedStoredHoldings = storedHoldings.filter(h => h.id !== id);
-  await holdingsStorage.setHoldings(updatedStoredHoldings);
+  delete storedHoldings[id];
+  await holdingsStorage.setHoldings(storedHoldings);
 };
 
 export default {
