@@ -6,7 +6,7 @@ const {
 } = require("../errors");
 
 function authenticationMiddleware(req, _, next) {
-  const token = req.header["x-token"];
+  const token = req.header("x-token");
 
   if (!token) {
     throw new NoTokenProvidedError();
