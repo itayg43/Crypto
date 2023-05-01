@@ -1,7 +1,24 @@
 "use strict";
+
 const { Model } = require("sequelize");
+const bcryptjs = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {}
+  class User extends Model {
+    static async hashPassword(plainPassword) {
+      const salt = await bcryptjs.genSalt(10);
+      return await bcryptjs.hash(plainPassword, salt);
+    }
+
+    async validatePassword(plainPassword) {
+      return await bcryptjs.compare(plainPassword, this.password);
+    }
+
+    generateToken() {
+      return jwt.sign({ uid: this.id }, process.env.JWT_PRIVATE_KEY);
+    }
+  }
   User.init(
     {
       email: {

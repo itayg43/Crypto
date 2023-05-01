@@ -2,7 +2,7 @@ const STATUS_CODE = {
   ERROR: {
     CLIENT: {
       BAD_REQUEST: 400,
-      unauthorized: 401,
+      UNAUTHORIZED: 401,
       FORBIDDEN: 403,
       NOT_FOUND: 404,
     },
