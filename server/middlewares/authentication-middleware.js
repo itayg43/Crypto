@@ -5,8 +5,8 @@ const {
   InvalidTokenProvidedError,
 } = require("../errors");
 
-function validateUserAuthentication(req, _, next) {
-  const token = req.header("x-token");
+function authenticationMiddleware(req, _, next) {
+  const token = req.header["x-token"];
 
   if (!token) {
     throw new NoTokenProvidedError();
@@ -21,4 +21,4 @@ function validateUserAuthentication(req, _, next) {
   }
 }
 
-module.exports = validateUserAuthentication;
+module.exports = authenticationMiddleware;

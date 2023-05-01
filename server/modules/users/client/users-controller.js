@@ -14,8 +14,8 @@ async function loginUser(req, res) {
 }
 
 async function authenticateUser(req, res) {
-  const { uid } = req.user;
-  const user = await usersService.authenticateUser(uid);
+  const { id } = req.user;
+  const user = await usersService.authenticateUser(id);
   res.status(STATUS_CODE.SUCCESS.OK).json(user);
 }
 

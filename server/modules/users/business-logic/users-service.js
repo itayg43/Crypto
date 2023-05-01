@@ -1,13 +1,14 @@
 const { User } = require("../../../db/models");
 const { InvalidCredentialsError } = require("../errors/users-errors");
 const usersDataAccess = require("../data-access/users-data-access");
+const { UserMapper } = require("./dtos/user-mapper");
 
 async function registerUser(email, password) {
   const hashedPassword = await User.hashPassword(password);
   const user = await usersDataAccess.registerUser(email, hashedPassword);
   const token = user.generateToken();
   return {
-    user,
+    user: UserMapper.map(user),
     token,
   };
 }
@@ -26,14 +27,14 @@ async function loginUser(email, password) {
 
   const token = user.generateToken();
   return {
-    user,
+    user: UserMapper.map(user),
     token,
   };
 }
 
-async function authenticateUser(uid) {
-  const user = await usersDataAccess.getUserById(uid);
-  return user;
+async function authenticateUser(id) {
+  const user = await usersDataAccess.getUserById(id);
+  return UserMapper.map(user);
 }
 
 module.exports = {

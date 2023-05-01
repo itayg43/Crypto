@@ -16,7 +16,12 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     generateToken() {
-      return jwt.sign({ uid: this.id }, process.env.JWT_PRIVATE_KEY);
+      return jwt.sign(
+        {
+          id: this.id,
+        },
+        process.env.JWT_PRIVATE_KEY
+      );
     }
   }
   User.init(
