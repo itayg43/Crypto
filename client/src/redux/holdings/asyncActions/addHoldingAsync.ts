@@ -9,8 +9,8 @@ export const addHoldingAsync =
   (coin: Coin, quantity: number) => async (dispatch: AppDispatch) => {
     try {
       dispatch(addHolding());
-      const holding = new Holding(coin, quantity);
-      await holdingsService.addHolding(holding);
+      const holdingJSON = await holdingsService.addHolding(coin.id, quantity);
+      const holding = new Holding(holdingJSON.id, coin, holdingJSON.quantity);
       dispatch(addHoldingSuccess(holding));
     } catch (error) {
       const message = errorHandler.extractMessage(error);

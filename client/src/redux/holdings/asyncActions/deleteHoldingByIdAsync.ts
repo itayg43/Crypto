@@ -1,20 +1,20 @@
 import {AppDispatch} from '../../store';
 import {
-  deleteHolding,
-  deleteHoldingSuccess,
-  deleteHoldingFail,
+  deleteHoldingById,
+  deleteHoldingByIdSuccess,
+  deleteHoldingByIdFail,
 } from '../holdingsSlice';
 import errorHandler from '../../../utils/errorHandler';
 import holdingsService from '../../../services/holdingsService';
 
-export const deleteHoldingAsync =
-  (id: string) => async (dispatch: AppDispatch) => {
+export const deleteHoldingByIdAsync =
+  (id: number) => async (dispatch: AppDispatch) => {
     try {
-      dispatch(deleteHolding());
+      dispatch(deleteHoldingById());
       await holdingsService.deleteHolding(id);
-      dispatch(deleteHoldingSuccess(id));
+      dispatch(deleteHoldingByIdSuccess(id));
     } catch (error) {
       const message = errorHandler.extractMessage(error);
-      dispatch(deleteHoldingFail(message));
+      dispatch(deleteHoldingByIdFail(message));
     }
   };

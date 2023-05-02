@@ -2,7 +2,8 @@ import {Coin} from './Coin';
 import {Sparkline} from '../interfaces/Sparkline';
 
 export class Holding {
-  id: string;
+  id: number;
+  cid: string;
   symbol: string;
   name: string;
   logoURL: string;
@@ -12,8 +13,9 @@ export class Holding {
   quantity: number;
   priceSparklineIn7Days: Sparkline[];
 
-  constructor(coin: Coin, quantity: number) {
-    this.id = coin.id;
+  constructor(id: number, coin: Coin, quantity: number) {
+    this.id = id;
+    this.cid = coin.id;
     this.symbol = coin.symbol;
     this.name = coin.name;
     this.logoURL = coin.logoURL;

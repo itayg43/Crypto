@@ -24,7 +24,7 @@ const initialState: HoldingsState = {
 };
 
 interface UpdateHoldingQuantitySuccessPayload {
-  id: string;
+  id: number;
   quantity: number;
 }
 
@@ -61,11 +61,11 @@ export const holdingsSlice = createSlice({
     },
 
     // update
-    updateHoldingQuantity: state => {
+    updateHoldingQuantityById: state => {
       state.status = ReducerStatus.loading;
       state.message = '';
     },
-    updateHoldingQuantitySuccess: (
+    updateHoldingQuantityByIdSuccess: (
       state,
       action: PayloadAction<UpdateHoldingQuantitySuccessPayload>,
     ) => {
@@ -73,21 +73,21 @@ export const holdingsSlice = createSlice({
       state.status = ReducerStatus.success;
       state.entities[id].updateQuantity(quantity);
     },
-    updateHoldingQuantityFail: (state, action: PayloadAction<string>) => {
+    updateHoldingQuantityByIdFail: (state, action: PayloadAction<string>) => {
       state.status = ReducerStatus.error;
       state.message = action.payload;
     },
 
     // delete
-    deleteHolding: state => {
+    deleteHoldingById: state => {
       state.status = ReducerStatus.loading;
       state.message = '';
     },
-    deleteHoldingSuccess: (state, action: PayloadAction<string>) => {
+    deleteHoldingByIdSuccess: (state, action: PayloadAction<number>) => {
       state.status = ReducerStatus.success;
       delete state.entities[action.payload];
     },
-    deleteHoldingFail: (state, action: PayloadAction<string>) => {
+    deleteHoldingByIdFail: (state, action: PayloadAction<string>) => {
       state.status = ReducerStatus.error;
       state.message = action.payload;
     },
@@ -106,12 +106,12 @@ export const {
   addHolding,
   addHoldingSuccess,
   addHoldingFail,
-  updateHoldingQuantity,
-  updateHoldingQuantitySuccess,
-  updateHoldingQuantityFail,
-  deleteHolding,
-  deleteHoldingSuccess,
-  deleteHoldingFail,
+  updateHoldingQuantityById,
+  updateHoldingQuantityByIdSuccess,
+  updateHoldingQuantityByIdFail,
+  deleteHoldingById,
+  deleteHoldingByIdSuccess,
+  deleteHoldingByIdFail,
   changeHoldingsSortBy,
 } = holdingsSlice.actions;
 

@@ -1,40 +1,54 @@
-import _ from 'lodash';
-
+import {HoldingJSON} from '../interfaces/HoldingJSON';
 import {Holding} from '../entities/Holding';
 import coinsService from './coinsService';
-import holdingsStorage from '../storage/holdingsStorage';
+import backendApiClient, {BackendApiRoute} from '../clients/backendApiClient';
+
+const HOLDINGS_ROUTE = BackendApiRoute.holdings;
+
+const DEFAULT_HOLDING_JSON: HoldingJSON = {
+  id: 0,
+  uid: 0,
+  cid: '',
+  quantity: 0,
+};
 
 const getHoldings = async () => {
-  const storedHoldings = await holdingsStorage.getHoldings();
-  if (_.isEmpty(storedHoldings)) {
+  const {data} = await backendApiClient.get<HoldingJSON[]>(
+    `/${HOLDINGS_ROUTE}`,
+  );
+
+  if (data.length === 0) {
     return [];
   }
-  const ids = Object.values(storedHoldings)
-    .map(i => i.id)
-    .join(',');
+
+  const ids = data.map(i => i.cid).join(',');
   const coins = await coinsService.getCoinsByIds(ids);
   return coins.map(c => {
-    const quantity = storedHoldings[c.id].quantity;
-    return new Holding(c, quantity);
+    const storedHoldingJSON =
+      data.find(i => i.cid === c.id) ?? DEFAULT_HOLDING_JSON;
+    return new Holding(storedHoldingJSON.id, c, storedHoldingJSON.quantity);
   });
 };
 
-const addHolding = async (holding: Holding) => {
-  let storedHoldings = await holdingsStorage.getHoldings();
-  storedHoldings[holding.id] = _.pick(holding, ['id', 'quantity']);
-  await holdingsStorage.setHoldings(storedHoldings);
+const addHolding = async (cid: string, quantity: number) => {
+  const {data} = await backendApiClient.post<HoldingJSON>(
+    `/${HOLDINGS_ROUTE}`,
+    {
+      cid,
+      quantity,
+    },
+  );
+  return data;
 };
 
-const updateHoldingQuantity = async (id: string, quantity: number) => {
-  let storedHoldings = await holdingsStorage.getHoldings();
-  storedHoldings[id].quantity = quantity;
-  await holdingsStorage.setHoldings(storedHoldings);
+const updateHoldingQuantity = async (id: number, quantity: number) => {
+  await backendApiClient.patch(`/${HOLDINGS_ROUTE}/updateQuantity/${id}`, {
+    quantity,
+  });
 };
 
-const deleteHolding = async (id: string) => {
-  let storedHoldings = await holdingsStorage.getHoldings();
-  delete storedHoldings[id];
-  await holdingsStorage.setHoldings(storedHoldings);
+const deleteHolding = async (id: number) => {
+  await backendApiClient.delete(`/${HOLDINGS_ROUTE}/${id}`);
 };
 
 export default {
