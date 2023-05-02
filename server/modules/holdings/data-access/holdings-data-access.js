@@ -8,6 +8,15 @@ async function getHoldingById(id) {
   return await Holding.findByPk(id);
 }
 
+async function getHoldingByUidAndCid(uid, cid) {
+  return await Holding.findOne({
+    where: {
+      uid,
+      cid,
+    },
+  });
+}
+
 async function getHoldingsByUid(uid) {
   return await Holding.findAll({
     where: {
@@ -38,6 +47,7 @@ async function deleteHoldingById(id) {
 module.exports = {
   addHolding,
   getHoldingById,
+  getHoldingByUidAndCid,
   getHoldingsByUid,
   updateHoldingQuantityById,
   deleteHoldingById,
