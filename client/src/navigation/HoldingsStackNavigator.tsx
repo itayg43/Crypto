@@ -5,6 +5,10 @@ import {
 
 import {NavigationRoute} from '../enums/NavigationRoute';
 import HoldingsScreen from '../screens/HoldingsScreen';
+import AppIconButton from '../components/AppIconButton';
+import {logoutUserAsync} from '../redux/user/asyncActions/logoutUserAsync';
+import {useAppDispatch} from '../hooks/useAppDispatch';
+import {useCallback} from 'react';
 
 type HoldingsStackProps = {
   [NavigationRoute.holdingsScreen]: undefined;
@@ -18,6 +22,12 @@ export type HoldingsScreenNavigationProp = NativeStackNavigationProp<
 const Stack = createNativeStackNavigator<HoldingsStackProps>();
 
 const HoldingsStackNavigator = () => {
+  const dispatch = useAppDispatch();
+
+  const handleLogoutUser = useCallback(() => {
+    dispatch(logoutUserAsync());
+  }, [dispatch]);
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -28,6 +38,9 @@ const HoldingsStackNavigator = () => {
           headerLargeTitle: true,
           headerTransparent: true,
           headerBlurEffect: 'systemUltraThinMaterialLight',
+          headerRight: () => (
+            <AppIconButton icon="logout-variant" onPress={handleLogoutUser} />
+          ),
         }}
       />
     </Stack.Navigator>

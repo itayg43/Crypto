@@ -2,11 +2,13 @@ import {configureStore} from '@reduxjs/toolkit';
 import reduxLogger from 'redux-logger';
 
 import initializeReducer from './initialize/initializeSlice';
+import userReducer from './user/userSlice';
 import holdingsReducer from './holdings/holdingsSlice';
 import coinsReducer from './coins/coinsSlice';
 
 const reducer = {
   initialize: initializeReducer,
+  user: userReducer,
   coins: coinsReducer,
   holdings: holdingsReducer,
 };

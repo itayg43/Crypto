@@ -49,6 +49,9 @@ export const coinsSlice = createSlice({
     changeCoinsSortBy: (state, action: PayloadAction<CoinsSort>) => {
       state.sortBy = action.payload;
     },
+
+    // reset state
+    resetCoinsState: () => initialState,
   },
 });
 
@@ -58,6 +61,7 @@ export const {
   getCoinsFail,
   updateCoinsSearchQuery,
   changeCoinsSortBy,
+  resetCoinsState,
 } = coinsSlice.actions;
 
 export default coinsSlice.reducer;

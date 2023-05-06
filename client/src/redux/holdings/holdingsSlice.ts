@@ -96,6 +96,9 @@ export const holdingsSlice = createSlice({
     changeHoldingsSortBy: (state, action: PayloadAction<CoinsSort>) => {
       state.sortBy = action.payload;
     },
+
+    // reset state
+    resetHoldingsState: () => initialState,
   },
 });
 
@@ -113,6 +116,7 @@ export const {
   deleteHoldingByIdSuccess,
   deleteHoldingByIdFail,
   changeHoldingsSortBy,
+  resetHoldingsState,
 } = holdingsSlice.actions;
 
 export default holdingsSlice.reducer;

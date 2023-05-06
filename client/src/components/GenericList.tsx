@@ -24,7 +24,7 @@ const GenericList = <T extends WithId>({
       <FlashList
         contentContainerStyle={{...styles.list, ...contentContainerStyle}}
         data={items}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.id.toString()}
         renderItem={({item}) => renderItem(item)}
         estimatedItemSize={items.length > 0 ? items.length : 1}
         ListHeaderComponent={listHeaderComponent}
